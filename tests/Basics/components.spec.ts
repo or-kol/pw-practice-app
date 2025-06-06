@@ -1,4 +1,5 @@
 import {test, expect} from "@playwright/test"
+import { constants } from "buffer";
 
 
 test.beforeEach(async({page}) => {
@@ -197,7 +198,98 @@ test.describe("web tables", () => {
 
         expect(await targetRow.locator("td").nth(5).textContent()).toEqual("test@test.com");
     })
+
+
+    test("loop through tabale rows", async({page}) => {
+        const ages = ["20", "30", "40", "200"];
+        for (let age of ages){
+            const filterAge = page.locator("input-filter").getByPlaceholder("Age");
+            await filterAge.clear();
+            await filterAge.fill(age);
+            await page.waitForTimeout(500);
+
+            const getRows = page.locator("tbody tr");
+            for (let row of await getRows.all()){
+                const ageValue = await row.locator("td").last().textContent();
+
+                if (ageValue.trim() === "No data found"){
+                    console.log(`No rows found for age ${age}, skipping...`);
+                }
+                else {
+                    expect(ageValue).toEqual(age);
+                }
+            }
+        }
+    })
 })
+
+
+test("date pickers", async({page}) => {
+    await page.getByText("Forms").click();
+    await page.getByText("Datepicker").click();
+
+    const calendarInput = page.getByPlaceholder("Form Picker");
+    await calendarInput.click();
+
+    let date = new Date();
+    date.setDate(date.getDate() + 7);
+    const expectedDate = date.getDate().toString();
+    const expectedMonth = date.toLocaleString("En-US", {month: "short"});
+    const expectedYear = date.getFullYear().toString();
+    const expecedResult = `${expectedMonth} ${expectedDate}, ${expectedYear}`;
+    console.log(expecedResult);
+
+    await page.locator("nb-calendar-view-mode button").click();
+    await page.locator(".year-cell").getByText(date.getFullYear().toString()).click();
+    await page.locator(".month-cell").getByText(expectedMonth.toUpperCase()).click();
+    await page.locator(".day-cell:not(.bounding-month)").getByText(expectedDate , {exact: true}).click();
+
+    await expect(calendarInput).toHaveValue(expecedResult);
+})
+
+
+
+test("sliders", async({page}) => {
+    
+    //update attribute:
+    const tempGauge = page.locator("[tabtitle='Temperature'] ngx-temperature-dragger circle");
+    await tempGauge.evaluate(node => {
+        node.setAttribute("cx", "232.63");
+        node.setAttribute("cy", "232.63");
+    })
+    await tempGauge.click();
+
+    await expect(page.locator("[tabtitle='Temperature'] ngx-temperature-dragger")).toContainText("30");
+    
+
+    //mouse movement:
+    page.reload();
+    const tempbox = page.locator("[tabtitle='Temperature'] ngx-temperature-dragger");
+    await tempbox.scrollIntoViewIfNeeded();     //in order to use the mouse movment the element must be in view.
+
+    const box = await tempbox.boundingBox();    //defining x, y axesses to easy mouse movewment.
+    const x = box.x + (box.width / 2);
+    const y = box.y + (box.height / 2);
+
+    await page.mouse.move(x, y);                // set mouse to the midle of the box
+    await page.mouse.down();                    // click left button on of the mouse 
+    await page.mouse.move(x - 100, y);          // move mouse right
+    await page.mouse.move(x - 100, y + 100);    // move mouse down
+    await page.mouse.up();                      // release mouse click
+
+    await expect(tempbox).toContainText('13');
+})
+
+
+
+
+
+
+
+
+
+
+
 
 
 
