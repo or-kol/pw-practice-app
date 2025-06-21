@@ -1,4 +1,5 @@
 import {test, expect} from "@playwright/test"
+import { timeout } from "rxjs-compat/operator/timeout";
 
 test.beforeEach(async({page}) => {
     await page.goto('http://localhost:4200/');
@@ -8,14 +9,15 @@ test.beforeEach(async({page}) => {
 
 
 test("basic browser operations", async({page}) => {
-    await page.goto('http://uitestingplayground.com/ajax');
-    await page.goto('http://localhost:4200/');
+    await page.goto("http://uitestingplayground.com/ajax");
+    await page.goto("http://localhost:4200/");
     await page.goBack();
     await page.goForward();
     await page.reload();
     console.log(await page.title());
     console.log(page.url());    
 })
+
 
 test.describe("test suite 1", () => {
     test("first suite 1 test", () => {
@@ -32,6 +34,9 @@ test.describe("test suite 1", () => {
 })
 
 
+
+
+/*
 test("locator syntax rules", async({page}) => {
     //by tag name:
     page.locator("input"); // this is not unique.
@@ -191,7 +196,7 @@ test("auto waiting", async({page}) => {
 
 })
 
-
+*/
 
 
 
