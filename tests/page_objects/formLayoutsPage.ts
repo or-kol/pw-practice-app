@@ -15,6 +15,7 @@ export class FormLayoutsPage extends BasePage {
         await this.click(`${usingTheGridLocator} nb-radio :text-is("Option 2")`);
         await this.click(`${usingTheGridLocator} button:has-text("SIGN IN")`);
 
+        //console.log(await this.getAttribute(`${usingTheGridLocator} form`, "class"));
         return (await this.getAttribute(`${usingTheGridLocator} form`, "class")).includes("ng-submitted");
     };
 }

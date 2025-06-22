@@ -67,7 +67,7 @@ test.describe("toastr", () => {
         const toastrHideOnClick = page.getByRole("checkbox", {name: "Hide on click"});
         const toastrPreventArising = page.getByRole("checkbox", {name: "Prevent arising of duplicate toast"});
 
-        // check/uncheck ceckbox
+        // check/uncheck checkbox
         await toastrHideOnClick.uncheck({force: true});
         await toastrPreventArising.check({force: true});
 
@@ -78,11 +78,11 @@ test.describe("toastr", () => {
         expect(actualResult2).toEqual(true);
 
         //locator assetion:
-        expect(await toastrHideOnClick.isChecked()).toBeFalsy;
-        expect(await toastrHideOnClick.isChecked()).toBeTruthy;
+        expect(await toastrHideOnClick.isChecked()).toBeFalsy();
+        expect(await toastrHideOnClick.isChecked()).toBeTruthy();
 
 
-        // check/uncheck all ceckboxes:
+        // check/uncheck all checkboxes:
         const toastrAllCheckboxes = page.getByRole("checkbox");
         for (const box of await toastrAllCheckboxes.all()){
             await box.check({force: true});

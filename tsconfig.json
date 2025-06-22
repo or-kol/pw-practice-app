@@ -9,6 +9,9 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2020",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "node_modules/@types"
     ],

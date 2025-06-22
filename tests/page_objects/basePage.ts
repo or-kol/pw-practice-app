@@ -12,15 +12,14 @@ export class BasePage {
     }
 
     async click(selector: string) {
-        await this.highlight(selector, "yellow");
+        //await this.highlight(selector, 'yellow');
+        await this.page.waitForTimeout(300);
         await this.page.locator(selector).click();
-        await this.removeHighlight(selector);
     }
 
     async fill(selector: string, value: string) {
-        await this.highlight(selector, "orange");
+        await this.highlight(selector, 'orange');
         await this.page.locator(selector).fill(value);
-        await this.removeHighlight(selector);
     }
 
     async getText(selector: string) {
@@ -40,6 +39,7 @@ export class BasePage {
     }
 
     async getPageUrl(){
+        await this.page.waitForTimeout(300);
         return this.page.url();
     }
 

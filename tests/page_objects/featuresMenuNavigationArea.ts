@@ -8,11 +8,8 @@ export class FeatursMenuPage extends BasePage {
     };
 
     async goToMenuPage(category: string, subCategory: string, expectedRes: string) {
-        await this.click(`a:has-text("${category}")`);
+        await this.click(`a[title="${category}"]`);
         await this.click(`a:has-text("${subCategory}")`);
         return (await this.getPageUrl()).includes(expectedRes);
     };
-
-
-
 };

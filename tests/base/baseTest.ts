@@ -1,8 +1,6 @@
-
 import { test as base } from "@playwright/test";
-import { FeatursMenuPage } from "../page_objects/featuresMenuPage";
+import { FeatursMenuPage } from "../page_objects/featuresMenuNavigationArea";
 import { FormLayoutsPage } from "../page_objects/formLayoutsPage";
-
 
 type TestFixtures = {
     baseTest: {
@@ -10,7 +8,6 @@ type TestFixtures = {
         formLayout: FormLayoutsPage;
     };
 };
-
 
 export const test = base.extend<TestFixtures>({
     baseTest: async ({ page }, use) => {
