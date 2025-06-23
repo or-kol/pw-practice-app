@@ -64,7 +64,15 @@ export class FormLayoutsPage extends BasePage {
         return formClass?.includes("ng-submitted") ?? false;
     };
 
-
+    
+    /**
+     * Fills the "Block form" with the provided first name, last name, email, and website.
+     * @param {string} firstName - The first name to fill in the form.
+     * @param {string} lastName - The last name to fill in the form.
+     * @param {string} email - The email to fill in the form.
+     * @param {string} website - The website to fill in the form.
+     * @returns {Promise<boolean>} - Returns true if the form was submitted successfully, false otherwise.
+     */
     async fillBlockForm(firstName: string, lastName: string, email: string, website: string): Promise<boolean> {
         const blockFormLocator = "nb-card:has-text('Block form')";
         
@@ -79,6 +87,13 @@ export class FormLayoutsPage extends BasePage {
     };
 
 
+    /**
+     * Fills the "Form without labels" with the provided recipients, subject, and message.
+     * @param {string} recipients - The recipients to fill in the form.
+     * @param {string} subject - The subject to fill in the form.
+     * @param {string} message - The message to fill in the form.
+     * @returns {Promise<boolean>} - Returns true if the form was submitted successfully, false otherwise.
+     */
     async fillFormWithoutLabels(recipients: string, subject: string, message: string): Promise<boolean> {
         const formWithoutLabelsLocator = "nb-card:has-text('Form without labels')";
         
@@ -91,6 +106,13 @@ export class FormLayoutsPage extends BasePage {
         return formClass?.includes("ng-submitted") ?? false;
     };
 
+
+    /**
+     * Fills the "Horizontal form" with the provided email and password.
+     * @param {string} email - The email to fill in the form.
+     * @param {string} password - The password to fill in the form.
+     * @returns {Promise<boolean>} - Returns true if the form was submitted successfully, false otherwise.
+     */
     async fillHorizonttalForm(email: string, password: string): Promise<boolean> {
         const horizontalFormLocator = "nb-card:has-text('Horizontal form')";
         
