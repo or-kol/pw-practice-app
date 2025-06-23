@@ -47,3 +47,11 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Specifically exclude common allure folders
+allure-results/
+allure-report/
+.allure/
+
+# Catch-all fallback for anything else named with allure
+**/*allure*/

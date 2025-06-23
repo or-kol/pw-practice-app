@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class BasePage {
     protected page: Page;
@@ -7,31 +7,116 @@ export class BasePage {
         this.page = page;
     }
 
+
+    private async el(selector: string): Promise<Locator | null> {
+        const locator = this.page.locator(selector);
+        const count = await locator.count();
+
+        if (count === 0) {
+            console.warn(`Element not found for selector: ${selector}`);
+            return null;
+        }
+
+        return locator;
+    }
+    
     async navigateTo(url: string) {
         await this.page.goto(url);
     }
 
-    async click(selector: string) {
-        //await this.highlight(selector, 'yellow');
+    async click(selector: string): Promise<boolean> {
         await this.page.waitForTimeout(300);
-        await this.page.locator(selector).click();
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+
+        await locator.click();
+        return true;
     }
 
-    async fill(selector: string, value: string) {
-        await this.highlight(selector, 'orange');
-        await this.page.locator(selector).fill(value);
+    async check(selector: string): Promise<boolean> {
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+
+        if (!(await locator.isChecked())) {
+            await locator.check({ force: true });
+        }
+
+        return true;
     }
 
-    async getText(selector: string) {
-        return await this.page.locator(selector).textContent() || "";
+    async uncheck(selector: string): Promise<boolean> {
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+
+        if (await locator.isChecked()) {
+            await locator.uncheck({ force: true });
+        }
+
+        return true;
     }
 
-    async isVisible(selector: string) {
-        return await this.page.locator(selector).isVisible();
+    async isChecked(selector: string): Promise<boolean> {
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+
+        return await locator.isChecked();
     }
 
-    async getAttribute(selector: string, attribute: string) {
-        return await this.page.locator(selector).getAttribute(attribute) || "";
+    async fill(selector: string, value: string): Promise<boolean> {
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+
+        await locator.fill(value);
+        return true;
+    }
+
+    async getText(selector: string): Promise<string> {
+        const locator = await this.el(selector);
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return "";
+        }
+        return (await locator.textContent()) || "";
+    }
+
+    async isVisible(selector: string): Promise<boolean> {
+        const locator = await this.el(selector);
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return false;
+        }
+        return await locator.isVisible();
+    }
+
+    async getAttribute(selector: string, attribute: string): Promise<string> {
+        const locator = await this.el(selector);
+
+        if (!locator) {
+            console.warn(`Selector not found: ${selector}`);
+            return "";
+        }
+
+        return (await locator.getAttribute(attribute)) || "";
     }
 
     async getPageTitle(){
