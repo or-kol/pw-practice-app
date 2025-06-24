@@ -1,0 +1,59 @@
+{
+    "inlineForm": {
+        "title": "Inline form",
+        "fields": {
+        "Jane Doe": "Jane Tester",
+        "Email": "jane@test.com"
+        },
+        "checkbox": "Remember me",
+        "button": "SUBMIT"
+
+    },
+        "usingTheGrid": {
+        "title": "Using The Grid",
+        "fields": {
+        "Email": "test@test.com",
+        "Password": "12345"
+        },
+        "radio": "Option 2",
+        "button": "SIGN IN"
+    },
+    "basicForm": {
+        "title": "Basic form",
+        "fields": {
+        "Email": "test@test.com",
+        "Password": "12345"
+        },
+        "checkbox": "Check me out",
+        "button": "SUBMIT"
+    },
+    "blockForm": {
+        "title": "Block form",
+        "fields": {
+        "First Name": "Etaoin",
+        "Last Name": "Shrdlu",
+        "Email": "test@test.com",
+        "Website": "www.test.com"
+        },
+        "button": "SUBMIT",
+        "xfail": true
+    },
+    "formWithoutLabels": {
+        "title": "Form without labels",
+        "fields": {
+        "Recipients": "test@test.com",
+        "Subject": "Launch Plan",
+        "Message": "This is a test long message."
+        },
+        "button": "SEND"
+    },
+    "horizontalForm": {
+        "title": "Horizontal form",
+        "fields": {
+        "Email": "test@test.com",
+        "Password": "secret"
+        },
+        "checkbox": "Remember me",
+        "button": "SIGN IN"
+    }
+}

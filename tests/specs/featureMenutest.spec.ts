@@ -1,22 +1,29 @@
 import {expect} from "@playwright/test";
 import { test } from "../base/baseTest";
-import menuData from "../data/menuData.json";
+import rawMenuData from "../data/menuData.json";
+import type { Menu } from "../types/menuType";
 
 
 test.beforeEach(async({baseTest}) => {
     await baseTest.featureMenu.navigateTo("http://localhost:4200/");
 });
 
-test.describe("Data-driven Navigation", () => {
-    for (const menu of menuData) {
-        const { category, routes } = menu;
 
-        for (const { subCategory, expectedRes } of routes) {
+const menuData = rawMenuData as Menu[];
+
+test.describe("Data-driven Navigation", () => {
+    for (const { category, routes } of menuData) {
+        for (const { subCategory, expectedRes, xfail} of routes) {
             test(`Navigate to ${category} > ${subCategory}`, async ({ baseTest }) => {
+                if (xfail) {
+                    test.fail(true, `Expected failure for ${category} > ${subCategory}`);
+                }
+
                 const isLoaded = await baseTest.featureMenu.goToMenuPage(category, subCategory, expectedRes);
                 expect(isLoaded).toBe(true);
             });
         }
     }
 });
+
 

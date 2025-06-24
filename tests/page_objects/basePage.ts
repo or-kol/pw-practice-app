@@ -7,19 +7,22 @@ export class BasePage {
         this.page = page;
     }
 
+    private warnMissing(selector: string) {
+        console.warn(`Selector not found: ${selector}`);
+    }
 
     private async el(selector: string): Promise<Locator | null> {
         const locator = this.page.locator(selector);
         const count = await locator.count();
 
         if (count === 0) {
-            console.warn(`Element not found for selector: ${selector}`);
+            this.warnMissing(selector);
             return null;
         }
 
         return locator;
     }
-    
+
     async navigateTo(url: string) {
         await this.page.goto(url);
     }
@@ -29,7 +32,6 @@ export class BasePage {
         const locator = await this.el(selector);
 
         if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
             return false;
         }
 
@@ -41,7 +43,6 @@ export class BasePage {
         const locator = await this.el(selector);
 
         if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
             return false;
         }
 
@@ -56,7 +57,6 @@ export class BasePage {
         const locator = await this.el(selector);
 
         if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
             return false;
         }
 
@@ -69,20 +69,13 @@ export class BasePage {
 
     async isChecked(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
-
-        if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
-            return false;
-        }
-
-        return await locator.isChecked();
+        return locator ? await locator.isChecked() : false;
     }
 
     async fill(selector: string, value: string): Promise<boolean> {
         const locator = await this.el(selector);
-
+        
         if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
             return false;
         }
 
@@ -92,38 +85,24 @@ export class BasePage {
 
     async getText(selector: string): Promise<string> {
         const locator = await this.el(selector);
-        if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
-            return "";
-        }
-        return (await locator.textContent()) || "";
+        return locator ? (await locator.textContent()) || "" : "";
     }
 
     async isVisible(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
-        if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
-            return false;
-        }
-        return await locator.isVisible();
+        return locator ? await locator.isVisible() : false;
     }
 
     async getAttribute(selector: string, attribute: string): Promise<string> {
         const locator = await this.el(selector);
-
-        if (!locator) {
-            console.warn(`Selector not found: ${selector}`);
-            return "";
-        }
-
-        return (await locator.getAttribute(attribute)) || "";
+        return locator ? (await locator.getAttribute(attribute)) || "" : "";
     }
 
-    async getPageTitle(){
+    async getPageTitle() {
         return await this.page.title();
     }
 
-    async getPageUrl(){
+    async getPageUrl() {
         await this.page.waitForTimeout(300);
         return this.page.url();
     }
@@ -134,19 +113,15 @@ export class BasePage {
         await this.page.locator(selector).evaluate((el, color) => {
             el.style.boxShadow = `0 0 10px 3px ${color}`;
             el.style.transition = "all 0.3s ease";
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
         }, color);
     }
 
     private async removeHighlight(selector: string) {
-        await this.page.locator(selector).evaluate(el => {
-            el.style.boxShadow = '';
-            el.style.outline = '';
+        await this.page.locator(selector).evaluate((el) => {
+            el.style.boxShadow = "";
+            el.style.outline = "";
         });
     }
-
-
-
 }
-
 
