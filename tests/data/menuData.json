@@ -52,7 +52,7 @@
             { 
                 "subCategory": "Echarts", 
                 "expectedRes": "echarts", 
-                "xfail": true 
+                "xfail": false 
             }
         ]
     },

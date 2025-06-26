@@ -4,5 +4,7 @@ This is modified and more lightweight version of original application to practic
 
 The original repo is here: https://github.com/akveo/ngx-admin
 
-npm install --force
-npm start
+To use the app:
+Open terminal in the cloned folder.
+Install the app: npm install --force
+Build:           npm start

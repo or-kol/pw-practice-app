@@ -1,4 +1,4 @@
-export type FormPreset = {
+export type FormType = {
     title: string;
     fields: Record<string, string>;
     checkbox?: string;

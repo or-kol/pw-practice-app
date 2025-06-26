@@ -1,7 +1,7 @@
 import {expect} from "@playwright/test";
-import { test } from "../base/baseTest";
-import rawMenuData from "../data/menuData.json";
-import type { Menu } from "../types/menuType";
+import { test } from "../../base/baseTest";
+import rawMenuData from "../../data/menuData.json";
+import type { MenuType } from "../../types/menuType";
 
 
 test.beforeEach(async({baseTest}) => {
@@ -9,7 +9,7 @@ test.beforeEach(async({baseTest}) => {
 });
 
 
-const menuData = rawMenuData as Menu[];
+const menuData = rawMenuData as MenuType[];
 
 test.describe("Data-driven Navigation", () => {
     for (const { category, routes } of menuData) {

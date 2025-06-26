@@ -27,17 +27,43 @@ export class BasePage {
         await this.page.goto(url);
     }
 
+
     async click(selector: string): Promise<boolean> {
-        await this.page.waitForTimeout(300);
         const locator = await this.el(selector);
 
         if (!locator) {
             return false;
         }
 
-        await locator.click();
-        return true;
+        try {
+            await locator.waitFor({ state: "visible" });
+            await locator.click();
+            return true;
+        } catch (err) {
+            console.warn(`Failed to click: ${selector}\n`, err);
+            return false;
+        }
     }
+
+
+    async getText(selector: string): Promise<string> {
+        const locator = await this.el(selector);
+
+        try {
+            await locator.waitFor({ state: "attached" });
+            const tagName = await locator.evaluate(el => el.tagName.toLowerCase());
+            
+            if (tagName === "input" || tagName === "textarea" || tagName === "select") {
+                return await locator.inputValue();
+            } else {
+                return await locator.textContent() ?? "";
+            }
+        } catch (err) {
+            console.warn(`Failed to get value from: ${selector}\n`, err);
+            return "";
+        }
+    }
+
 
     async check(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
@@ -53,6 +79,7 @@ export class BasePage {
         return true;
     }
 
+
     async uncheck(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
 
@@ -67,10 +94,12 @@ export class BasePage {
         return true;
     }
 
+
     async isChecked(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
         return locator ? await locator.isChecked() : false;
     }
+
 
     async fill(selector: string, value: string): Promise<boolean> {
         const locator = await this.el(selector);
@@ -83,25 +112,24 @@ export class BasePage {
         return true;
     }
 
-    async getText(selector: string): Promise<string> {
-        const locator = await this.el(selector);
-        return locator ? (await locator.textContent()) || "" : "";
-    }
 
     async isVisible(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
         return locator ? await locator.isVisible() : false;
     }
 
+
     async getAttribute(selector: string, attribute: string): Promise<string> {
         const locator = await this.el(selector);
         return locator ? (await locator.getAttribute(attribute)) || "" : "";
     }
 
+
     async getPageTitle() {
         return await this.page.title();
     }
 
+    
     async getPageUrl() {
         await this.page.waitForTimeout(300);
         return this.page.url();

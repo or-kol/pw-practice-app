@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "./basePage";
-import type { FormPreset } from "../types/formPresent";
+import type { FormType } from "../types/formType";
 
 export class FormLayoutsPage extends BasePage {
     
@@ -8,7 +8,7 @@ export class FormLayoutsPage extends BasePage {
         super(page);
     }
 
-    async submitForm(config: FormPreset): Promise<boolean> {
+    async submitForm(config: FormType): Promise<boolean> {
         const formLocator = `nb-card:has-text("${config.title}")`;
 
         for (const [placeholder, value] of Object.entries(config.fields)) {

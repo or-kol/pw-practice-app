@@ -1,10 +1,10 @@
 export type Route = {
-  subCategory: string;
-  expectedRes: string;
-  xfail?: boolean; // ← The question mark makes it optional
+    subCategory: string;
+    expectedRes: string;
+    xfail?: boolean;
 };
 
-export type Menu = {
-  category: string;
-  routes: Route[];
+export type MenuType = {
+    category: string;
+    routes: Route[];
 };
