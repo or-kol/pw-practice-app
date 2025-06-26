@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { promises } from "dns";
 
 export class BasePage {
     protected page: Page;
@@ -7,7 +8,7 @@ export class BasePage {
         this.page = page;
     }
 
-    private warnMissing(selector: string) {
+    private warnMissing(selector: string): void {
         console.warn(`Selector not found: ${selector}`);
     }
 
@@ -23,15 +24,14 @@ export class BasePage {
         return locator;
     }
 
-    async navigateTo(url: string) {
+    async navigateTo(url: string): Promise<void> {
         await this.page.goto(url);
     }
-
 
     async click(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
 
-        if (!locator) {
+        if (!locator){
             return false;
         }
 
@@ -44,19 +44,23 @@ export class BasePage {
             return false;
         }
     }
-
+        
 
     async getText(selector: string): Promise<string> {
         const locator = await this.el(selector);
 
+        if (!locator){
+            return "";
+        }
+
         try {
             await locator.waitFor({ state: "attached" });
             const tagName = await locator.evaluate(el => el.tagName.toLowerCase());
-            
-            if (tagName === "input" || tagName === "textarea" || tagName === "select") {
+
+            if (["input", "textarea", "select"].includes(tagName)) {
                 return await locator.inputValue();
             } else {
-                return await locator.textContent() ?? "";
+                return (await locator.textContent()) ?? "";
             }
         } catch (err) {
             console.warn(`Failed to get value from: ${selector}\n`, err);
@@ -64,11 +68,10 @@ export class BasePage {
         }
     }
 
-
     async check(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
 
-        if (!locator) {
+        if (!locator){
             return false;
         }
 
@@ -79,11 +82,10 @@ export class BasePage {
         return true;
     }
 
-
     async uncheck(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
 
-        if (!locator) {
+        if (!locator){
             return false;
         }
 
@@ -94,17 +96,15 @@ export class BasePage {
         return true;
     }
 
-
     async isChecked(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
         return locator ? await locator.isChecked() : false;
     }
 
-
     async fill(selector: string, value: string): Promise<boolean> {
         const locator = await this.el(selector);
-        
-        if (!locator) {
+
+        if (!locator){
             return false;
         }
 
@@ -112,32 +112,29 @@ export class BasePage {
         return true;
     }
 
-
     async isVisible(selector: string): Promise<boolean> {
         const locator = await this.el(selector);
         return locator ? await locator.isVisible() : false;
     }
 
-
     async getAttribute(selector: string, attribute: string): Promise<string> {
         const locator = await this.el(selector);
-        return locator ? (await locator.getAttribute(attribute)) || "" : "";
+        return locator ? (await locator.getAttribute(attribute)) ?? "" : "";
     }
 
-
-    async getPageTitle() {
-        return await this.page.title();
+    async getPageTitle(): Promise<string> {
+        return this.page.title();
     }
 
-    
-    async getPageUrl() {
-        await this.page.waitForTimeout(300);
+    async getPageUrl(): Promise<string> {
+        await this.page.waitForTimeout(500); //Assertions may fail if the page is not fully loaded
         return this.page.url();
     }
 
 
 
-    private async highlight(selector: string, color: string) {
+    //Not In Use
+    private async highlight(selector: string, color: string): Promise<void> {
         await this.page.locator(selector).evaluate((el, color) => {
             el.style.boxShadow = `0 0 10px 3px ${color}`;
             el.style.transition = "all 0.3s ease";
@@ -145,7 +142,7 @@ export class BasePage {
         }, color);
     }
 
-    private async removeHighlight(selector: string) {
+    private async removeHighlight(selector: string) : Promise<void>{
         await this.page.locator(selector).evaluate((el) => {
             el.style.boxShadow = "";
             el.style.outline = "";
