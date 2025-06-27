@@ -16,7 +16,7 @@ export class DatepickerPage extends BasePage{
      */
     async selectDates(placeholder: string, startOffset: number, endOffset?: number){
         const calendarLocator = `input[placeholder="${placeholder}"]`;
-        await this.click(calendarLocator);
+        await this.click(calendarLocator, 500);
 
         const expectedStartDate = await this.selectDateInTheCalendar(startOffset);
 
@@ -25,10 +25,12 @@ export class DatepickerPage extends BasePage{
         if (endOffset){
             const expectedEndDate = await this.selectDateInTheCalendar(endOffset);
             actualDate = await this.getText(calendarLocator);
+            console.log(`Selected date range: ${expectedStartDate} - ${expectedEndDate}`);
             return actualDate === `${expectedStartDate} - ${expectedEndDate}`;
         }
         else{
             actualDate = await this.getText(calendarLocator);
+            console.log(`Selected date: ${expectedStartDate}, actual date: ${actualDate}`);
             return actualDate === expectedStartDate;
         }
     }
@@ -47,11 +49,12 @@ export class DatepickerPage extends BasePage{
         const expectedYear = date.getFullYear().toString();
         const expectedDate = `${expectedMonth} ${expectedDay}, ${expectedYear}`;
 
+        
         await this.click("nb-calendar-view-mode button");
-        await this.click(`.year-cell:has-text("${date.getFullYear().toString()}")`);
+        await this.click(`.year-cell:has-text("${expectedYear}")`);
         await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`);
-        await this.page.locator(".day-cell:not(.bounding-month)").getByText(expectedDay, { exact: true }).click(); // no other way to use 
-                                                                                                                   // "exact" option in Playwright
+        await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`);
+        
         return expectedDate;
     }
 }

@@ -8,6 +8,7 @@ export class BasePage {
         this.page = page;
     }
 
+
     /**
      * Logs a warning if the element with the given selector is not found.
      * @param selector - The CSS selector of the element.
@@ -16,6 +17,7 @@ export class BasePage {
         console.warn(`Selector not found: ${selector}`);
     }
     
+
     /**
      * Returns a Locator for the given selector.
      * If the element is not found, logs a warning and returns null.
@@ -50,16 +52,21 @@ export class BasePage {
      * @param selector - The CSS selector of the element to click.
      * @returns A Promise that resolves to true if the click was successful, false otherwise.
      */
-    async click(selector: string): Promise<boolean> {
+    async click(selector: string, waitAfterMs: number = 0): Promise<boolean> {
         const locator = await this.el(selector);
 
-        if (!locator){
+        if (!locator) {
             return false;
         }
 
         try {
             await locator.waitFor({ state: "visible" });
             await locator.click();
+            
+            if (waitAfterMs > 0) {
+                await this.page.waitForTimeout(waitAfterMs);
+            }
+            
             return true;
         } catch (err) {
             console.warn(`Failed to click: ${selector}\n`, err);
@@ -203,8 +210,28 @@ export class BasePage {
     }
 
 
+    /**
+     * Gets the value of a specified CSS property from the element.
+     * @param selector - The CSS selector of the element.
+     * @param property - The name of the CSS property to retrieve.
+     * @returns A Promise that resolves to the value of the CSS property, or an empty string if not found.
+     */
+    async getElementCssProperty(selector: string, property: string): Promise<string> {
+        const element = await this.el(selector);
+        if (!element) {
+            return "";
+        }
+        return await element.evaluate((domElement, property) =>
+            window.getComputedStyle(domElement).getPropertyValue(property),
+            property
+        );
+    }
 
-    
+
+
+
+
+
     //Not In Use
     private async highlight(selector: string, color: string): Promise<void> {
         await this.page.locator(selector).evaluate((el, color) => {

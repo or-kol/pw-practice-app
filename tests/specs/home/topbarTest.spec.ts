@@ -1,5 +1,6 @@
 import {expect} from "@playwright/test";
 import { test } from "../../base/baseTest";
+import themes from "../../data/themeColorsData.json";
 
 
 test.beforeEach(async({baseTest}) => {
@@ -14,6 +15,16 @@ test.describe("Sidebar Menu Toggle States", () => {
         test(`Toggle sidebar to "${state}" state`, async ({ baseTest }) => {
             const isInExpectedState = await baseTest.topbarPage.SidebarMenuToggle(state);
             expect(isInExpectedState).toBe(true);
+        });
+    }
+});
+
+
+test.describe("Website Theme Suite", () => {
+    for (const [theme, expectedTheme] of Object.entries(themes)) {
+        test(`Theme "${theme}" should apply correct background color`, async ({ baseTest }) => {
+            const actualTheme = await baseTest.topbarPage.websiteThemeColor(theme)
+            expect(actualTheme).toEqual(expectedTheme);
         });
     }
 });
