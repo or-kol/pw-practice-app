@@ -1,0 +1,37 @@
+{
+    "switchers": [
+        {
+            "controllerName": "Light",
+            "desiredStatus": "ON",
+            "xfail": false
+        },
+        {
+            "controllerName": "Light",
+            "desiredStatus": "OFF"
+        },
+        {
+            "controllerName": "Roller Shades",
+            "desiredStatus": "ON"
+        },
+        {
+            "controllerName": "Roller Shades",
+            "desiredStatus": "OFF"
+        },
+        {
+            "controllerName": "Wireless Audio",
+            "desiredStatus": "ON"
+        },
+        {
+            "controllerName": "Wireless Audio",
+            "desiredStatus": "OFF"
+        },
+        {
+            "controllerName": "Coffee Maker",
+            "desiredStatus": "ON"
+        },
+        {
+            "controllerName": "Coffee Maker",
+            "desiredStatus": "OFF"
+        }
+    ]
+}

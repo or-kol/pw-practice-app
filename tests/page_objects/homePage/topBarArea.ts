@@ -1,8 +1,8 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./basePage";
+import { BasePage } from "../basePage";
 
 
-export class TopbarPage extends BasePage {
+export class TopBarPage extends BasePage {
     
     constructor(page: Page){
         super(page);

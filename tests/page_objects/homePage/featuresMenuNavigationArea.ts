@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./basePage";
+import { BasePage } from "../basePage";
 
 export class FeaturesMenuPage extends BasePage {
 

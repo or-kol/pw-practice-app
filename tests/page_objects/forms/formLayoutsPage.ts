@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./basePage";
-import type { FormType } from "../types/formType";
+import { BasePage } from "../basePage";
+import type { FormType } from "../../types/formType";
 
 export class FormLayoutsPage extends BasePage {
     
