@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-import { promises } from "dns";
 
 export class BasePage {
     protected page: Page;
@@ -66,7 +65,7 @@ export class BasePage {
             if (waitAfterMs > 0) {
                 await this.page.waitForTimeout(waitAfterMs);
             }
-            
+
             return true;
         } catch (err) {
             console.warn(`Failed to click: ${selector}\n`, err);
@@ -225,6 +224,34 @@ export class BasePage {
             window.getComputedStyle(domElement).getPropertyValue(property),
             property
         );
+    }
+
+
+    /**
+     * Presses a keyboard key on a specific element or the currently focused element.
+     * @param key - The name of the key to press (e.g., 'Enter', 'Escape').
+     * @param selector - Optional. If provided, presses the key on that element. Otherwise, uses page-level keyboard.
+     * @returns A Promise that resolves to true if the key was pressed successfully, false otherwise.
+     */
+    async pressKeyboardKey(key: string, selector?: string): Promise<boolean> {
+        try {
+            if (selector) {
+                const locator = await this.el(selector);
+                if (!locator){
+                    return false;
+                }
+
+                await locator.waitFor({ state: "visible" });
+                await locator.press(key);
+            } else {
+                await this.page.keyboard.press(key);
+            }
+
+            return true;
+        } catch (err) {
+            console.warn(`Failed to press key "${key}"${selector ? ` on ${selector}` : ""}\n`, err);
+            return false;
+        }
     }
 
 

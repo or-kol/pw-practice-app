@@ -43,13 +43,31 @@ export class TopbarPage extends BasePage {
      * @param color - The name of the color to select (e.g., "Light", "Dark", "Cosmic", "Corporate").
      * @returns A Promise that resolves to the CSS background color of the header layout after applying the theme.
      */
-    async websiteThemeColor (color: string) {
+    async changeWebsiteThemeColor (color: string) {
         const themeDropdown = "ngx-header nb-select";
         const colorSelection = `nb-option-list nb-option:has-text("${color}")`;
         const headerLayout = "nb-layout-header";
         await this.click(themeDropdown);
         await this.click(colorSelection);
         return await this.getElementCssProperty(headerLayout, "background-color");        
+    }
+
+
+    /**
+     * Searches for the specified text in the search bar and checks if the search was submitted successfully.
+     * @param searchText - The text to search for.
+     * @returns A Promise that resolves to true if the search was submitted successfully, false otherwise.
+     */
+    async searchbarFunctionality(searchText: string): Promise<boolean> {
+        const searchButton = "nb-search button";
+        const searchBar = "input.search-input";
+        const searchBarForm = "nb-search-field form";
+
+        await this.click(searchButton);
+        await this.fill(searchBar, searchText);
+        await this.pressKeyboardKey("Enter");
+
+        return (await this.getAttribute(searchBarForm, "class")).includes("submitted");
     }
 
 }

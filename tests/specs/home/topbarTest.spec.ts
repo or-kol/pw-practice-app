@@ -23,8 +23,14 @@ test.describe("Sidebar Menu Toggle States", () => {
 test.describe("Website Theme Suite", () => {
     for (const [theme, expectedTheme] of Object.entries(themes)) {
         test(`Theme "${theme}" should apply correct background color`, async ({ baseTest }) => {
-            const actualTheme = await baseTest.topbarPage.websiteThemeColor(theme)
+            const actualTheme = await baseTest.topbarPage.changeWebsiteThemeColor(theme)
             expect(actualTheme).toEqual(expectedTheme);
         });
     }
 });
+
+
+test ("Searchbar functionality test", async ({ baseTest }) => {
+    const isSearchSuccessful = await baseTest.topbarPage.searchbarFunctionality("Search text");
+    expect(isSearchSuccessful).toBe(true);
+})
