@@ -69,5 +69,25 @@ export class TopbarPage extends BasePage {
 
         return (await this.getAttribute(searchBarForm, "class")).includes("submitted");
     }
+    
+
+    /**
+     * Checks if the mailbox icon is visible in the top bar.
+     * @returns A Promise that resolves to true if the mailbox icon is visible, false otherwise.
+     */
+    async mailboxIcon(): Promise<boolean> {
+        const mailboxIcon = "nb-action[icon='email-outline']";
+        return await this.isVisible(mailboxIcon);
+    }
+
+    
+    /**
+     * Checks if the notifications icon is visible in the top bar.
+     * @returns A Promise that resolves to true if the notifications icon is visible, false otherwise.
+     */
+    async notificationsIcon(): Promise<boolean> {
+        const notificationsIcon = "nb-action[icon='bell-outline']";
+        return await this.isVisible(notificationsIcon);
+    }
 
 }

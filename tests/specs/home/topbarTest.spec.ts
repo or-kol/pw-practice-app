@@ -34,3 +34,15 @@ test ("Searchbar functionality test", async ({ baseTest }) => {
     const isSearchSuccessful = await baseTest.topbarPage.searchbarFunctionality("Search text");
     expect(isSearchSuccessful).toBe(true);
 })
+
+
+test ("Email icon visibility test", async ({ baseTest }) => {
+    const isMailboxIconVisible = await baseTest.topbarPage.mailboxIcon();
+    expect(isMailboxIconVisible).toBe(true);
+});
+
+
+test ("Notifications icon visibility test", async ({ baseTest }) => {
+    const isNotificationsIconVisible = await baseTest.topbarPage.notificationsIcon();
+    expect(isNotificationsIconVisible).toBe(true);
+});
