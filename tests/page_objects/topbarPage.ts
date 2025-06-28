@@ -80,7 +80,7 @@ export class TopbarPage extends BasePage {
         return await this.isVisible(mailboxIcon);
     }
 
-    
+
     /**
      * Checks if the notifications icon is visible in the top bar.
      * @returns A Promise that resolves to true if the notifications icon is visible, false otherwise.
@@ -90,4 +90,20 @@ export class TopbarPage extends BasePage {
         return await this.isVisible(notificationsIcon);
     }
 
+
+    async userProfile(): Promise<boolean> {
+        const userProfileButton = "nb-layout-header nb-user.context-menu-host";
+        const userProfile = "nb-menu:has-text('Profile')";
+
+        await this.click(userProfileButton);
+        return await this.isVisible(userProfile);
+    }
+
+    async userLogOut(): Promise<boolean> {
+        const userProfileButton = "nb-layout-header nb-user.context-menu-host";
+        const userProfile = "nb-menu:has-text('Log out')";
+
+        await this.click(userProfileButton);
+        return await this.isVisible(userProfile);
+    }
 }
