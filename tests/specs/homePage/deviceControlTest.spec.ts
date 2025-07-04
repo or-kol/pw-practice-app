@@ -25,3 +25,8 @@ test.describe('Device controller tests', () => {
         });
     }
 });
+
+test("Temp switch test", async ({baseTest}) => {
+    const result = await baseTest.deviceControlModule.tempSwitch();
+    expect(result).toBeTruthy();
+})

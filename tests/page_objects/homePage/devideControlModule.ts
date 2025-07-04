@@ -23,4 +23,15 @@ export class DevideControlModule extends BasePage {
         const switchCurrentstatus = await this.getText(switchStatusLocator);
         return switchCurrentstatus == switchDesiredStatus;
     }
+
+    async tempSwitch(){
+        const tempSwitchLoctor = "[tabtitle='Temperature'] ngx-temperature-dragger circle";
+        const tempValueLoctor = "[tabtitle='Temperature'] ngx-temperature-dragger";
+        await this.setAttributeVal(tempSwitchLoctor, "cx", "232.63");
+        await this.setAttributeVal(tempSwitchLoctor, "cy", "232.63");
+        await this.click(tempSwitchLoctor);
+        const temp = await this.getText(tempValueLoctor);
+        console.log(temp);
+        return temp.includes("30");
+    }
 }

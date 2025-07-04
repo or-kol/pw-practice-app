@@ -9,8 +9,8 @@ export class BasePage {
 
 
     /**
-     * Logs a warning if the element with the given selector is not found.
-     * @param selector - The CSS selector of the element.
+     * Logs a warning message to the console when a selector fails to match any elements.
+     * @param selector - The CSS selector that did not match any element.
      */
     private warnMissing(selector: string): void {
         console.warn(`Selector not found: ${selector}`);
@@ -18,10 +18,10 @@ export class BasePage {
     
 
     /**
-     * Returns a Locator for the given selector.
-     * If the element is not found, logs a warning and returns null.
-     * @param selector - The CSS selector to locate the element.
-     * @returns A Promise that resolves to a Locator or null if not found.
+     * Retrieves a Locator for the specified selector if it exists on the page.
+     * Logs a warning and returns null if the selector does not match any elements.
+     * @param selector - The CSS selector used to locate the element.
+     * @returns A Promise that resolves to the Locator or null.
      */
     private async el(selector: string): Promise<Locator | null> {
         const locator = this.page.locator(selector);
@@ -42,8 +42,13 @@ export class BasePage {
      * @param url - The URL to navigate to.
      */
     async navigateTo(url: string): Promise<void> {
-        await this.page.goto(url);
+        try {
+            await this.page.goto(url);
+        } catch (err) {
+            console.warn(`Failed to navigate to: ${url}\n`, err);
+        }
     }
+
 
     
     /**
@@ -75,9 +80,10 @@ export class BasePage {
 
 
     /**
-     * Gets the text content of the element specified by the selector.
-     * @param selector - The CSS selector of the element.
-     * @returns A Promise that resolves to the text content of the element, or an empty string if not found.
+     * Retrieves the text value of the selected element.
+     * For form inputs, returns the input value instead of inner text.
+     * @param selector - The CSS selector of the target element.
+     * @returns A Promise that resolves to the element's text content or an empty string if not found.
      */
     async getText(selector: string): Promise<string> {
         const locator = await this.el(selector);
@@ -152,16 +158,25 @@ export class BasePage {
         return locator ? await locator.isChecked() : false;
     }
 
-
+    /**
+     * Fills the selected input field with the provided value.
+     * @param selector - The CSS selector of the input element.
+     * @param value - The string to input into the field.
+     * @returns A Promise that resolves to true if filled successfully, false otherwise.
+     */
     async fill(selector: string, value: string): Promise<boolean> {
         const locator = await this.el(selector);
-
         if (!locator){
             return false;
         }
 
-        await locator.fill(value);
-        return true;
+        try {
+            await locator.fill(value);
+            return true;
+        } catch (err) {
+            console.warn(`Failed to fill ${selector} with "${value}"\n`, err);
+            return false;
+        }
     }
 
 
@@ -184,7 +199,16 @@ export class BasePage {
      */
     async getAttribute(selector: string, attribute: string): Promise<string> {
         const locator = await this.el(selector);
-        return locator ? (await locator.getAttribute(attribute)) ?? "" : "";
+        if (!locator) {
+            return ""
+        };
+
+        try {
+            return (await locator.getAttribute(attribute)) ?? "";
+        } catch (err) {
+            console.warn(`Failed to get attribute "${attribute}" from ${selector}\n`, err);
+            return "";
+        }
     }
 
 
@@ -218,12 +242,17 @@ export class BasePage {
     async getElementCssProperty(selector: string, property: string): Promise<string> {
         const element = await this.el(selector);
         if (!element) {
+            return ""
+        };
+
+        try {
+            return await element.evaluate((el, prop) =>
+                window.getComputedStyle(el).getPropertyValue(prop), property
+            );
+        } catch (err) {
+            console.warn(`Failed to get CSS property "${property}" from ${selector}\n`, err);
             return "";
         }
-        return await element.evaluate((domElement, property) =>
-            window.getComputedStyle(domElement).getPropertyValue(property),
-            property
-        );
     }
 
 
@@ -250,6 +279,31 @@ export class BasePage {
             return true;
         } catch (err) {
             console.warn(`Failed to press key "${key}"${selector ? ` on ${selector}` : ""}\n`, err);
+            return false;
+        }
+    }
+
+    /**
+     * Safely sets an attribute value on a DOM element using Playwright’s evaluate.
+     * @param selector - CSS selector used to locate the target element.
+     * @param attribute - The name of the attribute to set.
+     * @param value - The value to assign to the attribute.
+     * @returns A Promise that resolves to true if the attribute was set successfully, false otherwise.
+     */
+    async setAttributeVal(selector: string, attribute: string, value: string): Promise<boolean> {
+    const element = await this.el(selector);
+        if (!element){
+            return false;
+        }
+
+        try {
+            await element.evaluate((node, [attr, val]) => {
+                node.setAttribute(attr, val);
+            }, [attribute, value]);
+
+            return true;
+        } catch (err) {
+            console.warn(`Failed to set attribute "${attribute}" on ${selector}\n`, err);
             return false;
         }
     }
