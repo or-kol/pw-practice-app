@@ -291,7 +291,7 @@ export class BasePage {
      * @returns A Promise that resolves to true if the attribute was set successfully, false otherwise.
      */
     async setAttributeVal(selector: string, attribute: string, value: string): Promise<boolean> {
-    const element = await this.el(selector);
+        const element = await this.el(selector);
         if (!element){
             return false;
         }
@@ -308,6 +308,55 @@ export class BasePage {
         }
     }
 
+    
+    async scrollIntoView (selector: string){
+        const element = await this.el(selector);
+        if (!element){
+            return false;
+        }
+
+        try {
+            await element.scrollIntoViewIfNeeded()
+            return true;
+        } catch (err) {
+            console.warn(`Failed to scroll on ${selector}\n`, err);
+            return false;
+        }
+    }
+
+
+    async moveMouseToBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
+        const element = await this.el(selector);
+        if (!element) {
+            return false
+        }
+
+        try {
+            const box = await element.boundingBox();
+            if (!box) {
+                console.warn(`No bounding box for ${selector}`);
+                return false;
+            }
+
+            const centerX = box.x + (box.width / 2);
+            const centerY = box.y + (box.height / 2);
+            await this.page.mouse.move(centerX, centerY, { steps: 20 });
+
+            if (pressMouseBeforeMove) {
+                await this.page.mouse.down()
+                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
+                await this.page.mouse.up()
+            }
+            else {
+                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY);
+            }
+
+            return true;
+        } catch (err) {
+            console.warn(`Failed to move mouse on ${selector}\n`, err);
+            return false;
+        }
+    }
 
 
 
