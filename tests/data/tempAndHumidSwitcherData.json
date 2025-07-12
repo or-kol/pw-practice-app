@@ -1,0 +1,42 @@
+{
+    "tempSwitch":[
+            {
+                "x": -100,
+                "y": 100,
+                "expectedTemp": "13",
+                "xfail": false
+            },
+            {
+                "x": 100,
+                "y": -600,
+                "expectedTemp": "22",
+                "xfail": false
+            },
+            {
+                "x": 300,
+                "y": 300,
+                "expectedTemp": "30",
+                "xfail": false
+            }
+    ],
+    "humidSwitch":[
+            {
+                "x": -100,
+                "y": 100,
+                "expectedHuimid": "3",
+                "xfail": false
+            },
+            {
+                "x": 100,
+                "y": -600,
+                "expectedHuimid": "53",
+                "xfail": false
+            },
+            {
+                "x": 300,
+                "y": 300,
+                "expectedHuimid": "99",
+                "xfail": false
+            }
+    ]
+}

@@ -1,7 +1,7 @@
 import { test } from "../../base/baseTest";
 import { expect } from "@playwright/test";
 import SwitchersData from "../../data/deviceControlSwitchesData.json";
-import tempSwitcherData from "../../data/tempSwitcherData.json";
+import tempAndHumidSwitcherData from "../../data/tempAndHumidSwitcherData.json";
 
 
 test.beforeEach(async({baseTest}) => {
@@ -14,7 +14,7 @@ test.describe('Device controller tests', () => {
         const title = `${config.controllerName} should be switched ${config.desiredStatus}`;
 
         test(`${title}${config.xfail ? ' (expected failure)' : ''}`, async ({ baseTest }) => {
-            const result = await baseTest.deviceControlModule.controlerSwitch(
+            const result = await baseTest.deviceControlModule.buttonControlerSwitch(
                 config.controllerName,
                 config.desiredStatus as 'ON' | 'OFF'
             );
@@ -28,29 +28,36 @@ test.describe('Device controller tests', () => {
 });
 
 
-test("Temp switch test - direct element edit", async ({baseTest}) => {
-    const result = await baseTest.deviceControlModule.tempSwitch();
-    expect(result).toBeTruthy();
-})
-
-
-test.describe("Temperature Switch Test Suite - Mouse Movement", () => {
-    tempSwitcherData.tempSwitch.forEach(({ x, y, expectedTemp, xfail }, index) => {
-        test(`Case ${index + 1}: offset(x=${x}, y=${y}) → expected ${expectedTemp}°`, async ({ baseTest }) => {
-            const result = await baseTest.deviceControlModule.tempSwitch2(x, y, expectedTemp);
-            
-            if (xfail) {
-                test.fail(true, `Expected failure for offset(x=${x}, y=${y}) → expected ${expectedTemp}°`);
-            }
+test.describe("Temp & Humidity Switch - Direct Element Edit", () => {
+    ["Temperature", "Humidity"].forEach((mode) => {
+        test(`${mode} switch test - direct element edit`, async ({ baseTest }) => {
+            const result = await baseTest.deviceControlModule.tempandHumiditySwitch(mode as "Temperature" | "Humidity");
             expect(result).toBeTruthy();
         });
     });
 });
 
 
-test("Temp cool state", async ({ baseTest }) => {
-    const result = await baseTest.deviceControlModule.tempSwitchStates("warm");
-    expect(result).toBeTruthy();
+test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humidity", () => {
+    Object.entries(tempAndHumidSwitcherData).forEach(([key, dataset]) => {
+        const mode = key === "tempSwitch" ? "Temperature" : "Humidity";
+        const expectedField = key === "tempSwitch" ? "expectedTemp" : "expectedHuimid";
+
+        dataset.forEach((entry, index) => {
+            const { x, y, xfail } = entry;
+            const expected = entry[expectedField];
+
+            test(`${mode} Case ${index + 1}: offset(${x}, ${y}) → expected ${expected}`, async ({ baseTest }) => {
+                const result = await baseTest.deviceControlModule.tempandHumiditySwitch2(mode, x, y, expected);
+
+                if (xfail) {
+                    test.fail(true, `Expected failure for ${mode} offset(${x}, ${y}) → expected ${expected}`);
+                }
+
+                expect(result).toBeTruthy();
+            });
+        });
+    });
 });
 
 
@@ -59,7 +66,7 @@ test.describe("Temperature State Switching", () => {
 
     for (const state of temperatureStates) {
         test(`should switch to "${state}" mode`, async ({ baseTest }) => {
-            const result = await baseTest.deviceControlModule.tempSwitchStates(state);
+            const result = await baseTest.deviceControlModule.acStatesSwitch(state);
             expect(result).toBeTruthy();
         });
     }
@@ -71,6 +78,7 @@ test ("temp on/off switch", async ({baseTest}) => {
     expect(result).toBeTruthy();
 })
 
+
 test.describe("Temperature On/Off Button Behavior", () => {
     ["on", "off"].forEach((state) => {
         test(`should switch temperature to "${state}"`, async ({ baseTest }) => {
@@ -79,4 +87,5 @@ test.describe("Temperature On/Off Button Behavior", () => {
         });
     });
 });
+
 
