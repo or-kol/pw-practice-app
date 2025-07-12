@@ -1,0 +1,22 @@
+{
+    "electricityConsumtion": [
+            {        
+                "x": -500,
+                "y": 500,
+                "expectedKwh": "200 kWh",
+                "xfail": false
+            },
+            {
+                "x": 1000,
+                "y": -600,
+                "expectedKwh": "340 kWh",
+                "xfail": false
+            },
+            {
+                "x": 900,
+                "y": 900,
+                "expectedKwh": "130 kWh",
+                "xfail": false
+            }
+    ]
+}

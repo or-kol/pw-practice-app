@@ -308,7 +308,7 @@ export class BasePage {
         }
     }
 
-    
+
     async scrollIntoView (selector: string){
         const element = await this.el(selector);
         if (!element){
@@ -325,7 +325,7 @@ export class BasePage {
     }
 
 
-    async moveMouseToBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
+    async moveMouseInBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
         const element = await this.el(selector);
         if (!element) {
             return false
@@ -348,7 +348,8 @@ export class BasePage {
                 await this.page.mouse.up()
             }
             else {
-                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY);
+                //await this.page.waitForTimeout(5000);
+                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
             }
 
             return true;

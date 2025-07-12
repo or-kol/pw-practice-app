@@ -43,7 +43,7 @@ export class DevideControlModule extends BasePage {
         }
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
         await this.scrollIntoView(switchLoctor);
-        await this.moveMouseToBoxedElement(switchLoctor, offsetX, offsetY, true);
+        await this.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
         const temp = await this.getText(switchLoctor);
         return temp.includes(expectedTemp);
     }
