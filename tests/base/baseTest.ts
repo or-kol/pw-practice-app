@@ -7,16 +7,18 @@ import { DatepickerPage } from "../page_objects/forms/datepickerPage";
 import { TopBarPage } from "../page_objects/homePage/topBarArea";
 import { DevideControlModule } from "../page_objects/homePage/devideControlModule";
 import { ManagementConsoleModul } from "../page_objects/homePage/managementConsoleModule";
+import { RoomManagementModule } from "../page_objects/homePage/roomManagementModule";
 
 type TestFixtures = {
     baseTest: {
+        page: Page;
         featureMenu: FeaturesMenuPage;
         formLayouts: FormLayoutsPage;
         datepickerPage: DatepickerPage;
         topbarPage: TopBarPage;
         deviceControlModule: DevideControlModule;
         managementConsoleModul: ManagementConsoleModul;
-        page: Page;
+        roomManagementModule: RoomManagementModule
     };
 };
 
@@ -45,15 +47,17 @@ export const test = base.extend<TestFixtures>({
         const topbarPage = new TopBarPage(page);
         const deviceControlModule = new DevideControlModule(page);
         const managementConsoleModul = new ManagementConsoleModul(page);
+        const roomManagementModule = new RoomManagementModule(page);
 
         await use({
+            page,
             featureMenu,
             formLayouts,
             datepickerPage,
             topbarPage,
             deviceControlModule,
             managementConsoleModul,
-            page,
+            roomManagementModule
         });
 
         await context.close();

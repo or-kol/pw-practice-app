@@ -26,14 +26,16 @@ export class ManagementConsoleModul extends BasePage{
         return actualYear === expectedYear;
     }
 
+    
     async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<boolean>{
-        const TimePeriodButtonLocator = `nb-select >> text="${initialPeriod}"`;
-        const TimePeriodOptionsLocator = `nb-option >> text=${expectedPeriod}`;
-        await this.click(TimePeriodButtonLocator);
-        await this.click(TimePeriodOptionsLocator);
+        const initialTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${initialPeriod}"`;
+        const timePeriodOptionsLocator = `nb-option >> text=${expectedPeriod}`;
+        await this.click(initialTimePeriodButtonLocator);
+        await this.click(timePeriodOptionsLocator);
 
-        await this.click(`nb-select >> text="${expectedPeriod}"`);
-        const selectedPeriodClass = await this.getAttribute(TimePeriodOptionsLocator, "class");
+        const finalTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${expectedPeriod}"`;
+        await this.click(finalTimePeriodButtonLocator);
+        const selectedPeriodClass = await this.getAttribute(timePeriodOptionsLocator, "class");
         
         return selectedPeriodClass.includes("selected");
     }
