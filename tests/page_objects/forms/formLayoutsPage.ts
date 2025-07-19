@@ -8,6 +8,11 @@ export class FormLayoutsPage extends BasePage {
         super(page);
     }
 
+    async goToFormLayoutsPage(): Promise<void> {
+        await this.page.click(`a[title="Forms"]`);
+        await this.page.click(`a:has-text("Form Layouts")`);
+    }
+
     async submitForm(config: FormType): Promise<boolean> {
         const formLocator = `nb-card:has-text("${config.title}")`;
 

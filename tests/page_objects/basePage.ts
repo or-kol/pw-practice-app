@@ -81,31 +81,38 @@ export class BasePage {
 
     /**
      * Retrieves the text value of the selected element.
-     * For form inputs, returns the input value instead of inner text.
      * @param selector - The CSS selector of the target element.
      * @returns A Promise that resolves to the element's text content or an empty string if not found.
      */
     async getText(selector: string): Promise<string> {
-        const locator = await this.el(selector);
-
-        if (!locator){
-            return "";
-        }
-
         try {
-            await locator.waitFor({ state: "attached" });
+            const locator = await this.el(selector);
+
+            if (!locator) {
+                console.warn(`Locator not found for selector: ${selector}`);
+                return "";
+            }
+
+            try {
+                await locator.waitFor({ state: "visible", timeout: 3000 });
+            } catch {
+                console.warn(`Element '${selector}' not visible after 3s — falling back to attached.`);
+                await locator.waitFor({ state: "attached", timeout: 1000 });
+            }
+
             const tagName = await locator.evaluate(el => el.tagName.toLowerCase());
 
-            if (["input", "textarea", "select"].includes(tagName)) {
-                return await locator.inputValue();
-            } else {
-                return (await locator.textContent()) ?? "";
-            }
-        } catch (err) {
-            console.warn(`Failed to get value from: ${selector}\n`, err);
+            const value = ["input", "textarea", "select"].includes(tagName)
+                ? await locator.inputValue()
+                : (await locator.textContent())?.trim() ?? "";
+
+            return value;
+        } catch (err: any) {
+            console.warn(`getText failed for selector '${selector}': ${err?.message || err}`);
             return "";
         }
     }
+
 
 
     /**
@@ -358,6 +365,7 @@ export class BasePage {
             return false;
         }
     }
+
 
 
 

@@ -33,8 +33,8 @@ export class DevideControlModule extends BasePage {
         await this.setAttributeVal(switchLoctor, "cx", "232.63");
         await this.setAttributeVal(switchLoctor, "cy", "232.63");
         await this.click(switchLoctor);
-        const temp = await this.getText(valueLoctor);
-        return temp.includes("30") ? switchName = "Temperature": temp.includes("100");
+        const ActualVal = await this.getText(valueLoctor);
+        return ActualVal.includes("30") ? switchName = "Temperature": ActualVal.includes("100");
     }
 
     async tempandHumiditySwitch2(switchName: "Temperature" | "Humidity", offsetX: number, offsetY: number, expectedTemp: string){
@@ -44,8 +44,8 @@ export class DevideControlModule extends BasePage {
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
         await this.scrollIntoView(switchLoctor);
         await this.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
-        const temp = await this.getText(switchLoctor);
-        return temp.includes(expectedTemp);
+        const ActualVal = await this.getText(switchLoctor);
+        return ActualVal.includes(expectedTemp);
     }
 
 

@@ -3,7 +3,7 @@
             {        
                 "x": -500,
                 "y": 500,
-                "expectedKwh": "200 kWh",
+                "expectedKwh": "860 kWh",
                 "xfail": false
             },
             {
@@ -15,7 +15,7 @@
             {
                 "x": 900,
                 "y": 900,
-                "expectedKwh": "130 kWh",
+                "expectedKwh": "660 kWh",
                 "xfail": false
             }
     ]

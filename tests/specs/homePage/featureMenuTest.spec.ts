@@ -1,12 +1,6 @@
-import {expect} from "@playwright/test";
-import { test } from "../../base/baseTest";
+import { test, expect } from "../../base/baseTest";
 import rawMenuData from "../../data/menuData.json";
 import type { MenuType } from "../../types/menuType";
-
-
-test.beforeEach(async({baseTest}) => {
-    await baseTest.featureMenu.navigateTo("http://localhost:4200/");
-});
 
 
 const menuData = rawMenuData as MenuType[];

@@ -7,6 +7,11 @@ export class DatepickerPage extends BasePage{
         super(page);
     }
 
+    async goToDatePickerPage(): Promise<void> {
+        await this.page.click(`a[title="Forms"]`);
+        await this.page.click(`a:has-text("Datepicker")`);
+    }
+
     /**
      * Selects a date or a range of dates in the calendar.
      * @param placeholder - placeholder text of the input field

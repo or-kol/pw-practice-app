@@ -1,11 +1,5 @@
-import {expect} from "@playwright/test";
-import { test } from "../../base/baseTest";
+import { test, expect } from "../../base/baseTest";
 import themes from "../../data/themeColorsData.json";
-
-
-test.beforeEach(async({baseTest}) => {
-    await baseTest.featureMenu.navigateTo("http://localhost:4200/");
-});
 
 
 test.describe("Sidebar Menu Toggle States", () => {

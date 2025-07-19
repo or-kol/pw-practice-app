@@ -1,12 +1,6 @@
-import { test } from "../../base/baseTest";
-import { expect } from "@playwright/test";
+import { test, expect } from "../../base/baseTest";
 import SwitchersData from "../../data/deviceControlSwitchesData.json";
 import tempAndHumidSwitcherData from "../../data/tempAndHumidSwitcherData.json";
-
-
-test.beforeEach(async({baseTest}) => {
-    await baseTest.deviceControlModule.navigateTo("http://localhost:4200/")
-})
 
 
 test.describe('Device controller tests', () => {

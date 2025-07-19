@@ -1,10 +1,6 @@
-import { test } from "../../base/baseTest";
-import { expect } from "@playwright/test";
+import { test, expect } from "../../base/baseTest";
 import electricityConsumptionData from "../../data/electricityConsumptionGraphData.json"
 
-test.beforeEach(async({baseTest}) => {
-    await baseTest.deviceControlModule.navigateTo("http://localhost:4200/")
-})
 
 test.describe("Electricity consumption graph responsivnes", () => {
     for (const config of electricityConsumptionData.electricityConsumtion) {
@@ -19,4 +15,10 @@ test.describe("Electricity consumption graph responsivnes", () => {
             expect(result).toBe(true);
         });
     }
+})
+
+
+test ("Electricity consumption switch year to", async({baseTest}) => {
+    const result = await baseTest.managementConsoleModul.electricityConsumptionSwitchYears("2015");
+    expect(result).toBeTruthy();
 })

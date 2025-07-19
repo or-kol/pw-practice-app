@@ -7,7 +7,7 @@ export class FeaturesMenuPage extends BasePage {
         super(page);
     };
 
-    async goToMenuPage(category: string, subCategory: string, expectedRes: string): Promise<boolean> {
+    async goToMenuPage(category: string, subCategory: string, expectedRes?: string): Promise<boolean> {
         await this.click(`a[title="${category}"]`);
         await this.click(`a:has-text("${subCategory}")`);
         return (await this.getPageUrl()).includes(expectedRes);
