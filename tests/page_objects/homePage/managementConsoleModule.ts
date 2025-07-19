@@ -5,7 +5,7 @@ import { BasePage } from "../basePage";
 export class ManagementConsoleModul extends BasePage{
     
     constructor(page: Page){
-        super(page)
+        super(page);
     }
 
 
@@ -23,6 +23,18 @@ export class ManagementConsoleModul extends BasePage{
         await this.click(yearLocator);
         const validationLocator = `ngx-electricity [class="tab ng-star-inserted active"]`;
         const actualYear = await this.page.textContent(validationLocator);
-        return actualYear === expectedYear
+        return actualYear === expectedYear;
+    }
+
+    async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<boolean>{
+        const TimePeriodButtonLocator = `nb-select >> text="${initialPeriod}"`;
+        const TimePeriodOptionsLocator = `nb-option >> text=${expectedPeriod}`;
+        await this.click(TimePeriodButtonLocator);
+        await this.click(TimePeriodOptionsLocator);
+
+        await this.click(`nb-select >> text="${expectedPeriod}"`);
+        const selectedPeriodClass = await this.getAttribute(TimePeriodOptionsLocator, "class");
+        
+        return selectedPeriodClass.includes("selected");
     }
 }

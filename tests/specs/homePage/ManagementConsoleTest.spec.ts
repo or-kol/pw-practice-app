@@ -18,7 +18,13 @@ test.describe("Electricity consumption graph responsivnes", () => {
 })
 
 
-test ("Electricity consumption switch year to", async({baseTest}) => {
+test ("Electricity consumption switch year to 2015", async({baseTest}) => {
     const result = await baseTest.managementConsoleModul.electricityConsumptionSwitchYears("2015");
+    expect(result).toBeTruthy();
+})
+
+
+test ("Electricity consumption graph time period switch to year", async({baseTest}) => {
+    const result = await baseTest.managementConsoleModul.changeGraphTimePeriod("year");
     expect(result).toBeTruthy();
 })
