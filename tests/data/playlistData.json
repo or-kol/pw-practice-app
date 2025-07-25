@@ -1,0 +1,39 @@
+{
+    "songData": [
+        {
+            "name": "Harder",
+            "artist": "Daft Punk",
+            "xfail": false
+        },
+        {
+            "name": "Come Together",
+            "artist": "Beatles",
+            "xfail": false
+        },
+        {
+            "name": "Don't Wanna Fight",
+            "artist": "Alabama Shakes",
+            "xfail": false
+        }
+    ],
+    "progressBar": [
+        {
+            "x": 100,
+            "y": 0,
+            "expectedPossition": "79.57%",
+            "xfail": false
+        },
+        {
+            "x": -100,
+            "y": 0,
+            "expectedPossition": "20.43%",
+            "xfail": false
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "expectedPossition": "50%",
+            "xfail": false
+        }
+    ]
+}

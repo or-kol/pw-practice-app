@@ -355,7 +355,6 @@ export class BasePage {
                 await this.page.mouse.up()
             }
             else {
-                //await this.page.waitForTimeout(5000);
                 await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
             }
 
