@@ -1,6 +1,9 @@
 {
-  "Light": "rgb(255, 255, 255)",
-  "Dark": "rgb(34, 43, 69)",
-  "Cosmic": "rgb(50, 50, 89)",
-  "Corporate": "rgb(255, 255, 255)"
+    "themeColors": 
+    {
+        "Light": "rgb(255, 255, 255)",
+        "Dark": "rgb(34, 43, 69)",
+        "Cosmic": "rgb(50, 50, 89)",
+        "Corporate": "rgb(255, 255, 255)"
+    }
 }

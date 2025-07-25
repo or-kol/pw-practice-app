@@ -3,12 +3,12 @@ import roomData from "../../data/roomManagement.json"
 
 
 test.describe('Room selection test suite', () => {
-    Object.entries(roomData).forEach(([room, id]) => {
-        test(`Select ${room} test`, async ({ baseTest }) => {
-            const result = await baseTest.roomManagementModule.selectRoomManagement(id);
+    for (const [roomName, roomID] of Object.entries(roomData.roomID[0])) {
+        test(`Select ${roomName} test`, async ({ baseTest }) => {
+            const result = await baseTest.roomManagementModule.selectRoomManagement(roomID);
             expect(result).toBeTruthy();
         });
-    });
+    }
 });
 
 

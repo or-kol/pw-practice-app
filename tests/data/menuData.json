@@ -1,53 +1,62 @@
-[
+
+{
+    "Forms":
     {
-        "category": "Forms",
         "routes": [
             { 
                 "subCategory": "Form Layouts", 
-                "expectedRes": "layouts"
+                "expectedRes": "layouts", 
+                "xfail": false 
             },
             { 
                 "subCategory": "Datepicker", 
-                "expectedRes": "datepicker"
+                "expectedRes": "datepicker", 
+                "xfail": false 
             }
         ]
     },
+    "Modal & Overlays":
     {
-        "category": "Modal & Overlays",
         "routes": [
             { 
                 "subCategory": "Dialog",
-                "expectedRes": "dialog"
+                "expectedRes": "dialog", 
+                "xfail": false 
             },
             {
                 "subCategory": "Window",
-                "expectedRes": "window"
+                "expectedRes": "window", 
+                "xfail": false 
             },
             {
                 "subCategory": "Popover",
-                "expectedRes": "popover" 
+                "expectedRes": "popover", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Toastr",
-                "expectedRes": "toastr" 
+                "expectedRes": "toastr", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Tooltip", 
-                "expectedRes": "tooltip" 
+                "expectedRes": "tooltip", 
+                "xfail": false  
             }
         ]
     },
+    "Extra Components": 
     {
-        "category": "Extra Components",
         "routes": [
             { 
                 "subCategory": "Calendar", 
-                "expectedRes": "calendar" 
+                "expectedRes": "calendar", 
+                "xfail": false  
             }
         ]
     },
+    "Charts": 
     {
-        "category": "Charts",
         "routes": [
             { 
                 "subCategory": "Echarts", 
@@ -56,38 +65,45 @@
             }
         ]
     },
+    "Tables & Data":
     {
-        "category": "Tables & Data",
         "routes": [
             { 
                 "subCategory": "Smart Table", 
-                "expectedRes": "smart-table" 
+                "expectedRes": "smart-table", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Tree Grid", 
-                "expectedRes": "tree-grid" 
+                "expectedRes": "tree-grid", 
+                "xfail": false  
             }
         ]
     },
+    "Auth": 
     {
-        "category": "Auth",
         "routes": [
             { 
                 "subCategory": "Login", 
-                "expectedRes": "login" 
+                "expectedRes": "login", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Register", 
-                "expectedRes": "register" 
+                "expectedRes": "register", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Request Password", 
-                "expectedRes": "request-password" 
+                "expectedRes": "request-password", 
+                "xfail": false  
             },
             { 
                 "subCategory": "Reset Password", 
-                "expectedRes": "reset-password" 
+                "expectedRes": "reset-password", 
+                "xfail": false  
             }
         ]
     }
-]
+}
+

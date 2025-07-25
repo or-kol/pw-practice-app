@@ -67,12 +67,6 @@ test.describe("Temperature State Switching", () => {
 });
 
 
-test ("temp on/off switch", async ({baseTest}) => {
-    const result = await baseTest.deviceControlModule.tempSwitchOnOffButton("on");
-    expect(result).toBeTruthy();
-})
-
-
 test.describe("Temperature On/Off Button Behavior", () => {
     ["on", "off"].forEach((state) => {
         test(`should switch temperature to "${state}"`, async ({ baseTest }) => {

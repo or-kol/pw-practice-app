@@ -7,31 +7,38 @@
         },
         {
             "controllerName": "Light",
-            "desiredStatus": "OFF"
+            "desiredStatus": "OFF",
+            "xfail": false
         },
         {
             "controllerName": "Roller Shades",
-            "desiredStatus": "ON"
+            "desiredStatus": "ON",
+            "xfail": false
         },
         {
             "controllerName": "Roller Shades",
-            "desiredStatus": "OFF"
+            "desiredStatus": "OFF",
+            "xfail": false
         },
         {
             "controllerName": "Wireless Audio",
-            "desiredStatus": "ON"
+            "desiredStatus": "ON",
+            "xfail": false
         },
         {
             "controllerName": "Wireless Audio",
-            "desiredStatus": "OFF"
+            "desiredStatus": "OFF",
+            "xfail": false
         },
         {
             "controllerName": "Coffee Maker",
-            "desiredStatus": "ON"
+            "desiredStatus": "ON",
+            "xfail": false
         },
         {
             "controllerName": "Coffee Maker",
-            "desiredStatus": "OFF"
+            "desiredStatus": "OFF",
+            "xfail": false
         }
     ]
 }

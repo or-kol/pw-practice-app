@@ -1,12 +1,9 @@
 import { test, expect } from "../../base/baseTest";
 import rawMenuData from "../../data/menuData.json";
-import type { MenuType } from "../../types/menuType";
 
 
-const menuData = rawMenuData as MenuType[];
-
-test.describe("Data-driven Navigation", () => {
-    for (const { category, routes } of menuData) {
+test.describe("Features menu navigation suite", () => {
+    for (const [category, {routes}] of Object.entries(rawMenuData)) {
         for (const { subCategory, expectedRes, xfail} of routes) {
             test(`Navigate to ${category} > ${subCategory}`, async ({ baseTest }) => {
                 if (xfail) {
@@ -14,7 +11,7 @@ test.describe("Data-driven Navigation", () => {
                 }
 
                 const isLoaded = await baseTest.featureMenu.goToMenuPage(category, subCategory, expectedRes);
-                expect(isLoaded).toBe(true);
+                expect(isLoaded).toBeTruthy();
             });
         }
     }
