@@ -26,11 +26,34 @@ export class RoomManagementModule extends BasePage{
 
     }
 
+    
+    async playlistshufleOrRepeat(buttonPlace: number): Promise<boolean>{
+        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        await this.click(playlistControlButtonsLocator);
 
-    private async getSongName(): Promise<string> {
-        const songLocator = `ngx-player:has-text("My Playlist") .details`;
-        const songName = await this.getText(songLocator);
-        return songName
+        const buttonClass = await this.getAttribute(playlistControlButtonsLocator, "class");
+        return /\bon\b/.test(buttonClass);
     }
 
+    async playlistPrevOrNext(buttonPlace: number): Promise<boolean>{
+        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        const songDataLocator = `ngx-player:has-text("My Playlist") .details`;
+        const initialSongData = await this.getText(songDataLocator);
+        await this.click(playlistControlButtonsLocator);
+        const postClickSongData = await this.getText(songDataLocator);
+        
+        return initialSongData !== postClickSongData;
+    }
+
+    async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<boolean>{
+        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        await this.click(playlistControlButtonsLocator);
+
+        if (expectedState === "pause") {
+            await this.click(playlistControlButtonsLocator);
+        }
+
+        const buttonIcon = await this.getAttribute(playlistControlButtonsLocator, "ng-reflect-icon");
+        return !(buttonIcon.includes(expectedState))
+    }
 }
