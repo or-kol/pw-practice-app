@@ -8,6 +8,7 @@ import { TopBarPage } from "../page_objects/homePage/topBarArea";
 import { DevideControlModule } from "../page_objects/homePage/devideControlModule";
 import { ManagementConsoleModul } from "../page_objects/homePage/managementConsoleModule";
 import { RoomManagementModule } from "../page_objects/homePage/roomManagementModule";
+import { PhoneModule } from "../page_objects/homePage/phoneModule";
 
 type TestFixtures = {
     baseTest: {
@@ -18,7 +19,8 @@ type TestFixtures = {
         topbarPage: TopBarPage;
         deviceControlModule: DevideControlModule;
         managementConsoleModul: ManagementConsoleModul;
-        roomManagementModule: RoomManagementModule
+        roomManagementModule: RoomManagementModule;
+        phoneModule: PhoneModule;
     };
 };
 
@@ -48,6 +50,7 @@ export const test = base.extend<TestFixtures>({
         const deviceControlModule = new DevideControlModule(page);
         const managementConsoleModul = new ManagementConsoleModul(page);
         const roomManagementModule = new RoomManagementModule(page);
+        const phoneModule = new PhoneModule(page);
 
         await use({
             page,
@@ -57,7 +60,8 @@ export const test = base.extend<TestFixtures>({
             topbarPage,
             deviceControlModule,
             managementConsoleModul,
-            roomManagementModule
+            roomManagementModule,
+            phoneModule
         });
 
         await context.close();

@@ -1,0 +1,8 @@
+{
+    "contactsLists": [
+        {
+            "Contacts": ["Nick Jones", "Eva Moor", "Jack Williams", "Lee Wong", "Alan Thompson"],
+            "Recent": ["Alan Thompson", "Eva Moor", "Nick Jones",  "Lee Wong", "Jack Williams"]
+        }
+    ]
+}
