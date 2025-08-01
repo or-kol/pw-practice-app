@@ -316,7 +316,12 @@ export class BasePage {
     }
 
 
-    async scrollIntoView (selector: string){
+    /**
+     * Scrolls the specified element into view if it's not already visible.
+     * @param selector - CSS selector used to locate the target element.
+     * @returns A Promise that resolves to true if scrolling succeeds, or false if the element is not found or scrolling fails.
+     */
+    async scrollIntoView (selector: string): Promise<boolean> {
         const element = await this.el(selector);
         if (!element){
             return false;
@@ -332,6 +337,14 @@ export class BasePage {
     }
 
 
+    /**
+     * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
+     * @param selector - CSS selector used to locate the target element.
+     * @param pixelsToMoveX - Number of pixels to move horizontally from the element's center (default is 0).
+     * @param pixelsToMoveY - Number of pixels to move vertically from the element's center (default is 0).
+     * @param pressMouseBeforeMove - If true, simulates a mouse press before moving (for drag-and-drop interactions).
+     * @returns A Promise that resolves to true if the movement succeeds, or false if the element is not found or fails to move.
+     */
     async moveMouseInBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
         const element = await this.el(selector);
         if (!element) {

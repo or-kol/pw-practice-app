@@ -51,6 +51,7 @@ test.describe(`Playlist - next/previous song test suite`, () => {
     });
 });
 
+
 test.describe(`Playlist - Play/pause song test suite`, ()=> {
     ["play", "pause"].forEach((state) => {
         test(`Play/pause song with button index 3 and expected state ${state}`, async ({ baseTest }) => {
