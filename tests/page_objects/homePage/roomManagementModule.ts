@@ -18,7 +18,7 @@ export class RoomManagementModule extends BasePage{
 
 
     async progressBarScrubbing(xAxis: number, yAxis: number, expectedPossition: string): Promise<boolean> {
-        const progressBarLocator = `ngx-player:has-text("My Playlist") nb-card-body .progress-wrap`;
+        const progressBarLocator = `ngx-player nb-card-body .progress-wrap`;
         await this.scrollIntoView(progressBarLocator);
         await this.moveMouseInBoxedElement(progressBarLocator, xAxis, yAxis, true);
         const barPercentage = await this.getAttribute(`${progressBarLocator} div`, "style");
@@ -28,7 +28,7 @@ export class RoomManagementModule extends BasePage{
 
     
     async playlistshufleOrRepeat(buttonPlace: number): Promise<boolean>{
-        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         await this.click(playlistControlButtonsLocator);
 
         const buttonClass = await this.getAttribute(playlistControlButtonsLocator, "class");
@@ -36,8 +36,8 @@ export class RoomManagementModule extends BasePage{
     }
 
     async playlistPrevOrNext(buttonPlace: number): Promise<boolean>{
-        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
-        const songDataLocator = `ngx-player:has-text("My Playlist") .details`;
+        const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        const songDataLocator = `ngx-player .details`;
         const initialSongData = await this.getText(songDataLocator);
         await this.click(playlistControlButtonsLocator);
         const postClickSongData = await this.getText(songDataLocator);
@@ -46,14 +46,24 @@ export class RoomManagementModule extends BasePage{
     }
 
     async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<boolean>{
-        const playlistControlButtonsLocator = `ngx-player:has-text("My Playlist") nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+        const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         await this.click(playlistControlButtonsLocator);
 
-        if (expectedState === "pause") {
+        if (expectedState === `pause`) {
             await this.click(playlistControlButtonsLocator);
         }
 
-        const buttonIcon = await this.getAttribute(playlistControlButtonsLocator, "ng-reflect-icon");
+        const buttonIcon = await this.getAttribute(playlistControlButtonsLocator, `ng-reflect-icon`);
         return !(buttonIcon.includes(expectedState))
+    }
+
+    async muteVolune(): Promise<boolean> {
+        const muteButtonLocator = `ngx-player nb-card-footer [icon="volume-down-outline"]`;
+        const volumeStatusLocator = `ngx-player nb-card-footer .progress-wrap div`;
+
+        await this.click(muteButtonLocator);
+        const volumeStatus = await this.getAttribute(volumeStatusLocator, `style`);
+
+        return volumeStatus.includes(`width: 0%`);
     }
 }

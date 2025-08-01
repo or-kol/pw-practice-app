@@ -13,7 +13,7 @@ test.describe('Room selection test suite', () => {
 });
 
 
-test.describe(`Progress bar test suite`, () => {
+test.describe(`Playlist - song progress bar test suite`, () => {
     for (const [index, progressConfig] of Object.entries(playlistData.progressBar)){
         test(`Progress bar case #${index + 1}: offset(${progressConfig.x}, ${progressConfig.y}) → expected ${progressConfig.expectedPossition}`, async({baseTest}) => {
             const result = await baseTest.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
@@ -28,7 +28,7 @@ test.describe(`Progress bar test suite`, () => {
 });
 
 
-test.describe(`Select shufle/repeat play list options`, () => {
+test.describe(`Playlist - select shufle/repeat list options test suite`, () => {
     const buttons = [{ index: 1, label: "shuffle" }, { index: 5, label: "repeat" }];
 
     buttons.forEach(({ index, label }) => {
@@ -40,7 +40,7 @@ test.describe(`Select shufle/repeat play list options`, () => {
 });
 
 
-test.describe(`Go to next/previous song test`, () => {
+test.describe(`Playlist - next/previous song test suite`, () => {
     const buttons = [{ index: 2, label: "previous" }, { index: 4, label: "next" }];
 
     buttons.forEach(({ index, label }) => {
@@ -51,7 +51,7 @@ test.describe(`Go to next/previous song test`, () => {
     });
 });
 
-test.describe(`Play/pause song test suite`, ()=> {
+test.describe(`Playlist - Play/pause song test suite`, ()=> {
     ["play", "pause"].forEach((state) => {
         test(`Play/pause song with button index 3 and expected state ${state}`, async ({ baseTest }) => {
             const result = await baseTest.roomManagementModule.playlistPlayOrPause(3, state);
@@ -59,3 +59,11 @@ test.describe(`Play/pause song test suite`, ()=> {
         });
     });
 });
+
+
+test.describe(`Playlist - volume control test suite`, () => {
+    test(`Mute button test`, async ({baseTest}) => {
+        const result = await baseTest.roomManagementModule.muteVolune();
+        expect(result).toBeTruthy();
+    })
+})
