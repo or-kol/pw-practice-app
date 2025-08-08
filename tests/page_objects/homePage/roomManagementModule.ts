@@ -22,6 +22,7 @@ export class RoomManagementModule extends BasePage{
         await this.scrollIntoView(progressBarLocator);
         await this.moveMouseInBoxedElement(progressBarLocator, xAxis, yAxis, true);
         const barPercentage = await this.getAttribute(`${progressBarLocator} div`, "style");
+        console.log(barPercentage);
         return barPercentage.includes(expectedPossition);
 
     }

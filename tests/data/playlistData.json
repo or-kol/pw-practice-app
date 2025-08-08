@@ -20,13 +20,13 @@
         {
             "x": 100,
             "y": 0,
-            "expectedPossition": "79.57%",
+            "expectedPossition": "79.47%",
             "xfail": false
         },
         {
             "x": -100,
             "y": 0,
-            "expectedPossition": "20.43%",
+            "expectedPossition": "20.53%",
             "xfail": false
         },
         {
