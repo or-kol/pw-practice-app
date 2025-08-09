@@ -9,6 +9,7 @@ import { DevideControlModule } from "../page_objects/homePage/devideControlModul
 import { ManagementConsoleModul } from "../page_objects/homePage/managementConsoleModule";
 import { RoomManagementModule } from "../page_objects/homePage/roomManagementModule";
 import { PhoneModule } from "../page_objects/homePage/phoneModule";
+import { TrafficConsumption } from "../page_objects/homePage/trafficConsumption";
 
 type TestFixtures = {
     baseTest: {
@@ -21,6 +22,7 @@ type TestFixtures = {
         managementConsoleModul: ManagementConsoleModul;
         roomManagementModule: RoomManagementModule;
         phoneModule: PhoneModule;
+        trafficConsumption: TrafficConsumption;
     };
 };
 
@@ -51,6 +53,7 @@ export const test = base.extend<TestFixtures>({
         const managementConsoleModul = new ManagementConsoleModul(page);
         const roomManagementModule = new RoomManagementModule(page);
         const phoneModule = new PhoneModule(page);
+        const trafficConsumption = new TrafficConsumption(page);
 
         await use({
             page,
@@ -61,7 +64,8 @@ export const test = base.extend<TestFixtures>({
             deviceControlModule,
             managementConsoleModul,
             roomManagementModule,
-            phoneModule
+            phoneModule,
+            trafficConsumption
         });
 
         await context.close();
