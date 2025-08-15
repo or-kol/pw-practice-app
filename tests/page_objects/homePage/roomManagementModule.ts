@@ -8,7 +8,7 @@ export class RoomManagementModule extends BasePage{
     }
 
 
-    async selectRoomManagement(roomId: string){
+    async selectRoomManagement(roomId: string): Promise<boolean> {
         const roomLocator = `g[id="${roomId}"]`;
         await this.click(roomLocator);
 

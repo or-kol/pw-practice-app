@@ -220,11 +220,27 @@ export class BasePage {
 
 
     /**
-     * Gets the title of the current page.
-     * Waits for a short time to ensure the page is fully loaded.
-     * @returns A Promise that resolves to the title of the page.
+     * Retrieves the page title from either the current page or a newly opened tab.
+     * 
+     * - If `waitForNewTab` is `false`, it simply returns the current page's title.
+     * - If `waitForNewTab` is `true` and a `clickSelector` is provided, it clicks the element
+     *   that opens a new tab, waits for the new tab to load, and returns that tab's title.
+     * 
+     * @param waitForNewTab - Set to true to wait for and return the title of a new tab.
+     * @param clickSelector - CSS selector for the element that opens the new tab (required if `waitForNewTab` is true).
+     * @returns A Promise that resolves to the title of the target page.
      */
-    async getPageTitle(): Promise<string> {
+    async getPageTitle(waitForNewTab: boolean = false, clickSelector?: string): Promise<string> {
+        if (waitForNewTab && clickSelector) {
+            const [newPage] = await Promise.all([
+                this.page.context().waitForEvent('page'),
+                this.click(clickSelector)
+            ]);
+
+            await newPage.waitForLoadState();
+            return await newPage.title();
+        }
+
         return this.page.title();
     }
 
