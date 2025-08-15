@@ -10,6 +10,7 @@ import { ManagementConsoleModul } from "../page_objects/homePage/managementConso
 import { RoomManagementModule } from "../page_objects/homePage/roomManagementModule";
 import { PhoneModule } from "../page_objects/homePage/phoneModule";
 import { TrafficConsumption } from "../page_objects/homePage/trafficConsumption";
+import { SecurityCameras } from "../page_objects/homePage/securityCameras";
 
 type TestFixtures = {
     baseTest: {
@@ -23,6 +24,7 @@ type TestFixtures = {
         roomManagementModule: RoomManagementModule;
         phoneModule: PhoneModule;
         trafficConsumption: TrafficConsumption;
+        securityCameras: SecurityCameras;
     };
 };
 
@@ -54,6 +56,7 @@ export const test = base.extend<TestFixtures>({
         const roomManagementModule = new RoomManagementModule(page);
         const phoneModule = new PhoneModule(page);
         const trafficConsumption = new TrafficConsumption(page);
+        const securityCameras = new SecurityCameras(page);
 
         await use({
             page,
@@ -65,7 +68,8 @@ export const test = base.extend<TestFixtures>({
             managementConsoleModul,
             roomManagementModule,
             phoneModule,
-            trafficConsumption
+            trafficConsumption,
+            securityCameras
         });
 
         await context.close();
