@@ -8,8 +8,8 @@ export class DatepickerPage extends BasePage{
     }
 
     async goToDatePickerPage(): Promise<void> {
-        await this.page.click(`a[title="Forms"]`);
-        await this.page.click(`a:has-text("Datepicker")`);
+        await this.click(`a[title="Forms"]`);
+        await this.click(`a:has-text("Datepicker")`);
     }
 
     /**

@@ -12,6 +12,7 @@ import { PhoneModule } from "../page_objects/homePage/phoneModule";
 import { TrafficConsumption } from "../page_objects/homePage/trafficConsumption";
 import { SecurityCameras } from "../page_objects/homePage/securityCameras";
 import { HomePageFooter } from "../page_objects/homePage/homePageFooter";
+import { DialogPage } from "../page_objects/modalAndOverlays/dialogPage";
 
 type TestFixtures = {
     baseTest: {
@@ -27,6 +28,7 @@ type TestFixtures = {
         trafficConsumption: TrafficConsumption;
         securityCameras: SecurityCameras;
         homePageFooter: HomePageFooter;
+        dialogPage: DialogPage;
     };
 };
 
@@ -60,6 +62,7 @@ export const test = base.extend<TestFixtures>({
         const trafficConsumption = new TrafficConsumption(page);
         const securityCameras = new SecurityCameras(page);
         const homePageFooter = new HomePageFooter(page);
+        const dialogPage = new DialogPage(page);
 
         await use({
             page,
@@ -73,7 +76,8 @@ export const test = base.extend<TestFixtures>({
             phoneModule,
             trafficConsumption,
             securityCameras,
-            homePageFooter
+            homePageFooter,
+            dialogPage
         });
 
         await context.close();
