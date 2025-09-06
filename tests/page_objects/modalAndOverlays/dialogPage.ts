@@ -13,7 +13,7 @@ export class DialogPage extends BasePage{
     }
 
 
-    async goToModalAndOverlaysPage(): Promise<void> {
+    async goToDialogPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
         await this.click(`a:has-text("Dialog")`, 500);
     }
@@ -37,15 +37,15 @@ export class DialogPage extends BasePage{
         
         await this.openDialogbox(dialogNum, dialogName);
 
-        const actualHeader = await this. getText(this.DIALOG_HEADER_LOCATOR);
-        const actualBody = await this. getText(dialogBodyLocator);
+        const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
+        const actualBody = await this.getText(dialogBodyLocator);
         
         return actualHeader === header && actualBody === body;
     }
 
 
     async dialogComponentOrTemplate(
-        dialogNum: number, dialogName: string, header: string, body:string, buttonText: string): Promise<boolean> {
+            dialogNum: number, dialogName: string, header: string, body:string, buttonText: string): Promise<boolean> {
         
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
@@ -91,7 +91,7 @@ export class DialogPage extends BasePage{
         const inputFieldLocator = `ngx-dialog-name-prompt input`;
         const returnedValueLocator = `ngx-dialog div nb-card-body ul`;
 
-        const actualHeader = await this. getText(this.DIALOG_HEADER_LOCATOR);
+        const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
         const actualPlaceholder = await this.getAttribute(inputFieldLocator, "placeholder");
         
         await this.fill(inputFieldLocator, input);

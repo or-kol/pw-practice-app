@@ -3,7 +3,7 @@ import dialogPageData from "../../data/dialogPageData.json"
 
 
 test.beforeEach(async ({baseTest}) => {
-    await baseTest.dialogPage.goToModalAndOverlaysPage();
+    await baseTest.dialogPage.goToDialogPage();
 });
 
 

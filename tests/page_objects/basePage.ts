@@ -1,12 +1,12 @@
-import { Locator, Page } from "@playwright/test";
+
+import { Page, Locator } from "@playwright/test";
 
 export class BasePage {
-    protected page: Page;
+    readonly page: Page;
 
     constructor(page: Page) {
         this.page = page;
     }
-
 
     /**
      * Logs a warning message to the console when a selector fails to match any elements.
@@ -15,210 +15,284 @@ export class BasePage {
     private warnMissing(selector: string): void {
         console.warn(`Selector not found: ${selector}`);
     }
-    
+
 
     /**
-     * Retrieves a Locator for the specified selector if it exists on the page.
-     * Logs a warning and returns null if the selector does not match any elements.
-     * @param selector - The CSS selector used to locate the element.
-     * @returns A Promise that resolves to the Locator or null.
+     * Returns a locator for the given selector.
+     * @param selector - The CSS selector of the element.
+     * @returns The Playwright Locator.
      */
-    private async el(selector: string): Promise<Locator | null> {
-        const locator = this.page.locator(selector);
-        const count = await locator.count();
-
-        if (count === 0) {
-            this.warnMissing(selector);
+    async el(selector: string): Promise<Locator | null> {
+        try {
+            return this.page.locator(selector);
+        } catch (err) {
+            console.warn(`Failed to create locator: ${selector}\n`, err);
             return null;
         }
-
-        return locator;
     }
 
-
-
     /**
-     * Navigates to the specified URL.
-     * @param url - The URL to navigate to.
+     * Utility wrapper to handle locator lookup and action execution.
+     * Keeps existing methods clean and prevents duplicate null checks.
      */
-    async navigateTo(url: string): Promise<void> {
-        try {
-            await this.page.goto(url);
-        } catch (err) {
-            console.warn(`Failed to navigate to: ${url}\n`, err);
-        }
-    }
-
-
-    
-    /**
-     * Clicks on the element specified by the selector.
-     * @param selector - The CSS selector of the element to click.
-     * @returns A Promise that resolves to true if the click was successful, false otherwise.
-     */
-    async click(selector: string, waitAfterMs: number = 0): Promise<boolean> {
+    private async withLocator<T>(selector: string,action: (locator: Locator) => Promise<T>): Promise<T | false> {
         const locator = await this.el(selector);
-
+        
         if (!locator) {
             return false;
         }
 
         try {
+            return await action(locator);
+        } catch (err) {
+            console.warn(`Action failed on: ${selector}\n`, err);
+            return false;
+        }
+    }
+
+    /**
+     * Clicks on the element specified by the selector.
+     * @param selector - The CSS selector of the element to click.
+     * @param waitAfterMs - Optional delay after click.
+     * @returns True if click was successful, false otherwise.
+     */
+    async click(selector: string, waitAfterMs: number = 0): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
             await locator.waitFor({ state: "visible" });
             await locator.click();
-            
+
             if (waitAfterMs > 0) {
                 await this.page.waitForTimeout(waitAfterMs);
             }
 
             return true;
-        } catch (err) {
-            console.warn(`Failed to click: ${selector}\n`, err);
-            return false;
-        }
-    }
-
-
-    /**
-     * Retrieves the text value of the selected element.
-     * @param selector - The CSS selector of the target element.
-     * @returns A Promise that resolves to the element's text content or an empty string if not found.
-     */
-    async getText(selector: string): Promise<string> {
-        try {
-            const locator = await this.el(selector);
-
-            if (!locator) {
-                console.warn(`Locator not found for selector: ${selector}`);
-                return "";
-            }
-
-            try {
-                await locator.waitFor({ state: "visible", timeout: 3000 });
-            } catch {
-                console.warn(`Element '${selector}' not visible after 3s — falling back to attached.`);
-                await locator.waitFor({ state: "attached", timeout: 1000 });
-            }
-
-            const tagName = await locator.evaluate(el => el.tagName.toLowerCase());
-
-            const value = ["input", "textarea", "select"].includes(tagName)
-                ? await locator.inputValue()
-                : (await locator.textContent())?.trim() ?? "";
-
-            return value;
-        } catch (err: any) {
-            console.warn(`getText failed for selector '${selector}': ${err?.message || err}`);
-            return "";
-        }
-    }
-
-
-
-    /**
-     * Checks or unchecks a checkbox or radio button specified by the selector.
-     * @param selector - The CSS selector of the checkbox or radio button.
-     * @returns A Promise that resolves to true if the action was successful, false otherwise.
-     */
-    async check(selector: string): Promise<boolean> {
-        const locator = await this.el(selector);
-
-        if (!locator){
-            return false;
-        }
-
-        if (!(await locator.isChecked())) {
-            await locator.check({ force: true });
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Unchecks a checkbox or radio button specified by the selector.
-     * @param selector - The CSS selector of the checkbox or radio button.
-     * @returns A Promise that resolves to true if the action was successful, false otherwise.
-     */
-    async uncheck(selector: string): Promise<boolean> {
-        const locator = await this.el(selector);
-
-        if (!locator){
-            return false;
-        }
-
-        if (await locator.isChecked()) {
-            await locator.uncheck({ force: true });
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Checks if a checkbox or radio button is checked.
-     * @param selector - The CSS selector of the checkbox or radio button.
-     * @returns A Promise that resolves to true if checked, false otherwise.
-     */
-    async isChecked(selector: string): Promise<boolean> {
-        const locator = await this.el(selector);
-        return locator ? await locator.isChecked() : false;
+        }) as Promise<boolean>;
     }
 
     /**
-     * Fills the selected input field with the provided value.
-     * @param selector - The CSS selector of the input element.
-     * @param value - The string to input into the field.
-     * @returns A Promise that resolves to true if filled successfully, false otherwise.
+     * Fills the input field with the specified value.
+     * @param selector - The CSS selector of the input field.
+     * @param value - The value to fill.
+     * @returns True if successful, false otherwise.
      */
     async fill(selector: string, value: string): Promise<boolean> {
-        const locator = await this.el(selector);
-        if (!locator){
-            return false;
-        }
-
-        try {
+        return this.withLocator(selector, async (locator) => {
             await locator.fill(value);
             return true;
-        } catch (err) {
-            console.warn(`Failed to fill ${selector} with "${value}"\n`, err);
-            return false;
-        }
+        }) as Promise<boolean>;
     }
 
+    /**
+     * Checks the checkbox if not already checked.
+     * @param selector - The CSS selector of the checkbox.
+     * @returns True if successful, false otherwise.
+     */
+    async check(selector: string): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
+            if (!(await locator.isChecked())) {
+                await locator.check({ force: true });
+            }
+            return true;
+        }) as Promise<boolean>;
+    }
 
     /**
-     * Checks if an element specified by the selector is visible.
+     * Unchecks the checkbox if not already unchecked.
+     * @param selector - The CSS selector of the checkbox.
+     * @returns True if successful, false otherwise.
+     */
+    async uncheck(selector: string): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
+            if (await locator.isChecked()) {
+                await locator.uncheck({ force: true });
+            }
+            return true;
+        }) as Promise<boolean>;
+    }
+
+    /**
+     * Verifies if the element is visible.
      * @param selector - The CSS selector of the element.
-     * @returns A Promise that resolves to true if the element is visible, false otherwise.
+     * @returns True if visible, false otherwise.
      */
     async isVisible(selector: string): Promise<boolean> {
-        const locator = await this.el(selector);
-        return locator ? await locator.isVisible() : false;
+        return this.withLocator(selector, (locator) => locator.isVisible()) as Promise<boolean>;
     }
 
 
     /**
-     * Gets the value of a specified attribute from the element.
+     * Retrieves the text content or input value of an element.
+     * Works for both text elements and form inputs (input, textarea, select).
+     * @param selector - The CSS selector of the target element.
+     * @returns The text content or input value, or empty string if not found.
+     */
+    async getText(selector: string): Promise<string> {
+        return (await this.withLocator(selector, async (locator) => {
+            const tagName = await locator.evaluate(el => el.tagName.toLowerCase());
+
+            if (["input", "textarea", "select"].includes(tagName)) {
+                return await locator.inputValue();
+            } else {
+                return (await locator.textContent())?.trim() ?? "";
+            }
+        })) as string;
+    }
+
+    /**
+     * Retrieves the value of an attribute for the element.
      * @param selector - The CSS selector of the element.
-     * @param attribute - The name of the attribute to retrieve.
-     * @returns A Promise that resolves to the value of the attribute, or an empty string if not found.
+     * @param attribute - The attribute name.
+     * @returns The attribute value, or empty string if not found.
      */
     async getAttribute(selector: string, attribute: string): Promise<string> {
+        return (await this.withLocator(selector, async (locator) => {
+            return (await locator.getAttribute(attribute)) ?? "";
+        })) as string;
+    }
+
+    /**
+     * Gets the computed style property value of the element.
+     * @param selector - The CSS selector of the element.
+     * @param property - The CSS property name.
+     * @returns The property value, or empty string if not found.
+     */
+    async getElementCssProperty(selector: string, property: string): Promise<string> {
         const locator = await this.el(selector);
         if (!locator) {
-            return ""
-        };
-
+            return "";
+        }
         try {
-            return (await locator.getAttribute(attribute)) ?? "";
+            return await locator.evaluate((el, prop) =>
+                window.getComputedStyle(el as HTMLElement).getPropertyValue(prop as string),
+                property
+            );
         } catch (err) {
-            console.warn(`Failed to get attribute "${attribute}" from ${selector}\n`, err);
+            console.warn(`Failed to get CSS property: ${property} from ${selector}\n`, err);
             return "";
         }
     }
 
+    /**
+     * Sets an attribute value on the element.
+     * @param selector - The CSS selector of the element.
+     * @param attribute - The attribute name.
+     * @param value - The value to set.
+     * @returns True if successful, false otherwise.
+     */
+    async setAttributeVal(selector: string, attribute: string, value: string): Promise<boolean> {
+        const locator = await this.el(selector);
+        if (!locator) {
+            return false;
+        }
+        try {
+            await locator.evaluate(
+                (el, { attribute, value }) => (el as HTMLElement).setAttribute(attribute, value),
+                { attribute, value }
+            );
+            return true;
+        } catch (err) {
+            console.warn(`Failed to set attribute: ${attribute} on ${selector}\n`, err);
+            return false;
+        }
+    }
 
+    /**
+     * Scrolls the element into view if needed.
+     * @param selector - The CSS selector of the element.
+     * @returns True if successful, false otherwise.
+     */
+    async scrollIntoView(selector: string): Promise<boolean> {
+        const locator = await this.el(selector);
+        if (!locator) {
+            return false;
+        }
+        try {
+            await locator.scrollIntoViewIfNeeded();
+            return true;
+        } catch (err) {
+            console.warn(`Failed to scroll into view: ${selector}\n`, err);
+            return false;
+        }
+    }
+
+    /**
+     * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
+     * @param selector - CSS selector used to locate the target element.
+     * @param pixelsToMoveX - Number of pixels to move horizontally from the element's center (default is 0).
+     * @param pixelsToMoveY - Number of pixels to move vertically from the element's center (default is 0).
+     * @param pressMouseBeforeMove - If true, simulates a mouse press before moving (for drag-and-drop interactions).
+     * @returns A Promise that resolves to true if the movement succeeds, or false if the element is not found or fails to move.
+     */
+    async moveMouseInBoxedElement(
+        selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
+            return this.withLocator(selector, async (locator) => {
+                const box = await locator.boundingBox();
+                if (!box) {
+                    console.warn(`No bounding box for ${selector}`);
+                    return false;
+                }
+
+                const centerX = box.x + box.width / 2;
+                const centerY = box.y + box.height / 2;
+                await this.page.mouse.move(centerX, centerY, { steps: 20 });
+
+                if (pressMouseBeforeMove) {
+                    await this.page.mouse.down();
+                    await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
+                    await this.page.mouse.up();
+                } else {
+                    await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
+                }
+
+                return true;
+            }) as Promise<boolean>;
+    }
+
+
+    /**
+     * Presses a keyboard key on a specific element or the currently focused element.
+     * @param key - The name of the key to press (e.g., 'Enter', 'Escape').
+     * @param selector - Optional. If provided, presses the key on that element. Otherwise, uses page-level keyboard.
+     * @returns A Promise that resolves to true if the key was pressed successfully, false otherwise.
+     */
+    async pressKeyboardKey(key: string, selector?: string): Promise<boolean> {
+        try {
+            if (selector) {
+                const locator = await this.el(selector);
+                if (!locator){
+                    return false;
+                }
+
+                await locator.waitFor({ state: "visible" });
+                await locator.press(key);
+            } else {
+                await this.page.keyboard.press(key);
+            }
+
+            return true;
+        } catch (err) {
+            console.warn(`Failed to press key "${key}"${selector ? ` on ${selector}` : ""}\n`, err);
+            return false;
+        }
+    }
+
+    /**
+     * Waits for an element to become visible.
+     * @param selector - The CSS selector to wait for.
+     * @param timeout - Maximum wait time in milliseconds (default 5000).
+     * @returns A Promise that resolves to true if element becomes visible, false if timeout.
+     */
+    async waitForVisible(selector: string, timeout: number = 5000): Promise<boolean> {
+        try {
+            await this.page.locator(selector).waitFor({ state: 'visible', timeout });
+            return true;
+        } catch {
+            this.warnMissing(selector);
+            return false;
+        }
+    }
+
+    
     /**
      * Retrieves the page title from either the current page or a newly opened tab.
      * 
@@ -254,148 +328,6 @@ export class BasePage {
         await this.page.waitForTimeout(500); //Assertions may fail if the page is not fully loaded
         return this.page.url();
     }
-
-
-    /**
-     * Gets the value of a specified CSS property from the element.
-     * @param selector - The CSS selector of the element.
-     * @param property - The name of the CSS property to retrieve.
-     * @returns A Promise that resolves to the value of the CSS property, or an empty string if not found.
-     */
-    async getElementCssProperty(selector: string, property: string): Promise<string> {
-        const element = await this.el(selector);
-        if (!element) {
-            return ""
-        };
-
-        try {
-            return await element.evaluate((el, prop) =>
-                window.getComputedStyle(el).getPropertyValue(prop), property
-            );
-        } catch (err) {
-            console.warn(`Failed to get CSS property "${property}" from ${selector}\n`, err);
-            return "";
-        }
-    }
-
-
-    /**
-     * Presses a keyboard key on a specific element or the currently focused element.
-     * @param key - The name of the key to press (e.g., 'Enter', 'Escape').
-     * @param selector - Optional. If provided, presses the key on that element. Otherwise, uses page-level keyboard.
-     * @returns A Promise that resolves to true if the key was pressed successfully, false otherwise.
-     */
-    async pressKeyboardKey(key: string, selector?: string): Promise<boolean> {
-        try {
-            if (selector) {
-                const locator = await this.el(selector);
-                if (!locator){
-                    return false;
-                }
-
-                await locator.waitFor({ state: "visible" });
-                await locator.press(key);
-            } else {
-                await this.page.keyboard.press(key);
-            }
-
-            return true;
-        } catch (err) {
-            console.warn(`Failed to press key "${key}"${selector ? ` on ${selector}` : ""}\n`, err);
-            return false;
-        }
-    }
-
-    /**
-     * Safely sets an attribute value on a DOM element using Playwright’s evaluate.
-     * @param selector - CSS selector used to locate the target element.
-     * @param attribute - The name of the attribute to set.
-     * @param value - The value to assign to the attribute.
-     * @returns A Promise that resolves to true if the attribute was set successfully, false otherwise.
-     */
-    async setAttributeVal(selector: string, attribute: string, value: string): Promise<boolean> {
-        const element = await this.el(selector);
-        if (!element){
-            return false;
-        }
-
-        try {
-            await element.evaluate((node, [attr, val]) => {
-                node.setAttribute(attr, val);
-            }, [attribute, value]);
-
-            return true;
-        } catch (err) {
-            console.warn(`Failed to set attribute "${attribute}" on ${selector}\n`, err);
-            return false;
-        }
-    }
-
-
-    /**
-     * Scrolls the specified element into view if it's not already visible.
-     * @param selector - CSS selector used to locate the target element.
-     * @returns A Promise that resolves to true if scrolling succeeds, or false if the element is not found or scrolling fails.
-     */
-    async scrollIntoView (selector: string): Promise<boolean> {
-        const element = await this.el(selector);
-        if (!element){
-            return false;
-        }
-
-        try {
-            await element.scrollIntoViewIfNeeded()
-            return true;
-        } catch (err) {
-            console.warn(`Failed to scroll on ${selector}\n`, err);
-            return false;
-        }
-    }
-
-
-    /**
-     * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
-     * @param selector - CSS selector used to locate the target element.
-     * @param pixelsToMoveX - Number of pixels to move horizontally from the element's center (default is 0).
-     * @param pixelsToMoveY - Number of pixels to move vertically from the element's center (default is 0).
-     * @param pressMouseBeforeMove - If true, simulates a mouse press before moving (for drag-and-drop interactions).
-     * @returns A Promise that resolves to true if the movement succeeds, or false if the element is not found or fails to move.
-     */
-    async moveMouseInBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
-        const element = await this.el(selector);
-        if (!element) {
-            return false
-        }
-
-        try {
-            const box = await element.boundingBox();
-            if (!box) {
-                console.warn(`No bounding box for ${selector}`);
-                return false;
-            }
-
-            const centerX = box.x + (box.width / 2);
-            const centerY = box.y + (box.height / 2);
-            await this.page.mouse.move(centerX, centerY, { steps: 20 });
-
-            if (pressMouseBeforeMove) {
-                await this.page.mouse.down()
-                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
-                await this.page.mouse.up()
-            }
-            else {
-                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
-            }
-
-            return true;
-        } catch (err) {
-            console.warn(`Failed to move mouse on ${selector}\n`, err);
-            return false;
-        }
-    }
-
-    
-
 
 
 

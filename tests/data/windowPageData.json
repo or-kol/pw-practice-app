@@ -1,0 +1,43 @@
+{
+    "headers": {
+        "header1": "Window Form",
+        "header2": "Window Without Backdrop"
+    },
+    "windows": {
+        "openWindowForm": {
+            "windowName": "Open window form",
+            "header": "Window",
+            "body": "false",
+            "subject": "subject",
+            "text": "text",
+            "activeTextbox": "cdk-focused cdk-mouse-focused",
+            "closeEsc": true,
+            "closeBackdrop": true
+        },
+        "openWindowWithTemplate": {
+            "windowName": "Open window with template",
+            "header": "Window content from template",
+            "body": "Here is the text provided via config: \"some text to pass into template\"",
+            "closeEsc": true,
+            "closeBackdrop": true
+        },
+        "Open window with backdrop": {
+            "windowName": "Open window with backdrop",
+            "header": "Window content from template",
+            "body": "Here is the text provided via config: \"some text to pass into template\"",
+            "closeEsc": true,
+            "closeBackdrop": true
+        },
+        "Open window without backdrop": {
+            "windowName": "Open window without backdrop",
+            "header": "Window without backdrop",
+            "body": "Disabled close on escape click.",
+            "closeEsc": false,
+            "closeBackdrop": false
+        }
+    },
+    "windowStatus": {
+        "collapsed": "expand-outline",
+        "expended": "collapse-outline"
+    }
+}
