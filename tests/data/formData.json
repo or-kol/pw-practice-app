@@ -6,7 +6,8 @@
             "Email": "jane@test.com"
         },
         "checkbox": "Remember me",
-        "button": "SUBMIT"
+        "button": "SUBMIT",
+        "xfail": false
 
     },
         "usingTheGrid": {
@@ -16,7 +17,8 @@
             "Password": "12345"
         },
         "radio": "Option 2",
-        "button": "SIGN IN"
+        "button": "SIGN IN",
+        "xfail": false
     },
     "basicForm": {
             "title": "Basic form",
@@ -25,7 +27,8 @@
             "Password": "12345"
         },
         "checkbox": "Check me out",
-        "button": "SUBMIT"
+        "button": "SUBMIT",
+        "xfail": false
     },
     "blockForm": {
             "title": "Block form",
@@ -45,7 +48,8 @@
             "Subject": "Launch Plan",
             "Message": "This is a test long message."
         },
-        "button": "SEND"
+        "button": "SEND",
+        "xfail": false
     },
     "horizontalForm": {
             "title": "Horizontal form",
@@ -54,6 +58,7 @@
             "Password": "secret"
         },
         "checkbox": "Remember me",
-        "button": "SIGN IN"
+        "button": "SIGN IN",
+        "xfail": false
     }
 }

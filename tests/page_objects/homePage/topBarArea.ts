@@ -9,7 +9,7 @@ export class TopBarPage extends BasePage {
     }
 
 
-    async SidebarMenuToggle(expectedStatus: "compacted" | "expanded"): Promise<boolean> {
+    async SidebarMenuToggle(expectedStatus: string): Promise<boolean> {
         const sideBarToggle = "a.sidebar-toggle";
         const sidebarSelector = "nb-sidebar";
 

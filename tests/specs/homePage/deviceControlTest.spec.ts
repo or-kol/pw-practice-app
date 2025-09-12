@@ -2,7 +2,6 @@ import { test, expect } from "../../base/baseTest";
 import SwitchersData from "../../data/deviceControlSwitchesData.json";
 import tempAndHumidSwitcherData from "../../data/tempAndHumidSwitcherData.json";
 
-
 test.describe('Device controller tests', () => {
     for (const config of SwitchersData.switchers) {
         const title = `${config.controllerName} should be switched ${config.desiredStatus}`;
@@ -21,7 +20,6 @@ test.describe('Device controller tests', () => {
     }
 });
 
-
 test.describe("Temp & Humidity Switch - Direct Element Edit", () => {
     ["Temperature", "Humidity"].forEach((mode) => {
         test(`${mode} switch test - direct element edit`, async ({ baseTest }) => {
@@ -30,7 +28,6 @@ test.describe("Temp & Humidity Switch - Direct Element Edit", () => {
         });
     });
 });
-
 
 test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humidity", () => {
     Object.entries(tempAndHumidSwitcherData).forEach(([key, dataset]) => {
@@ -54,7 +51,6 @@ test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humi
     });
 });
 
-
 test.describe("Temperature State Switching", () => {
     const temperatureStates: string[] = ["cool", "warm", "heat", "fan"];
 
@@ -65,7 +61,6 @@ test.describe("Temperature State Switching", () => {
         });
     }
 });
-
 
 test.describe("Temperature On/Off Button Behavior", () => {
     ["on", "off"].forEach((state) => {

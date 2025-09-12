@@ -10,21 +10,25 @@ test.describe(`Security cameras layout test suite`, () => {
     });
 });
 
-
 test.describe(`Security Camera selection from grid view`, () => {
-    securityCamerasData.cameraNames.forEach((cameraName) => {
-        test(`Check camera selection from grid view: ${cameraName}`, async ({baseTest}) => {
-            const result = await baseTest.securityCameras.chooseCameraFromGrid(cameraName);
+    securityCamerasData.cameraNames.forEach((camera) => {
+        test(`Check camera selection from grid view: ${camera.name}`, async ({baseTest}) => {
+            if (camera.xfail) {
+                test.fail(true, `Expected failure for camera selection: ${camera.name}`);
+            };
+            const result = await baseTest.securityCameras.chooseCameraFromGrid(camera.name);
             expect(result).toBeTruthy();
         });
     });
 });
 
-
 test.describe(`Scurity Cameras control panel buttons visibility test suite`, () => {
-    securityCamerasData.controlButtonNames.forEach((buttonName) => {
-        test(`check ${buttonName} button Visibility`, async({baseTest}) => {
-            const result = await baseTest.securityCameras.controlPanelButonVisibility(buttonName);
+    securityCamerasData.controlButtonNames.forEach((button) => {
+        test(`check ${button.name} button Visibility`, async({baseTest}) => {
+            if (button.xfail) {
+                test.fail(true, `Expected failure for control panel button: ${button.name}`);
+            };
+            const result = await baseTest.securityCameras.controlPanelButonVisibility(button.name);
             expect(result).toBeTruthy();
         });
     });

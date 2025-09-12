@@ -1,8 +1,8 @@
 {
-    "headers": {
-        "header1": "Window Form",
-        "header2": "Window Without Backdrop"
-    },
+    "headers": [
+        { "name": "Window Form", "xfail": false },
+        { "name": "Window Without Backdrop", "xfail": false }
+    ],
     "windows": {
         "openWindowForm": {
             "windowName": "Open window form",
@@ -12,28 +12,32 @@
             "text": "text",
             "activeTextbox": "cdk-focused cdk-mouse-focused",
             "closeEsc": true,
-            "closeBackdrop": true
+            "closeBackdrop": true,
+            "xfail": false
         },
         "openWindowWithTemplate": {
             "windowName": "Open window with template",
             "header": "Window content from template",
             "body": "Here is the text provided via config: \"some text to pass into template\"",
             "closeEsc": true,
-            "closeBackdrop": true
+            "closeBackdrop": true,
+            "xfail": false
         },
         "Open window with backdrop": {
             "windowName": "Open window with backdrop",
             "header": "Window content from template",
             "body": "Here is the text provided via config: \"some text to pass into template\"",
             "closeEsc": true,
-            "closeBackdrop": true
+            "closeBackdrop": true,
+            "xfail": false
         },
         "Open window without backdrop": {
             "windowName": "Open window without backdrop",
             "header": "Window without backdrop",
             "body": "Disabled close on escape click.",
             "closeEsc": false,
-            "closeBackdrop": false
+            "closeBackdrop": false,
+            "xfail": false
         }
     },
     "windowStatus": {

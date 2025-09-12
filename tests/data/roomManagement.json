@@ -1,10 +1,10 @@
 {
     "roomID": [
         {
-            "kitchen": "0",
-            "bedroom": "1",
-            "livingRoom": "2",
-            "hallway": "3"
+            "Kitchen": { "id": "0", "xfail": false },
+            "Bedroom": { "id": "1", "xfail": false },
+            "LivingRoom": { "id": "2", "xfail": false },
+            "hallway": { "id": "3", "xfail": false }
         }
     ]
 }

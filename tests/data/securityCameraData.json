@@ -1,14 +1,14 @@
 {
     "cameraNames": [
-        "Camera #1",
-        "Camera #2",
-        "Camera #3",
-        "Camera #4"
+        { "name": "Camera #1", "xfail": false },
+        { "name": "Camera #2", "xfail": false },
+        { "name": "Camera #3", "xfail": false },
+        { "name": "Camera #4", "xfail": false }
     ],
     "controlButtonNames": [
-        " Pause ",
-        " Logs ",
-        " Search ",
-        " Setup "
+        { "name": " Pause ", "xfail": false },
+        { "name": " Logs ", "xfail": false },
+        { "name": " Search ", "xfail": false },
+        { "name": " Setup ", "xfail": false }
     ]
 }

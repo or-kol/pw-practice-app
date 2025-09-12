@@ -1,8 +1,20 @@
 {
     "socialMedias": [
-        "github",
-        "facebook",
-        "twitter",
-        "linkedin"
+        {
+            "name": "facebook",
+            "xfail": false
+        },
+        {
+            "name": "twitter",
+            "xfail": false
+        },
+        {
+            "name": "linkedin",
+            "xfail": false
+        },
+        {
+            "name": "github",
+            "xfail": false
+        }
     ]
 }

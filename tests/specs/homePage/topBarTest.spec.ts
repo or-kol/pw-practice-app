@@ -3,31 +3,32 @@ import themes from "../../data/themeColorsData.json";
 
 
 test.describe("Sidebar Menu Toggle States", () => {
-    const sidebarStates = ["compacted", "expanded"] as const;
-
-    for (const state of sidebarStates) {
+    ["compacted", "expanded"].forEach(state => {
         test(`Toggle sidebar to "${state}" state`, async ({ baseTest }) => {
             const isInExpectedState = await baseTest.topbarPage.SidebarMenuToggle(state);
             expect(isInExpectedState).toBe(true);
         });
-    }
+    });
 });
 
 
 test.describe("Website Theme Suite", () => {
-    for (const [theme, expectedTheme] of Object.entries(themes.themeColors)) {
+    for (const [theme, themeObj] of Object.entries(themes.themeColors)) {
         test(`Theme "${theme}" should apply correct background color`, async ({ baseTest }) => {
-            const actualTheme = await baseTest.topbarPage.changeWebsiteThemeColor(theme)
-            expect(actualTheme).toEqual(expectedTheme);
+            if (themeObj.xfail) {
+                test.fail(true, `Expected failure for theme: ${theme}`);
+            };
+            const actualTheme = await baseTest.topbarPage.changeWebsiteThemeColor(theme);
+            expect(actualTheme).toEqual(themeObj.color);
         });
-    }
+    };
 });
 
 
 test ("Searchbar functionality test", async ({ baseTest }) => {
     const isSearchSuccessful = await baseTest.topbarPage.searchbarFunctionality("Search text");
     expect(isSearchSuccessful).toBe(true);
-})
+});
 
 
 test ("Email icon visibility test", async ({ baseTest }) => {

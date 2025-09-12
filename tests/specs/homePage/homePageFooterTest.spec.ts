@@ -16,9 +16,12 @@ test(`Aveco rights url functionality`, async ({baseTest}) => {
 
 test.describe(`Social networks navigation`, () => {
     homePageFooterData.socialMedias.forEach((socialMedia) => {
-        test(`Navigate to ${socialMedia} social Network`, async({baseTest}) => {
-            const result = await baseTest.homePageFooter.socialButtonsFunctionality(socialMedia);
+        test(`Navigate to ${socialMedia.name} social Network`, async({baseTest}) => {
+            if (socialMedia.xfail) {
+                test.fail(true, `Expected failure for ${socialMedia.name} social Network`);
+            };
+            const result = await baseTest.homePageFooter.socialButtonsFunctionality(socialMedia.name);
             expect(result).toBeTruthy();
-        })
-    })
-})
+        });
+    });
+});

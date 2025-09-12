@@ -1,0 +1,7 @@
+{
+    "periods": [
+        { "name": "week", "xfail": false },
+        { "name": "month", "xfail": false },
+        { "name": "year", "xfail": false }
+    ]
+}

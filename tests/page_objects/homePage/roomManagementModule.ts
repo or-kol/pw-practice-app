@@ -58,7 +58,7 @@ export class RoomManagementModule extends BasePage{
         return !(buttonIcon.includes(expectedState))
     }
 
-    async muteVolune(): Promise<boolean> {
+    async muteVolume(): Promise<boolean> {
         const muteButtonLocator = `ngx-player nb-card-footer [icon="volume-down-outline"]`;
         const volumeStatusLocator = `ngx-player nb-card-footer .progress-wrap div`;
 

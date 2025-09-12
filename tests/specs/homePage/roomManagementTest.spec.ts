@@ -4,24 +4,26 @@ import playlistData from "../../data/playlistData.json"
 
 
 test.describe('Room selection test suite', () => {
-    for (const [roomName, roomID] of Object.entries(roomData.roomID[0])) {
+    for (const [roomName, roomObj] of Object.entries(roomData.roomID[0])) {
         test(`Select ${roomName} test`, async ({ baseTest }) => {
-            const result = await baseTest.roomManagementModule.selectRoomManagement(roomID);
+            if (roomObj.xfail) {
+                test.fail(true, `Expected failure for room selection: ${roomName}`);
+            };
+            const result = await baseTest.roomManagementModule.selectRoomManagement(roomObj.id);
             expect(result).toBeTruthy();
         });
-    }
+    };
 });
 
 
 test.describe(`Playlist - song progress bar test suite`, () => {
     for (const [index, progressConfig] of Object.entries(playlistData.progressBar)){
-        test(`Progress bar case #${index + 1}: offset(${progressConfig.x}, ${progressConfig.y}) → expected ${progressConfig.expectedPossition}`, async({baseTest}) => {
-            const result = await baseTest.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
-
-            if (playlistData.songData[0].xfail) {
+        const xfail = playlistData.songData[0].xfail;
+        test(`Progress bar case #${Number(index) + 1}: offset(${progressConfig.x}, ${progressConfig.y}) → expected ${progressConfig.expectedPossition}`, async({baseTest}) => {
+            if (xfail) {
                 test.fail(true, `Expected failure: Progress bar may not match expected possition: ${progressConfig.expectedPossition}`);
-            }
-
+            };
+            const result = await baseTest.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
             expect(result).toBeTruthy();
         });
     };
@@ -64,7 +66,7 @@ test.describe(`Playlist - Play/pause song test suite`, ()=> {
 
 test.describe(`Playlist - volume control test suite`, () => {
     test(`Mute button test`, async ({baseTest}) => {
-        const result = await baseTest.roomManagementModule.muteVolune();
+        const result = await baseTest.roomManagementModule.muteVolume();
         expect(result).toBeTruthy();
-    })
-})
+    });
+});
