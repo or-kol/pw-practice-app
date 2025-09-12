@@ -14,6 +14,7 @@ import { SecurityCameras } from "../page_objects/homePage/securityCameras";
 import { HomePageFooter } from "../page_objects/homePage/homePageFooter";
 import { DialogPage } from "../page_objects/modalAndOverlays/dialogPage";
 import { WindowPage } from "../page_objects/modalAndOverlays/windowPage";
+import { PopoverPage } from "../page_objects/modalAndOverlays/popoverPage";
 
 type TestFixtures = {
     baseTest: {
@@ -31,6 +32,7 @@ type TestFixtures = {
         homePageFooter: HomePageFooter;
         dialogPage: DialogPage;
         windowPage: WindowPage;
+        popoverPage: PopoverPage;
     };
 };
 
@@ -66,6 +68,7 @@ export const test = base.extend<TestFixtures>({
         const homePageFooter = new HomePageFooter(page);
         const dialogPage = new DialogPage(page);
         const windowPage = new WindowPage(page);
+        const popoverPage = new PopoverPage(page);
 
         await use({
             page,
@@ -81,7 +84,8 @@ export const test = base.extend<TestFixtures>({
             securityCameras,
             homePageFooter,
             dialogPage,
-            windowPage
+            windowPage,
+            popoverPage
         });
 
         await context.close();

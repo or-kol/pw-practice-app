@@ -1,0 +1,11 @@
+{
+    "popoverPosition": {
+        "positions": [
+            {"position": "Left", "xfail": false},
+            {"position": "Top", "xfail": false},
+            {"position": "Bottom", "xfail": false},
+            {"position": "Right", "xfail": false}
+        ],
+        "headline": "Hello, how are you today?"
+    }
+}
