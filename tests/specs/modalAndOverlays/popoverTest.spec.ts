@@ -108,4 +108,9 @@ test.describe(`Popover with card and content validation test suite`, () => {
     });
 });
 
-
+/*
+test(`Event Debouncing popover test`, async ({ baseTest }) => {
+    const result = await baseTest.popoverPage.eventDebouncingValidation();
+    expect(result).toBeTruthy();
+});
+*/

@@ -23,7 +23,7 @@
         {
             "cardHedline": "Event Debouncing",
             "cardDescription": "Quickly move mouse cursor over the buttons, only the last popover will be created. It allows us to avoid excess white improving page performance.",
-            "xfail": true
+            "xfail": false
         }
     ],
     "popoverPosition": {

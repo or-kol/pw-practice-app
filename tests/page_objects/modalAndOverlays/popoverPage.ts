@@ -92,7 +92,7 @@ export class PopoverPage extends BasePage{
             const isButtonClicked = await this.click(formButtonLocator);
 
             return isTextbox1Fill && isTextbox2Fill && isTextbox3Fill && isButtonClicked;
-    }
+    };
 
 
     async popoverWithCardValidation(cardName: string,  buttonName: string, cardTitle: string, cardContent: string): Promise<boolean> {
@@ -104,8 +104,24 @@ export class PopoverPage extends BasePage{
         const isContentCorrect = await this.popoverContentValidation(cardTitleLocator, cardTitle, cardContentLocator, cardContent);
 
         return isContentCorrect;
+    };
+
+/*
+    async eventDebouncingValidation(): Promise<boolean> {
+        const eventDebouncingTabLocator = `ngx-popovers nb-card:has-text("Event Debouncing")`;
+        const popoverLocator = `nb-popover nb-overlay-container`;
+
+        let counter = 100;
+            
+        while (!(await this.isVisible(popoverLocator)) && counter > 0) {
+            counter -= 1;
+            await this.moveMouseInBoxedElement(eventDebouncingTabLocator, 100);
+            await this.moveMouseInBoxedElement(eventDebouncingTabLocator, -100);
+        }
+
+        await this.moveMouseInBoxedElement(eventDebouncingTabLocator);
+        const isPopoverVisible = await this.isVisible(popoverLocator);
+        return isPopoverVisible;
     }
-
-
-    
+*/
 }

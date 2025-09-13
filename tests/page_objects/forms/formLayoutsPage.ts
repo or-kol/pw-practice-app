@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "../basePage";
-import type { FormType } from "../../types/formType";
+
 
 export class FormLayoutsPage extends BasePage {
     
@@ -13,12 +13,12 @@ export class FormLayoutsPage extends BasePage {
         await this.page.click(`a:has-text("Form Layouts")`);
     }
 
-    async submitForm(config: FormType): Promise<boolean> {
+    async submitForm(config): Promise<boolean> {
         const formLocator = `nb-card:has-text("${config.title}")`;
 
         for (const [placeholder, value] of Object.entries(config.fields)) {
-            const success = await this.fill(
-                `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`, value
+            const success = await this.fillInput(
+                { selector: `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`, value }
             );
 
             if (!success) {
