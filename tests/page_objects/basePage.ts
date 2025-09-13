@@ -75,7 +75,7 @@ export class BasePage {
      * @param value - The value to fill.
      * @returns True if successful, false otherwise.
      */
-    async fill(selector: string, value: string): Promise<boolean> {
+    async fillInput({ selector, value }: { selector: string; value: any; }): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
             await locator.fill(value);
             return true;
