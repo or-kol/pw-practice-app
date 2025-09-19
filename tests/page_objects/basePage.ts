@@ -2,7 +2,9 @@
 import { Page, Locator } from "@playwright/test";
 
 export class BasePage {
+    
     readonly page: Page;
+    private readonly ACTION_TIMEOUT = 5000;
 
     constructor(page: Page) {
         this.page = page;
@@ -35,6 +37,7 @@ export class BasePage {
         };
     };
 
+
     /**
      * Utility wrapper to handle locator lookup and action execution.
      * Handles errors and logs warnings if the element is not found or the action fails.
@@ -61,19 +64,21 @@ export class BasePage {
     };
 
 
+
     /**
      * Clicks on the element specified by the selector.
+     * Waits for the element to be visible and clickable (timeout: 5000ms).
      * @param selector - The CSS selector of the element to click.
-     * @param waitAfterMs - Optional delay after click.
+     * @param waitAfterMs - Optional delay after click (ms).
      * @returns True if click was successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not clickable.
+     * Uses ACTION_TIMEOUT for waiting and clicking. Logs a warning and returns false if the element is not found or not clickable.
      */
     async click(selector: string, waitAfterMs: number = 0): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
-            await locator.waitFor({ state: "visible" });
-            await locator.click();
-
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.click({ timeout: this.ACTION_TIMEOUT });
+            
             if (waitAfterMs > 0) {
                 await this.page.waitForTimeout(waitAfterMs);
             };
@@ -85,15 +90,17 @@ export class BasePage {
 
     /**
      * Fills the input field with the specified value.
+     * Waits for the input to be visible (timeout: 5000ms).
      * @param selector - The CSS selector of the input field.
      * @param value - The value to fill.
      * @returns True if successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not fillable.
+     * Uses ACTION_TIMEOUT for waiting and filling. Logs a warning and returns false if the element is not found or not fillable.
      */
     async fillInput({ selector, value }: { selector: string; value: any; }): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
-            await locator.fill(value);
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.fill(value, { timeout: this.ACTION_TIMEOUT });
             return true;
         });
     };
@@ -101,15 +108,17 @@ export class BasePage {
 
     /**
      * Checks the checkbox if not already checked.
+     * Waits for the checkbox to be visible (timeout: 5000ms).
      * @param selector - The CSS selector of the checkbox.
      * @returns True if successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not checkable.
+     * Uses ACTION_TIMEOUT for waiting and checking. Logs a warning and returns false if the element is not found or not checkable.
      */
     async check(selector: string): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             if (!(await locator.isChecked())) {
-                await locator.check({ force: true });
+                await locator.check({ force: true, timeout: this.ACTION_TIMEOUT });
             };
             return true;
         });
@@ -118,15 +127,17 @@ export class BasePage {
 
     /**
      * Unchecks the checkbox if not already unchecked.
+     * Waits for the checkbox to be visible (timeout: 5000ms).
      * @param selector - The CSS selector of the checkbox.
      * @returns True if successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not uncheckable.
+     * Uses ACTION_TIMEOUT for waiting and unchecking. Logs a warning and returns false if the element is not found or not uncheckable.
      */
     async uncheck(selector: string): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             if (await locator.isChecked()) {
-                await locator.uncheck({ force: true });
+                await locator.uncheck({ force: true, timeout: this.ACTION_TIMEOUT });
             };
             return true;
         });
@@ -134,29 +145,34 @@ export class BasePage {
 
 
     /**
-     * Verifies if the element is visible.
+     * Checks if the element is visible on the page.
+     * Waits for the element to be visible (timeout: 5000ms).
      * @param selector - The CSS selector of the element.
      * @returns True if visible, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not visible.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns false if the element is not found or not visible.
      */
     async isVisible(selector: string): Promise<boolean> {
-        return this.withLocator(selector, (locator) => locator.isVisible());
+        return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            return locator.isVisible();
+        });
     };
 
 
     /**
      * Retrieves the text content or input value of an element.
-     * Works for both text elements and form inputs (input, textarea, select).
+     * Waits for the element to be visible (timeout: 5000ms).
+     * Handles both text elements and form fields.
      * @param selector - The CSS selector of the target element.
      * @returns The text content or input value, or empty string if not found.
      * @remarks
-     * Logs a warning and returns an empty string if the element is not found.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns an empty string if the element is not found.
      */
     async getText(selector: string): Promise<string> {
         return (await this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             const tagName = await locator.evaluate(element => element.tagName.toLowerCase());
-
             if (["input", "textarea", "select"].includes(tagName)) {
                 return await locator.inputValue();
             } else {
@@ -168,14 +184,16 @@ export class BasePage {
 
     /**
      * Retrieves the value of an attribute for the element.
+     * Waits for the element to be attached to the DOM (timeout: 5000ms).
      * @param selector - The CSS selector of the element.
      * @param attribute - The attribute name.
      * @returns The attribute value, or empty string if not found.
      * @remarks
-     * Logs a warning and returns an empty string if the element or attribute is not found.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns an empty string if the element or attribute is not found.
      */
     async getAttribute(selector: string, attribute: string): Promise<string> {
         return (await this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "attached", timeout: this.ACTION_TIMEOUT });
             return (await locator.getAttribute(attribute)) ?? "";
         })) as string;
     };
@@ -183,14 +201,16 @@ export class BasePage {
 
     /**
      * Gets the computed style property value of the element.
+     * Waits for the element to be attached to the DOM (timeout: 5000ms).
      * @param selector - The CSS selector of the element.
      * @param property - The CSS property name.
      * @returns The property value, or empty string if not found.
      * @remarks
-     * Logs a warning and returns an empty string if the element or property is not found.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns an empty string if the element or property is not found.
      */
     async getElementCssProperty(selector: string, property: string): Promise<string> {
         return (await this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "attached", timeout: this.ACTION_TIMEOUT });
             return await locator.evaluate((element, prop) =>
                 window.getComputedStyle(element as HTMLElement).getPropertyValue(prop as string),
                 property
@@ -201,15 +221,17 @@ export class BasePage {
 
     /**
      * Sets an attribute value on the element.
+     * Waits for the element to be attached to the DOM (timeout: 5000ms).
      * @param selector - The CSS selector of the element.
      * @param attribute - The attribute name.
      * @param value - The value to set.
      * @returns True if successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or the attribute cannot be set.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns false if the element is not found or the attribute cannot be set.
      */
     async setAttributeVal(selector: string, attribute: string, value: string): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "attached", timeout: this.ACTION_TIMEOUT });
             await locator.evaluate(
                 (element, { attribute, value }) => (element as HTMLElement).setAttribute(attribute, value),
                 { attribute, value }
@@ -221,13 +243,15 @@ export class BasePage {
 
     /**
      * Scrolls the element into view if needed.
+     * Waits for the element to be visible (timeout: 5000ms).
      * @param selector - The CSS selector of the element.
      * @returns True if successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or cannot be scrolled into view.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns false if the element is not found or cannot be scrolled into view.
      */
     async scrollIntoView(selector: string): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             await locator.scrollIntoViewIfNeeded();
             return true;
         });
@@ -236,54 +260,56 @@ export class BasePage {
 
     /**
      * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
+     * Waits for the element to be visible (timeout: 5000ms).
      * @param selector - CSS selector used to locate the target element.
      * @param pixelsToMoveX - Number of pixels to move horizontally from the element's center (default is 0).
      * @param pixelsToMoveY - Number of pixels to move vertically from the element's center (default is 0).
      * @param pressMouseBeforeMove - If true, simulates a mouse press before moving (for drag-and-drop interactions).
      * @returns True if the movement succeeds, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or the mouse action fails.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns false if the element is not found or the mouse action fails.
      */
-    async moveMouseInBoxedElement(
-        selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
-            return this.withLocator(selector, async (locator) => {
-                const box = await locator.boundingBox();
+    async moveMouseInBoxedElement(selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            const box = await locator.boundingBox();
 
-                if (!box) {
-                    this.warnMissing(selector);
-                    return false;
-                };
+            if (!box) {
+                this.warnMissing(selector);
+                return false;
+            };
 
-                const centerX = box.x + box.width / 2;
-                const centerY = box.y + box.height / 2;
-                await this.page.mouse.move(centerX, centerY, { steps: 20 });
+            const centerX = box.x + box.width / 2;
+            const centerY = box.y + box.height / 2;
+            await this.page.mouse.move(centerX, centerY, { steps: 20 });
 
-                if (pressMouseBeforeMove) {
-                    await this.page.mouse.down();
-                    await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
-                    await this.page.mouse.up();
-                } else {
-                    await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
-                };
+            if (pressMouseBeforeMove) {
+                await this.page.mouse.down();
+                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
+                await this.page.mouse.up();
+            } else {
+                await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
+            };
 
-                return true;
-            });
-    }
+            return true;
+        });
+    };
 
 
     /**
      * Presses a keyboard key on a specific element or the currently focused element.
+     * Waits for the element to be visible if a selector is provided (timeout: 5000ms).
      * @param key - The name of the key to press (e.g., 'Enter', 'Escape').
      * @param selector - Optional. If provided, presses the key on that element. Otherwise, uses page-level keyboard.
      * @returns True if the key was pressed successfully, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or the key cannot be pressed.
+     * Uses ACTION_TIMEOUT for waiting and pressing. Logs a warning and returns false if the element is not found or the key cannot be pressed.
      */
     async pressKeyboardKey(key: string, selector?: string): Promise<boolean> {
         if (selector) {
             return this.withLocator(selector, async (locator) => {
-                await locator.waitFor({ state: "visible" });
-                await locator.press(key);
+                await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+                await locator.press(key, { timeout: this.ACTION_TIMEOUT });
                 return true;
             });
         } else {
@@ -291,7 +317,7 @@ export class BasePage {
                 await this.page.keyboard.press(key);
                 return true;
             } catch (err) {
-                this.warnMissing(selector);
+                this.warnMissing(selector ?? "keyboard");
                 return false;
             };
         };
@@ -299,29 +325,30 @@ export class BasePage {
 
 
     /**
-     * Waits for an element to become visible.
+     * Waits for an element to become visible (timeout: 5000ms).
      * @param selector - The CSS selector to wait for.
-     * @param timeout - Maximum wait time in milliseconds (default 5000).
      * @returns True if the element becomes visible, false if timeout or not found.
      * @remarks
-     * Logs a warning and returns false if the element is not found or does not become visible in time.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning and returns false if the element is not found or does not become visible in time.
      */
-    async waitForVisible(selector: string, timeout: number = 5000): Promise<boolean> {
+    async waitForVisible(selector: string): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
-            await locator.waitFor({ state: 'visible', timeout });
+            await locator.waitFor({ state: 'visible', timeout: this.ACTION_TIMEOUT });
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
-    
+
     /**
      * Retrieves the page title from either the current page or a newly opened tab.
-     * If `waitForNewTab` is true and a `clickSelector` is provided, clicks the element
-     * that opens a new tab, waits for the new tab to load, and returns that tab's title.
-     * Otherwise, returns the current page's title.
+     * 
+     * - If `waitForNewTab` is `false`, it simply returns the current page's title.
+     * - If `waitForNewTab` is `true` and a `clickSelector` is provided, it clicks the element
+     *   that opens a new tab, waits for the new tab to load, and returns that tab's title.
+     * 
      * @param waitForNewTab - Set to true to wait for and return the title of a new tab.
      * @param clickSelector - CSS selector for the element that opens the new tab (required if `waitForNewTab` is true).
-     * @returns The title of the target page.
+     * @returns A Promise that resolves to the title of the target page.
      */
     async getPageTitle(waitForNewTab: boolean = false, clickSelector?: string): Promise<string> {
         if (waitForNewTab && clickSelector) {
@@ -337,11 +364,12 @@ export class BasePage {
         return this.page.title();
     };
 
-
     /**
      * Gets the current URL of the page.
-     * Waits briefly to ensure the page is fully loaded.
-     * @returns The current URL of the page.
+     * Waits for a short time to ensure the page is fully loaded (timeout: 500ms).
+     * @returns A Promise that resolves to the current URL of the page.
+     * @remarks
+     * Uses a short wait to avoid race conditions with navigation.
      */
     async getPageUrl(): Promise<string> {
         await this.page.waitForTimeout(500);
@@ -351,35 +379,39 @@ export class BasePage {
 
     /**
      * Hovers the mouse over the element specified by the selector.
+     * Waits for the element to be visible (timeout: 5000ms).
      * Optionally waits for a specified amount of time after hovering.
      * @param selector - The CSS selector of the element to hover.
      * @param waitAfterMs - Optional delay in milliseconds after hover (default is 0).
      * @returns True if hover was successful, false otherwise.
      * @remarks
-     * Logs a warning and returns false if the element is not found or not hoverable.
+     * Uses ACTION_TIMEOUT for waiting and hovering. Logs a warning and returns false if the element is not found or not hoverable.
      */
-    async hover(selector: string, waitAfterMs?: number): Promise<boolean> {
+    async hover(selector: string, waitAfterMs: number = 0): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
-            await locator.hover();
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.hover({ timeout: this.ACTION_TIMEOUT });
 
-            if (waitAfterMs) {
+            if (waitAfterMs > 0) {
                 await this.page.waitForTimeout(waitAfterMs);
-            }
+            };
 
             return true;
         });
-    }
+    };
 
 
     /**
      * Quickly hovers over all elements matching the given locator, moving the mouse to the center of each.
+     * Waits for the elements to be attached (timeout: 5000ms).
      * @param buttonsLocator - The CSS selector for the group of buttons to sweep over.
      * @returns A Promise that resolves when the sweep is complete.
      * @remarks
-     * Logs a warning if no elements are found.
+     * Uses ACTION_TIMEOUT for waiting. Logs a warning if no elements are found.
      */
     async fastSweepHover(buttonsLocator: string): Promise<void> {
         await this.withLocator(buttonsLocator, async (locator) => {
+            await locator.waitFor({ state: "attached", timeout: this.ACTION_TIMEOUT });
             const buttons = await locator.elementHandles();
 
             if (buttons.length === 0) {

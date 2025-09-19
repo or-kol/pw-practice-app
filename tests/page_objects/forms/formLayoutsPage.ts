@@ -49,6 +49,9 @@ export class FormLayoutsPage extends BasePage {
         }
 
         const classAttr = await this.getAttribute(`${formLocator} form`, "class");
-        return classAttr?.includes("ng-submitted") ?? false;
+        if (typeof classAttr !== "string") {
+            return false;
+        }
+        return classAttr.includes("ng-submitted");
     }
 }

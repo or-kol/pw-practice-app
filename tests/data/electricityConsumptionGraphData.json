@@ -1,21 +1,21 @@
 {
     "electricityConsumtion": [
             {        
-                "x": -500,
-                "y": 500,
-                "expectedKwh": "860 kWh",
+                "x": -50,
+                "y": 50,
+                "expectedKwh": "720 kWh",
                 "xfail": false
             },
             {
-                "x": 1000,
-                "y": -600,
-                "expectedKwh": "340 kWh",
+                "x": 100,
+                "y": -60,
+                "expectedKwh": "635 kWh",
                 "xfail": false
             },
             {
-                "x": 900,
-                "y": 900,
-                "expectedKwh": "660 kWh",
+                "x": -100,
+                "y": 90,
+                "expectedKwh": "840 kWh",
                 "xfail": false
             }
     ]

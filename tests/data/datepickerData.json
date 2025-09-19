@@ -18,10 +18,10 @@
         "expectedResult": true,
         "xfail": false
     },
-    "minMaxPickerExpectedToFail": {
+    "minMaxPickerInvalidEndDate": {
         "placeholder": "Min Max Picker",
         "startOffset": 30,
         "expectedResult": false,
-        "xfail": true
+        "xfail": false
     }
 }

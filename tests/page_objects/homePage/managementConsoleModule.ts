@@ -13,6 +13,7 @@ export class ManagementConsoleModul extends BasePage{
         const electricityConsumptionGraphLocator = `ngx-electricity-chart`;
         const graphKwhValue = `ngx-electricity-chart >> text=/\\d+\\s*kWh/`;
         await this.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
+
         const actualKwh = await this.getText(graphKwhValue);
         return actualKwh === expectedKwh;
     }

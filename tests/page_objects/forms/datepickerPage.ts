@@ -18,11 +18,16 @@ export class DatepickerPage extends BasePage{
         await this.click(calendarLocator, 500);
 
         const expectedStartDate = await this.selectDateInTheCalendar(startOffset);
-
+        if (!expectedStartDate) {
+            return false;
+        }
         let actualDate: string;
 
         if (endOffset){
             const expectedEndDate = await this.selectDateInTheCalendar(endOffset);
+            if (!expectedEndDate) {
+                return false;
+            }
             actualDate = await this.getText(calendarLocator);
             return actualDate === `${expectedStartDate} - ${expectedEndDate}`;
         }
@@ -46,10 +51,14 @@ export class DatepickerPage extends BasePage{
         const expectedYear = date.getFullYear().toString();
         const expectedDate = `${expectedMonth} ${expectedDay}, ${expectedYear}`;
 
-        await this.click("nb-calendar-view-mode button");
-        await this.click(`.year-cell:has-text("${expectedYear}")`);
-        await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`);
-        await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`);
+        if (
+            !(await this.click("nb-calendar-view-mode button")) ||
+            !(await this.click(`.year-cell:has-text("${expectedYear}")`)) ||
+            !(await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`)) ||
+            !(await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`))
+        ) {
+            return false;
+        }
         
         return expectedDate;
     }
