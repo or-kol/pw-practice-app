@@ -106,22 +106,25 @@ export class PopoverPage extends BasePage{
         return isContentCorrect;
     };
 
-/*
+
     async eventDebouncingValidation(): Promise<boolean> {
-        const eventDebouncingTabLocator = `ngx-popovers nb-card:has-text("Event Debouncing")`;
+        const eventDebouncingButtonsLocator = `ngx-popovers nb-card:has-text("Event Debouncing") button`;
         const popoverLocator = `nb-popover nb-overlay-container`;
-
-        let counter = 100;
-            
-        while (!(await this.isVisible(popoverLocator)) && counter > 0) {
-            counter -= 1;
-            await this.moveMouseInBoxedElement(eventDebouncingTabLocator, 100);
-            await this.moveMouseInBoxedElement(eventDebouncingTabLocator, -100);
+        /*
+        for (let i = 0; i < 7; i++) {
+            await this.hover(`${eventDebouncingButtonsLocator} >> nth=${i + 1}`);
+            if (await this.isVisible(popoverLocator)) {
+                return false;
+            }
         }
+        */
 
-        await this.moveMouseInBoxedElement(eventDebouncingTabLocator);
+        await this.fastSweepHover(eventDebouncingButtonsLocator);
+        await this.hover(`${eventDebouncingButtonsLocator} >> nth=9`, 500);
         const isPopoverVisible = await this.isVisible(popoverLocator);
+        
+        console.log(isPopoverVisible);
         return isPopoverVisible;
     }
-*/
+
 }

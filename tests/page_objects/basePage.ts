@@ -79,7 +79,7 @@ export class BasePage {
             };
 
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -95,7 +95,7 @@ export class BasePage {
         return this.withLocator(selector, async (locator) => {
             await locator.fill(value);
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -112,7 +112,7 @@ export class BasePage {
                 await locator.check({ force: true });
             };
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -129,7 +129,7 @@ export class BasePage {
                 await locator.uncheck({ force: true });
             };
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -141,7 +141,7 @@ export class BasePage {
      * Logs a warning and returns false if the element is not found or not visible.
      */
     async isVisible(selector: string): Promise<boolean> {
-        return this.withLocator(selector, (locator) => locator.isVisible()) as Promise<boolean>;
+        return this.withLocator(selector, (locator) => locator.isVisible());
     };
 
 
@@ -215,7 +215,7 @@ export class BasePage {
                 { attribute, value }
             );
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -230,7 +230,7 @@ export class BasePage {
         return this.withLocator(selector, async (locator) => {
             await locator.scrollIntoViewIfNeeded();
             return true;
-        }) as Promise<boolean>;
+        });
     };
 
 
@@ -248,6 +248,7 @@ export class BasePage {
         selector: string, pixelsToMoveX: number = 0, pixelsToMoveY: number = 0, pressMouseBeforeMove: boolean = false): Promise<boolean> {
             return this.withLocator(selector, async (locator) => {
                 const box = await locator.boundingBox();
+
                 if (!box) {
                     this.warnMissing(selector);
                     return false;
@@ -266,7 +267,7 @@ export class BasePage {
                 };
 
                 return true;
-            }) as Promise<boolean>;
+            });
     }
 
 
@@ -284,7 +285,7 @@ export class BasePage {
                 await locator.waitFor({ state: "visible" });
                 await locator.press(key);
                 return true;
-            }) as Promise<boolean>;
+            });
         } else {
             try {
                 await this.page.keyboard.press(key);
@@ -343,23 +344,57 @@ export class BasePage {
      * @returns The current URL of the page.
      */
     async getPageUrl(): Promise<string> {
-        await this.page.waitForTimeout(500); //Assertions may fail if the page is not fully loaded
+        await this.page.waitForTimeout(500);
         return this.page.url();
     };
 
 
     /**
      * Hovers the mouse over the element specified by the selector.
+     * Optionally waits for a specified amount of time after hovering.
      * @param selector - The CSS selector of the element to hover.
+     * @param waitAfterMs - Optional delay in milliseconds after hover (default is 0).
      * @returns True if hover was successful, false otherwise.
      * @remarks
      * Logs a warning and returns false if the element is not found or not hoverable.
      */
-    async hover(selector: string): Promise<boolean> {
+    async hover(selector: string, waitAfterMs?: number): Promise<boolean> {
         return this.withLocator(selector, async (locator) => {
             await locator.hover();
-            return true;
-        }) as Promise<boolean>;
-    };
-};
 
+            if (waitAfterMs) {
+                await this.page.waitForTimeout(waitAfterMs);
+            }
+
+            return true;
+        });
+    }
+
+
+    /**
+     * Quickly hovers over all elements matching the given locator, moving the mouse to the center of each.
+     * @param buttonsLocator - The CSS selector for the group of buttons to sweep over.
+     * @returns A Promise that resolves when the sweep is complete.
+     * @remarks
+     * Logs a warning if no elements are found.
+     */
+    async fastSweepHover(buttonsLocator: string): Promise<void> {
+        await this.withLocator(buttonsLocator, async (locator) => {
+            const buttons = await locator.elementHandles();
+
+            if (buttons.length === 0) {
+                this.warnMissing(buttonsLocator);
+            };
+
+            for (const btn of buttons) {
+                const box = await btn.boundingBox();
+
+                if (box) {
+                    await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 1 });
+                };
+            };
+        });
+    };
+
+
+};
