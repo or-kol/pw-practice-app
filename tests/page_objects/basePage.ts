@@ -429,4 +429,30 @@ export class BasePage {
     };
 
 
+    /**
+     * Measures the duration (in milliseconds) that an element remains visible on the screen.
+     * Waits for the element to appear, records the time, then waits for it to disappear.
+     * @param selector - The CSS selector of the element to monitor.
+     * @param maxWaitTime - Maximum time to wait for element to appear/disappear (default: 30000ms).
+     * @returns The duration in milliseconds the element was visible, or -1 if element never appeared or disappeared.
+     * @remarks
+     * This method is useful for measuring notification durations, popup lifetimes, etc.
+     * Returns -1 if the element doesn't appear within maxWaitTime or doesn't disappear within maxWaitTime.
+     */
+    async measureElementVisibilityDuration(selector: string, maxWaitTime: number = 30000): Promise<number> {
+        return (await this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: maxWaitTime });
+            const startTime = Date.now();
+            let endTime: number;
+            // Poll until element is no longer visible
+            while (await this.isVisible(selector)) {
+                endTime = Date.now();
+                if (endTime - startTime > maxWaitTime) break;
+            };
+            
+            return endTime - startTime;
+        })) as number || -1;
+    };
+
+
 };

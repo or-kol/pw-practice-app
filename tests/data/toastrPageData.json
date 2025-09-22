@@ -1,0 +1,42 @@
+{
+    "positions": [
+        {"position": "top-right", "vertical": "start", "horizontal": "end", "xfail": false},
+        {"position": "top-left", "vertical": "start", "horizontal": "start", "xfail": false},
+        {"position": "bottom-right", "vertical": "end", "horizontal": "end", "xfail": false},
+        {"position": "bottom-left", "vertical": "end", "horizontal": "start", "xfail": false},
+        {"position": "top-end", "vertical": "start", "horizontal": "end", "xfail": false},
+        {"position": "top-start", "vertical": "start", "horizontal": "start", "xfail": false},
+        {"position": "bottom-end", "vertical": "end", "horizontal": "end", "xfail": false},
+        {"position": "bottom-start", "vertical": "end", "horizontal": "start", "xfail": false}
+    ],
+    "TabContent": [
+        {
+            "testNum": 1,
+            "title": "Toastr",
+            "message": "Toastr is a Javascript library for non-blocking notifications. jQuery is required. It uses CSS3 for animations and comes with a few built-in themes.",
+            "timeout": 500,
+            "xfail": false
+        },
+        {
+            "testNum": 2,
+            "title": "API",
+            "message": "Toastr provides a simple API to create notifications. The API is designed to be easy to use and understand.",
+            "timeout": 2000,
+            "xfail": false
+        },
+        {
+            "testNum": 3,
+            "title": "Types",
+            "message": "Toastr supports four types of notifications: success, info, warning, and error. Each type has its own default styling and icon.",
+            "timeout": 1000,
+            "xfail": false
+        }
+    ],
+    "toastTypes": [
+        {"type": "primary", "xfail": false},
+        {"type": "success", "xfail": false},
+        {"type": "info", "xfail": false},
+        {"type": "warning", "xfail": false},
+        {"type": "danger", "xfail": false}
+    ]
+}

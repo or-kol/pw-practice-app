@@ -15,6 +15,7 @@ import { HomePageFooter } from "../page_objects/homePage/homePageFooter";
 import { DialogPage } from "../page_objects/modalAndOverlays/dialogPage";
 import { WindowPage } from "../page_objects/modalAndOverlays/windowPage";
 import { PopoverPage } from "../page_objects/modalAndOverlays/popoverPage";
+import { ToastrPage } from "../page_objects/modalAndOverlays/toastrPage";
 
 type TestFixtures = {
     baseTest: {
@@ -33,6 +34,7 @@ type TestFixtures = {
         dialogPage: DialogPage;
         windowPage: WindowPage;
         popoverPage: PopoverPage;
+        toastrPage: ToastrPage;
     };
 };
 
@@ -69,6 +71,7 @@ export const test = base.extend<TestFixtures>({
         const dialogPage = new DialogPage(page);
         const windowPage = new WindowPage(page);
         const popoverPage = new PopoverPage(page);
+        const toastrPage = new ToastrPage(page);
 
         await use({
             page,
@@ -85,7 +88,8 @@ export const test = base.extend<TestFixtures>({
             homePageFooter,
             dialogPage,
             windowPage,
-            popoverPage
+            popoverPage,
+            toastrPage
         });
 
         await context.close();

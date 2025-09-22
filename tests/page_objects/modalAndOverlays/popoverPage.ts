@@ -1,6 +1,5 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "../basePage";
-import { count, time } from "console";
 
 export class PopoverPage extends BasePage{
 
@@ -110,15 +109,7 @@ export class PopoverPage extends BasePage{
     async eventDebouncingValidation(): Promise<boolean> {
         const eventDebouncingButtonsLocator = `ngx-popovers nb-card:has-text("Event Debouncing") button`;
         const popoverLocator = `nb-popover nb-overlay-container`;
-        /*
-        for (let i = 0; i < 7; i++) {
-            await this.hover(`${eventDebouncingButtonsLocator} >> nth=${i + 1}`);
-            if (await this.isVisible(popoverLocator)) {
-                return false;
-            }
-        }
-        */
-
+        
         await this.fastSweepHover(eventDebouncingButtonsLocator);
         await this.hover(`${eventDebouncingButtonsLocator} >> nth=9`, 500);
         const isPopoverVisible = await this.isVisible(popoverLocator);
