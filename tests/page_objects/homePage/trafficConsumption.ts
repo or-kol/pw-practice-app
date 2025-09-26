@@ -6,7 +6,7 @@ export class TrafficConsumption extends BasePage{
 
     constructor(page: Page){
         super(page);
-    }
+    };
 
     async traficConsumptionPeriod(expectedTimePeriod: string) {
         const consumptionPeriodDropdown = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;
@@ -14,10 +14,8 @@ export class TrafficConsumption extends BasePage{
 
         await this.click(consumptionPeriodDropdown);
         await this.click(periodSelection);
-        
         const selectedPeriod = await this.getText(consumptionPeriodDropdown);
+        
         return selectedPeriod.includes(expectedTimePeriod);
-    }
-
-
-}
+    };
+};

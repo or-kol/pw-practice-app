@@ -1,0 +1,34 @@
+{
+    "tooltipReflection": [
+        {"buttonName": "Show Tooltip", "xfail": false},
+        {"buttonName": "Top", "xfail": false},
+        {"buttonName": "Right", "xfail": false},
+        {"buttonName": "Bottom", "xfail": false},
+        {"buttonName": "Left", "xfail": false},
+        {"buttonName": "Default", "xfail": false},
+        {"buttonName": "Primary", "xfail": false},
+        {"buttonName": "Success", "xfail": false},
+        {"buttonName": "Info", "xfail": false},
+        {"buttonName": "Warning", "xfail": false},
+        {"buttonName": "Danger", "xfail": false}
+    ],
+    "tooltipsIcons": [
+        {"icon": "home-outline", "xfail": false},
+        {"icon": "alert-triangle", "xfail": false}
+    ],
+    "tooltipPositions": [
+        {"position": "Top", "classValidation": "top", "xfail": false},
+        {"position": "Right", "classValidation": "end", "xfail": false},
+        {"position": "Bottom", "classValidation": "bottom", "xfail": false},
+        {"position": "Left", "classValidation": "start", "xfail": false}
+    ],
+    "tooltipBackgroundColors": [
+        {"type": "default", "color": "rgb(21, 26, 48)", "xfail": false},
+        {"type": "primary", "color": "rgb(51, 102, 255)", "xfail": false},
+        {"type": "success", "color": "rgb(0, 214, 143)", "xfail": false},
+        {"type": "info", "color": "rgb(0, 149, 255)", "xfail": false},
+        {"type": "warning", "color": "rgb(255, 170, 0)", "xfail": false},
+        {"type": "danger", "color": "rgb(255, 61, 113)", "xfail": false}
+    ],
+    "tooltipContent": "This is a tooltip"
+}

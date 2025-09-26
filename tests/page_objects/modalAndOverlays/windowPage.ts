@@ -39,7 +39,7 @@ export class WindowPage extends BasePage{
 
         if (body) {
             bodyText = await this.getText(this.WINDOW_BODY_LOCATOR);
-        }
+        };
 
         return headerText === header || (headerText === header && bodyText === body);
     };
@@ -61,7 +61,6 @@ export class WindowPage extends BasePage{
         await this.moveMouseInBoxedElement(this.WINDOW_BODY_LOCATOR, -500, 0);
         await this.page.mouse.down();
         await this.page.mouse.up();
-
         const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
 
         return !isWindowBoodyVissible == closeWithEsc;
@@ -73,7 +72,6 @@ export class WindowPage extends BasePage{
 
         await this.click(minimizeButtonLocator);
         const isWindowBoodyVissibleAfterMinimizing = (await this.getAttribute(`nb-window`, "class")).includes("minimized");
-
         await this.click(minimizeButtonLocator);
         const isWindowBoodyVissibleAfterMaximizing = (await this.getAttribute(`nb-window`, "class")).includes("full-screen");
         
@@ -89,7 +87,6 @@ export class WindowPage extends BasePage{
         
         await this.click(collapseButtonLocator);
         const WindowsStatusAfterClickingCollapse = await this.getAttribute(windowsStatusLocator, "icon");
-
         await this.click(expendButtonLocator);
         const WindowsStatusAfterClickingExpand = await this.getAttribute(windowsStatusLocator, "icon");
 
@@ -110,12 +107,11 @@ export class WindowPage extends BasePage{
 
     async isOpenWindowformTextBoxesActive(windowName: string, textboxName: string, activeStatus: string): Promise<boolean> {
         const TextboxLocator = `nb-window #${textboxName}`;
-        this.openWindow(windowName);
 
+        this.openWindow(windowName);
         await this.click(TextboxLocator);
-        const textboxStatus = await this. getAttribute(TextboxLocator, "class");
+        const textboxStatus = await this.getAttribute(TextboxLocator, "class");
 
         return textboxStatus.includes(activeStatus);
-    }
-
-}
+    };
+};

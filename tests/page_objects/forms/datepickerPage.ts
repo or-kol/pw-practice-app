@@ -5,12 +5,12 @@ export class DatepickerPage extends BasePage{
 
     constructor(page: Page){
         super(page);
-    }
+    };
 
     async goToDatePickerPage(): Promise<void> {
         await this.click(`a[title="Forms"]`);
         await this.click(`a:has-text("Datepicker")`);
-    }
+    };
 
     
     async selectDates(placeholder: string, startOffset: number, endOffset?: number){
@@ -18,9 +18,11 @@ export class DatepickerPage extends BasePage{
         await this.click(calendarLocator, 500);
 
         const expectedStartDate = await this.selectDateInTheCalendar(startOffset);
+
         if (!expectedStartDate) {
             return false;
-        }
+        };
+
         let actualDate: string;
 
         if (endOffset){
@@ -30,12 +32,11 @@ export class DatepickerPage extends BasePage{
             }
             actualDate = await this.getText(calendarLocator);
             return actualDate === `${expectedStartDate} - ${expectedEndDate}`;
-        }
-        else{
+        } else{
             actualDate = await this.getText(calendarLocator);
             return actualDate === expectedStartDate;
-        }
-    }
+        };
+    };
 
 
     /**
@@ -58,8 +59,8 @@ export class DatepickerPage extends BasePage{
             !(await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`))
         ) {
             return false;
-        }
+        };
         
         return expectedDate;
-    }
-}
+    };
+};

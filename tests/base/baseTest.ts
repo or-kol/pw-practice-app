@@ -1,6 +1,5 @@
 
 import { test as base, expect, Page } from "@playwright/test";
-
 import { FeaturesMenuPage } from "../page_objects/homePage/featuresMenuNavigationArea";
 import { FormLayoutsPage } from "../page_objects/forms/formLayoutsPage";
 import { DatepickerPage } from "../page_objects/forms/datepickerPage";
@@ -16,6 +15,7 @@ import { DialogPage } from "../page_objects/modalAndOverlays/dialogPage";
 import { WindowPage } from "../page_objects/modalAndOverlays/windowPage";
 import { PopoverPage } from "../page_objects/modalAndOverlays/popoverPage";
 import { ToastrPage } from "../page_objects/modalAndOverlays/toastrPage";
+import { TooltipPage } from "../page_objects/modalAndOverlays/tooltipPage";
 
 type TestFixtures = {
     baseTest: {
@@ -35,6 +35,7 @@ type TestFixtures = {
         windowPage: WindowPage;
         popoverPage: PopoverPage;
         toastrPage: ToastrPage;
+        tooltipPage: TooltipPage;
     };
 };
 
@@ -72,6 +73,8 @@ export const test = base.extend<TestFixtures>({
         const windowPage = new WindowPage(page);
         const popoverPage = new PopoverPage(page);
         const toastrPage = new ToastrPage(page);
+        const tooltipPage = new TooltipPage(page);
+        
 
         await use({
             page,
@@ -89,7 +92,8 @@ export const test = base.extend<TestFixtures>({
             dialogPage,
             windowPage,
             popoverPage,
-            toastrPage
+            toastrPage,
+            tooltipPage,
         });
 
         await context.close();

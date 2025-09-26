@@ -10,18 +10,18 @@ export class DialogPage extends BasePage{
         super(page);
         this.DIALOG_HEADER_LOCATOR = `nb-dialog-container nb-card-header`; 
         this.DIALOG_FOOTER_LOCATOR = `nb-dialog-container nb-card-footer`;
-    }
+    };
 
 
     async goToDialogPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
         await this.click(`a:has-text("Dialog")`, 500);
-    }
+    };
 
     private async openDialogbox(dialogNum: number, dialogName: string): Promise<void> {
         const dialogButtonLocator = `ngx-dialog div:nth-child(${dialogNum}) nb-card-body button:has-text("${dialogName}")`;
         await this.click(dialogButtonLocator);
-    }
+    };
 
 
     private async handleBackdrop(dialogButtonLocator:string): Promise<void> {
@@ -36,12 +36,11 @@ export class DialogPage extends BasePage{
         const dialogBodyLocator = `nb-dialog-container nb-card-body`;
         
         await this.openDialogbox(dialogNum, dialogName);
-
         const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
         const actualBody = await this.getText(dialogBodyLocator);
         
         return actualHeader === header && actualBody === body;
-    }
+    };
 
 
     async dialogComponentOrTemplate(
@@ -49,12 +48,11 @@ export class DialogPage extends BasePage{
         
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
-        
         await this.click(dialogButtonLocator);
         const isdialogVisible = await this.isVisible(dialogButtonLocator);
         
         return (!isdialogVisible);
-    }
+    };
 
 
     async dialogBackdrop(
@@ -62,12 +60,11 @@ export class DialogPage extends BasePage{
 
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
-
         await this.handleBackdrop(dialogButtonLocator);
-
         const isdialogVisible = await this.isVisible(dialogButtonLocator);
+
         return (!isdialogVisible) === backdrop;
-    }
+    };
 
 
     async dialogEscClose(
@@ -75,12 +72,11 @@ export class DialogPage extends BasePage{
                 
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
-
         await this.pressKeyboardKey("Escape");
-        
         const isdialogVisible = await this.isVisible(dialogButtonLocator);
+
         return (!isdialogVisible) === esc;
-    }
+    };
 
 
     async dialogResultReturn(
@@ -93,13 +89,10 @@ export class DialogPage extends BasePage{
 
         const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
         const actualPlaceholder = await this.getAttribute(inputFieldLocator, "placeholder");
-
         await this.fillInput({ selector: inputFieldLocator, value: input });
         await this.click(dialogButtonLocator);
-
         const returnedValue = await this.getText(returnedValueLocator) || "";
 
         return header === actualHeader && actualPlaceholder === "Name" && returnedValue === input;
-    }
-
-}
+    };
+};

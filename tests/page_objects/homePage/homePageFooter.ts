@@ -20,7 +20,7 @@ export class HomePageFooter extends BasePage{
         const pageTitle = await this.getPageTitle(true, urlLocator);
         console.log(pageTitle);
         return pageTitle === `Software Development, Design & Consulting | Akveo`
-    }
+    };
 
 
     async socialButtonsFunctionality(socialNetwork: string): Promise<boolean> {
@@ -28,6 +28,5 @@ export class HomePageFooter extends BasePage{
         
         const pageTitle = await this.getPageTitle(true, buttonLocator);
         return pageTitle === `playwright-test-admin Demo Application`
-    }
-
-}
+    };
+};

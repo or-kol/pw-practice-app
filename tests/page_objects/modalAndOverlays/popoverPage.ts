@@ -20,10 +20,10 @@ export class PopoverPage extends BasePage{
 
             if (bodylocator) {
                 actualBodyText = await this.getText(bodylocator);
-            }
+            };
 
             return actualHeadline === expectedHeadlinetext && (bodylocator ? actualBodyText === expectedBody : true);
-    }
+    };
 
     
     async popoverTabContentValidation(tabHeadline: string, tabDescription: string): Promise<boolean> {
@@ -34,7 +34,7 @@ export class PopoverPage extends BasePage{
         const isDescriptionCorrect = await this.getText(descriptionLocator) === tabDescription;
 
         return isHeadlineVisible && isDescriptionCorrect;
-    }
+    };
     
 
     async popoverPositionValidation(popoverExpectedPosition: string, expectedcontent: string): Promise<boolean> {
@@ -46,7 +46,7 @@ export class PopoverPage extends BasePage{
         const actualPopoverPosition = await this.getAttribute(popoverButtonLocator ,'nbpopoverplacement');
 
         return isContentCorrect && actualPopoverPosition === popoverExpectedPosition.toLocaleLowerCase();
-    }
+    };
 
 
     async simplePopoverValidation(popoverName: string, expectedcontent: string, isClickNeeded: boolean): Promise<boolean> {
@@ -54,11 +54,10 @@ export class PopoverPage extends BasePage{
         const popoverLocator = `nb-popover nb-overlay-container`;
         
         isClickNeeded ? await this.moveMouseInBoxedElement(popoverButtonLocator, 0, 0, true): await this.moveMouseInBoxedElement(popoverButtonLocator);
-
         const isContentCorrect = await this.popoverContentValidation(popoverLocator, expectedcontent);
         
         return isContentCorrect;
-    }
+    };
 
 
     async popoverWithTabsValidation(cardName: string, buttonName: string, tab1Headline: string, tab1Content: string, 
@@ -70,7 +69,6 @@ export class PopoverPage extends BasePage{
             await this.click(popoverButtonLocator);
             await this.click(`${tabLocator} a:has-text("${tab2Headline}")`);
             const isTab2ContentCorrect = await this.getText(`${tabcontentLocator} nb-tab[tabtitle="${tab2Headline}"]`) === tab2Content;
-
             await this.click(`${tabLocator} a:has-text("${tab1Headline}")`);
             const isTab1ContentCorrect = await this.getText(`${tabcontentLocator} nb-tab[tabtitle="${tab1Headline}"]`) === tab1Content;
             
@@ -116,6 +114,6 @@ export class PopoverPage extends BasePage{
         
         console.log(isPopoverVisible);
         return isPopoverVisible;
-    }
+    };
 
-}
+};

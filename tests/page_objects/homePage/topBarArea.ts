@@ -6,7 +6,7 @@ export class TopBarPage extends BasePage {
     
     constructor(page: Page){
         super(page);
-    }
+    };
 
 
     async SidebarMenuToggle(expectedStatus: string): Promise<boolean> {
@@ -21,15 +21,15 @@ export class TopBarPage extends BasePage {
 
             if (sidebarClass?.includes(expectedStatus)) {
                 return true;
-            }
+            };
 
             await this.click(sideBarToggle);
             attempt++;
-        }
+        };
 
         console.warn(`Sidebar did not reach "${expectedStatus}" state after ${maxTries} attempts.`);
         return false;
-    }
+    };
 
     async changeWebsiteThemeColor (color: string) {
         const themeDropdown = "ngx-header nb-select";
@@ -37,8 +37,8 @@ export class TopBarPage extends BasePage {
         const headerLayout = "nb-layout-header";
         await this.click(themeDropdown);
         await this.click(colorSelection);
-        return await this.getElementCssProperty(headerLayout, "background-color");        
-    }
+        return await this.getElementCssProperty(headerLayout, "background-color");
+    };
 
     async searchbarFunctionality(searchText: string): Promise<boolean> {
         const searchButton = "nb-search button";
@@ -50,18 +50,18 @@ export class TopBarPage extends BasePage {
         await this.pressKeyboardKey("Enter");
 
         return (await this.getAttribute(searchBarForm, "class")).includes("submitted");
-    }
+    };
     
 
     async mailboxIcon(): Promise<boolean> {
         const mailboxIcon = "nb-action[icon='email-outline']";
         return await this.isVisible(mailboxIcon);
-    }
+    };
 
     async notificationsIcon(): Promise<boolean> {
         const notificationsIcon = "nb-action[icon='bell-outline']";
         return await this.isVisible(notificationsIcon);
-    }
+    };
 
 
     async userProfile(): Promise<boolean> {
@@ -70,7 +70,7 @@ export class TopBarPage extends BasePage {
 
         await this.click(userProfileButton);
         return await this.isVisible(userProfile);
-    }
+    };
 
     async userLogOut(): Promise<boolean> {
         const userProfileButton = "nb-layout-header nb-user.context-menu-host";
@@ -78,5 +78,5 @@ export class TopBarPage extends BasePage {
 
         await this.click(userProfileButton);
         return await this.isVisible(userProfile);
-    }
-}
+    };
+};
