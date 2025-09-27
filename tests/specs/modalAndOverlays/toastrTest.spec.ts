@@ -1,5 +1,7 @@
-import { test, expect } from "../../base/baseTest";
-import toastsPageData from "../../data/toastrPageData.json";
+import {test, expect} from "../../base/baseTest"
+import { TEST_PATHS } from "../../config/test-config";
+
+const toastsPageData = require(`${TEST_PATHS.TEST_DATA}/toastrPageData.json`) as any;
 
 
 test.beforeEach(async ({ baseTest }) => {

@@ -1,5 +1,7 @@
-import { test, expect } from "../../base/baseTest";
-import popoverPageData from "../../data/popoverPageData.json";
+import {test, expect} from "../../base/baseTest"
+import { TEST_PATHS } from "../../config/test-config";
+
+const popoverPageData = require(`${TEST_PATHS.TEST_DATA}/popoverPageData.json`) as any;
 
 
 test.beforeEach(async ({ baseTest }) => {

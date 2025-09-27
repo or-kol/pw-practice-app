@@ -1,0 +1,15 @@
+{
+    "pieChart": [
+        { "Country": "USA", "value": 1548, "percentage": "60.42%", "color": {"r": 95, "g": 151, "b": 249}},
+        { "Country": "Germany", "value": 335, "percentage": "13.08%", "color": {"r": 251, "g": 204, "b": 84}},
+        { "Country": "France", "value": 310, "percentage": "12.1%", "color": {"r": 95, "g": 151, "b": 249}},
+        { "Country": "Canada", "value": 234, "percentage": "9.13%", "color": {"r": 251, "g": 116, "b": 148}},
+        { "Country": "Russia", "value": 135, "percentage": "5.27%", "color": {"r": 53, "g": 227, "b": 156}}
+    ],
+    "expectedColors": [
+        {"r": 95, "g": 151, "b": 249},
+        {"r": 251, "g": 116, "b": 148},
+        {"r": 251, "g": 204, "b": 84},
+        {"r": 53, "g": 227, "b": 156}
+    ]
+}

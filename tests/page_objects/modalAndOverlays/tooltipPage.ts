@@ -28,7 +28,7 @@ export class TooltipPage extends BasePage{
         return tooltipActualContent === tooltipExpectedContent;
     };
 
-    
+
     async tooltipIconValidation(icon: string): Promise<boolean> {
         const iconLocator = `${this.TOOLTIP_LOCATOR} nb-icon`;
         
@@ -58,10 +58,4 @@ export class TooltipPage extends BasePage{
         console.log(backgroundColor);
         return actualTooltipColor === backgroundColor;
     };
-
-
-
-    
-
-    
-}
+};

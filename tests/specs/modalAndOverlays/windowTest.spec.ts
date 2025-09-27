@@ -1,14 +1,16 @@
-import { test, expect } from "../../base/baseTest";
-import windowPageData from "../../data/windowPageData.json";
+import {test, expect} from "../../base/baseTest"
+import { TEST_PATHS } from "../../config/test-config";
 
-const WINDOWS = Object.values(windowPageData.windows);
+const windowPageData = require(`${TEST_PATHS.TEST_DATA}/windowPageData.json`) as any;
+
+const WINDOWS = Object.values(windowPageData.windows) as any[];
 
 test.beforeEach(async ({ baseTest }) => {
     await baseTest.windowPage.goToWindowPage();
 });
 
 test.describe(`Window page header verification`, () => {
-    const headers = Object.values(windowPageData.headers);
+    const headers = Object.values(windowPageData.headers) as any[];
 
     headers.forEach((header) => {
         test(`Verify ${header.name} window page header`, async ({ baseTest }) => {

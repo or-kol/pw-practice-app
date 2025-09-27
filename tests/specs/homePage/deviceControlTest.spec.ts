@@ -1,6 +1,8 @@
 import { test, expect } from "../../base/baseTest";
-import SwitchersData from "../../data/deviceControlSwitchesData.json";
-import tempAndHumidSwitcherData from "../../data/tempAndHumidSwitcherData.json";
+import { TEST_PATHS } from "../../config/test-config";
+
+const SwitchersData = require(`${TEST_PATHS.TEST_DATA}/deviceControlSwitchesData.json`) as any;
+const tempAndHumidSwitcherData = require(`${TEST_PATHS.TEST_DATA}/tempAndHumidSwitcherData.json`) as any;
 
 test.describe('Device controller tests', () => {
     for (const config of SwitchersData.switchers) {
@@ -34,7 +36,7 @@ test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humi
         const mode = key === "tempSwitch" ? "Temperature" : "Humidity";
         const expectedField = key === "tempSwitch" ? "expectedTemp" : "expectedHuimid";
 
-        dataset.forEach((entry, index) => {
+        (dataset as any[]).forEach((entry, index) => {
             const { x, y, xfail } = entry;
             const expected = entry[expectedField];
 

@@ -1,21 +1,25 @@
 
 import { test as base, expect, Page } from "@playwright/test";
-import { FeaturesMenuPage } from "../page_objects/homePage/featuresMenuNavigationArea";
-import { FormLayoutsPage } from "../page_objects/forms/formLayoutsPage";
-import { DatepickerPage } from "../page_objects/forms/datepickerPage";
-import { TopBarPage } from "../page_objects/homePage/topBarArea";
-import { DevideControlModule } from "../page_objects/homePage/devideControlModule";
-import { ManagementConsoleModul } from "../page_objects/homePage/managementConsoleModule";
-import { RoomManagementModule } from "../page_objects/homePage/roomManagementModule";
-import { PhoneModule } from "../page_objects/homePage/phoneModule";
-import { TrafficConsumption } from "../page_objects/homePage/trafficConsumption";
-import { SecurityCameras } from "../page_objects/homePage/securityCameras";
-import { HomePageFooter } from "../page_objects/homePage/homePageFooter";
-import { DialogPage } from "../page_objects/modalAndOverlays/dialogPage";
-import { WindowPage } from "../page_objects/modalAndOverlays/windowPage";
-import { PopoverPage } from "../page_objects/modalAndOverlays/popoverPage";
-import { ToastrPage } from "../page_objects/modalAndOverlays/toastrPage";
-import { TooltipPage } from "../page_objects/modalAndOverlays/tooltipPage";
+import {
+    FeaturesMenuPage,
+    FormLayoutsPage,
+    DatepickerPage,
+    TopBarPage,
+    DevideControlModule,
+    ManagementConsoleModul,
+    RoomManagementModule,
+    PhoneModule,
+    TrafficConsumption,
+    SecurityCameras,
+    HomePageFooter,
+    DialogPage,
+    WindowPage,
+    PopoverPage,
+    ToastrPage,
+    TooltipPage,
+    EchartsPage
+} from "../page_objects";
+
 
 type TestFixtures = {
     baseTest: {
@@ -36,6 +40,7 @@ type TestFixtures = {
         popoverPage: PopoverPage;
         toastrPage: ToastrPage;
         tooltipPage: TooltipPage;
+        echartsPage: EchartsPage;
     };
 };
 
@@ -74,6 +79,7 @@ export const test = base.extend<TestFixtures>({
         const popoverPage = new PopoverPage(page);
         const toastrPage = new ToastrPage(page);
         const tooltipPage = new TooltipPage(page);
+        const echartsPage = new EchartsPage(page);
         
 
         await use({
@@ -94,6 +100,7 @@ export const test = base.extend<TestFixtures>({
             popoverPage,
             toastrPage,
             tooltipPage,
+            echartsPage,
         });
 
         await context.close();

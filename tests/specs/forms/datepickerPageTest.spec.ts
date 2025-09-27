@@ -1,6 +1,8 @@
 import { test, expect } from "../../base/baseTest";
 import type { DatepickerType } from "../../types/datepickerType";
-import datepickerData from "../../data/datepickerData.json";
+import { TEST_PATHS } from "../../config/test-config";
+
+const datepickerData = require(`${TEST_PATHS.TEST_DATA}/datepickerData.json`) as any;
 
 
 test.describe("Datepicker tests from JSON", () => {

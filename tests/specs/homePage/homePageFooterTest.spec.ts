@@ -1,5 +1,7 @@
-import {test, expect} from "../../base/baseTest";
-import homePageFooterData from "../../data/homePageFooterData.json"
+import { test, expect } from "../../base/baseTest";
+import { TEST_PATHS } from "../../config/test-config";
+
+const homePageFooterData = require(`${TEST_PATHS.TEST_DATA}/homePageFooterData.json`) as any;
 
 
 test(`Rights reseved text validation`, async ({baseTest}) => {

@@ -1,14 +1,17 @@
-
 import { Page, Locator } from "@playwright/test";
+import getColors from "get-image-colors";
+import { TEST_PATHS, TEST_TIMEOUTS } from "../config/test-config";
 
 export class BasePage {
     
     readonly page: Page;
-    private readonly ACTION_TIMEOUT = 5000;
+    private readonly ACTION_TIMEOUT = TEST_TIMEOUTS.ACTION;
 
     constructor(page: Page) {
         this.page = page;
     };
+
+
 
     /**
      * Logs a warning message to the console when a selector fails to match any elements.
@@ -18,6 +21,27 @@ export class BasePage {
      */
     private warnMissing(selector: string): void {
         console.warn(`Selector not found: ${selector}`);
+    };
+
+    /**
+     * Logs an error message to the console when an operation fails unexpectedly.
+     * @param operation - Description of the operation that failed.
+     * @param error - The error object or message.
+     * @remarks
+     * This method is for internal use only and is called when operations encounter unexpected errors.
+     */
+    private logError(operation: string, error: any): void {
+        console.error(`${operation} failed:`, error);
+    };
+
+    /**
+     * Logs a warning message to the console for validation or operational warnings.
+     * @param message - The warning message to log.
+     * @remarks
+     * This method is for internal use only and is called when operations need to warn about validation failures or other issues.
+     */
+    private logWarning(message: string): void {
+        console.warn(message);
     };
 
 
@@ -67,9 +91,9 @@ export class BasePage {
 
     /**
      * Clicks on the element specified by the selector.
-     * Waits for the element to be visible and clickable (timeout: 5000ms).
+     * Waits for the element to be visible and clickable using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element to click.
-     * @param waitAfterMs - Optional delay after click (ms).
+     * @param waitAfterMs - Optional delay after click in milliseconds (default: 0).
      * @returns True if click was successful, false otherwise.
      * @remarks
      * Uses ACTION_TIMEOUT for waiting and clicking. Logs a warning and returns false if the element is not found or not clickable.
@@ -90,7 +114,7 @@ export class BasePage {
 
     /**
      * Fills the input field with the specified value.
-     * Waits for the input to be visible (timeout: 5000ms).
+     * Waits for the input to be visible using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the input field.
      * @param value - The value to fill.
      * @returns True if successful, false otherwise.
@@ -108,7 +132,7 @@ export class BasePage {
 
     /**
      * Checks the checkbox if not already checked.
-     * Waits for the checkbox to be visible (timeout: 5000ms).
+     * Waits for the checkbox to be visible using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the checkbox.
      * @returns True if successful, false otherwise.
      * @remarks
@@ -127,7 +151,7 @@ export class BasePage {
 
     /**
      * Unchecks the checkbox if not already unchecked.
-     * Waits for the checkbox to be visible (timeout: 5000ms).
+     * Waits for the checkbox to be visible using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the checkbox.
      * @returns True if successful, false otherwise.
      * @remarks
@@ -146,7 +170,7 @@ export class BasePage {
 
     /**
      * Checks if the element is visible on the page.
-     * Waits for the element to be visible (timeout: 5000ms).
+     * Waits for the element to be visible using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element.
      * @returns True if visible, false otherwise.
      * @remarks
@@ -162,7 +186,7 @@ export class BasePage {
 
     /**
      * Retrieves the text content or input value of an element.
-     * Waits for the element to be visible (timeout: 5000ms).
+     * Waits for the element to be visible using ACTION_TIMEOUT.
      * Handles both text elements and form fields.
      * @param selector - The CSS selector of the target element.
      * @returns The text content or input value, or empty string if not found.
@@ -184,7 +208,7 @@ export class BasePage {
 
     /**
      * Retrieves the value of an attribute for the element.
-     * Waits for the element to be attached to the DOM (timeout: 5000ms).
+     * Waits for the element to be attached to the DOM using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element.
      * @param attribute - The attribute name.
      * @returns The attribute value, or empty string if not found.
@@ -201,7 +225,7 @@ export class BasePage {
 
     /**
      * Gets the computed style property value of the element.
-     * Waits for the element to be attached to the DOM (timeout: 5000ms).
+     * Waits for the element to be attached to the DOM using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element.
      * @param property - The CSS property name.
      * @returns The property value, or empty string if not found.
@@ -221,7 +245,7 @@ export class BasePage {
 
     /**
      * Sets an attribute value on the element.
-     * Waits for the element to be attached to the DOM (timeout: 5000ms).
+     * Waits for the element to be attached to the DOM using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element.
      * @param attribute - The attribute name.
      * @param value - The value to set.
@@ -243,7 +267,7 @@ export class BasePage {
 
     /**
      * Scrolls the element into view if needed.
-     * Waits for the element to be visible (timeout: 5000ms).
+     * Waits for the element to be visible using ACTION_TIMEOUT.
      * @param selector - The CSS selector of the element.
      * @returns True if successful, false otherwise.
      * @remarks
@@ -260,7 +284,7 @@ export class BasePage {
 
     /**
      * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
-     * Waits for the element to be visible (timeout: 5000ms).
+     * Waits for the element to be visible using ACTION_TIMEOUT.
      * @param selector - CSS selector used to locate the target element.
      * @param pixelsToMoveX - Number of pixels to move horizontally from the element's center (default is 0).
      * @param pixelsToMoveY - Number of pixels to move vertically from the element's center (default is 0).
@@ -455,4 +479,108 @@ export class BasePage {
     };
 
 
+    /**
+     * Takes a screenshot of the specified element and compares it to a baseline image.
+     * Waits for the element to be visible (timeout: 5000ms).
+     * @param selector - The CSS selector of the element to screenshot.
+     * @param screenshotName - Name for the screenshot file (without extension).
+     * @param options - Optional screenshot configuration.
+     * @returns True if screenshot matches baseline, false otherwise.
+     * @remarks
+     * Uses Playwright's visual comparison. First run will generate baseline images.
+     * Subsequent runs will compare against the baseline.
+     */
+    async takeElementScreenshot(selector: string, screenshotName: string, options?: {threshold?: number, mask?: string[], fullPage?: boolean}): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            
+            // Configure screenshot options
+            const screenshotOptions: any = { threshold: options?.threshold || 0.2, animations: 'disabled' };
+
+            if (options?.mask) {
+                screenshotOptions.mask = options.mask.map(maskSelector => this.page.locator(maskSelector));
+            };
+
+            await locator.screenshot({ path: `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png` });
+            return true;
+        });
+    };
+
+
+    /**
+     * Takes a screenshot of the entire page and compares it to a baseline image.
+     * @param screenshotName - Name for the screenshot file (without extension).
+     * @param options - Optional screenshot configuration.
+     * @returns True if screenshot matches baseline, false otherwise.
+     */
+    async takePageScreenshot(screenshotName: string, options?: { threshold?: number, mask?: string[], fullPage?: boolean }): Promise<boolean> {
+        try {
+            const screenshotOptions: any = { fullPage: options?.fullPage ?? true, animations: 'disabled' };
+
+            if (options?.mask) {
+                screenshotOptions.mask = options.mask.map(maskSelector => this.page.locator(maskSelector));
+            };
+
+            await this.page.screenshot({ path: `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png`, ...screenshotOptions });
+            return true;
+        } catch (err) {
+            this.logError('Page screenshot', err);
+            return false;
+        };
+    };
+
+
+    /**
+     * Waits for an element to be stable (no visual changes) before taking a screenshot.
+     * Useful for charts and dynamic content that need time to render completely.
+     * @param selector - The CSS selector of the element.
+     * @param screenshotName - Name for the screenshot file.
+     * @param stabilityTimeMs - Time to wait for element stability (default: 1000ms).
+     * @returns True if successful, false otherwise.
+     */
+    async takeStableElementScreenshot(selector: string, screenshotName: string, stabilityTimeMs: number = 1000): Promise<boolean> {
+        return this.withLocator(selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await this.page.waitForTimeout(stabilityTimeMs);
+            await locator.screenshot({ path: `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png`, animations: 'disabled' });
+            return true;
+        });
+    };
+
+
+    /**
+     * Extracts colors from a screenshot and compares them against expected colors with tolerance.
+     * Uses the get-image-colors library to extract dominant colors from the image.
+     * @param screenshotPath - Path to the screenshot image file.
+     * @param expectedColors - Array of expected RGB color values.
+     * @param tolerance - RGB value tolerance for color matching (default: 50).
+     * @returns True if all expected colors are found within tolerance, false otherwise.
+     * @remarks
+     * This method is useful for validating chart colors, theme colors, or any visual elements.
+     * Colors are compared with tolerance to account for anti-aliasing and rendering variations.
+     */
+    protected async extractAndCompareColorsFromImage(imagePath: string, expectedColors: {r: number, g: number, b: number}[], tolerance: number = 50): Promise<boolean> {
+        try {
+            const colors = await getColors(imagePath);
+
+            for (const expectedColor of expectedColors) {
+                const isFound = colors.some((color: { rgb: () => any; }) => {
+                    const rgb = color.rgb();
+                    return Math.abs(rgb[0] - expectedColor.r) <= tolerance && 
+                           Math.abs(rgb[1] - expectedColor.g) <= tolerance && 
+                           Math.abs(rgb[2] - expectedColor.b) <= tolerance;
+                });
+                
+                if (!isFound) {
+                    this.logWarning(`Color validation failed: Expected [${expectedColor.r}, ${expectedColor.g}, ${expectedColor.b}] not found within tolerance ${tolerance}`);
+                    return false;
+                };
+            };
+
+            return true;
+        } catch (error) {
+            this.logError('Color extraction and comparison', error);
+            return false;
+        };
+    };
 };

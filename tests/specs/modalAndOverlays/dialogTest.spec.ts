@@ -1,5 +1,7 @@
 import {test, expect} from "../../base/baseTest"
-import dialogPageData from "../../data/dialogPageData.json"
+import { TEST_PATHS } from "../../config/test-config";
+
+const dialogPageData = require(`${TEST_PATHS.TEST_DATA}/dialogPageData.json`) as any;
 
 test.beforeEach(async ({baseTest}) => {
     await baseTest.dialogPage.goToDialogPage();
@@ -8,7 +10,7 @@ test.beforeEach(async ({baseTest}) => {
 test.describe(`Validate dialog content`, () => {
     const dialogdata = dialogPageData;
 
-    Object.values(dialogdata).filter((dataSet) => 'body' in dataSet).forEach((dataSet) => {
+    (Object.values(dialogdata) as any[]).filter((dataSet) => 'body' in dataSet).forEach((dataSet) => {
         test(`test ${dataSet.dialogName}`, async ({baseTest}) => {
             if (dataSet.xfail) {
                 test.fail(true, `Expected failure for dialog: ${dataSet.dialogName}`);

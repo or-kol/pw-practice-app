@@ -1,10 +1,12 @@
 import { test, expect } from "../../base/baseTest";
-import formPresets from "../../data/formData.json";
+import { TEST_PATHS } from "../../config/test-config";
+
+const formPresets = require(`${TEST_PATHS.TEST_DATA}/formData.json`) as any;
 
 
 
 test.describe("Data-driven Form Submissions", () => {
-    for (const config of Object.values(formPresets)) {
+    for (const config of Object.values(formPresets) as any[]) {
         test(`Submit ${config.title} Form`, async ({ baseTest }) => {
             await baseTest.formLayouts.goToFormLayoutsPage();
             if (config.xfail) {

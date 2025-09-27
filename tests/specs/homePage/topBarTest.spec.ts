@@ -1,5 +1,7 @@
 import { test, expect } from "../../base/baseTest";
-import themes from "../../data/themeColorsData.json";
+import { TEST_PATHS } from "../../config/test-config";
+
+const themes = require(`${TEST_PATHS.TEST_DATA}/themeColorsData.json`) as any;
 
 
 test.describe("Sidebar Menu Toggle States", () => {
@@ -13,7 +15,7 @@ test.describe("Sidebar Menu Toggle States", () => {
 
 
 test.describe("Website Theme Suite", () => {
-    for (const [theme, themeObj] of Object.entries(themes.themeColors)) {
+    for (const [theme, themeObj] of Object.entries(themes.themeColors) as any[]) {
         test(`Theme "${theme}" should apply correct background color`, async ({ baseTest }) => {
             if (themeObj.xfail) {
                 test.fail(true, `Expected failure for theme: ${theme}`);

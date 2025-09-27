@@ -1,5 +1,7 @@
 import {test, expect} from "../../base/baseTest"
-import securityCamerasData from "../../data/securityCameraData.json"
+import { TEST_PATHS } from "../../config/test-config";
+
+const securityCamerasData = require(`${TEST_PATHS.TEST_DATA}/securityCameraData.json`) as any;
 
 test.describe(`Security cameras layout test suite`, () => {
     [`grid`, `single`].forEach((view) => {

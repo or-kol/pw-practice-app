@@ -1,10 +1,12 @@
 import {test, expect} from "../../base/baseTest"
-import roomData from "../../data/roomManagement.json"
-import playlistData from "../../data/playlistData.json"
+import { TEST_PATHS } from "../../config/test-config";
+
+const roomData = require(`${TEST_PATHS.TEST_DATA}/roomManagement.json`) as any;
+const playlistData = require(`${TEST_PATHS.TEST_DATA}/playlistData.json`) as any;
 
 
 test.describe('Room selection test suite', () => {
-    for (const [roomName, roomObj] of Object.entries(roomData.roomID[0])) {
+    for (const [roomName, roomObj] of Object.entries(roomData.roomID[0]) as any[]) {
         test(`Select ${roomName} test`, async ({ baseTest }) => {
             if (roomObj.xfail) {
                 test.fail(true, `Expected failure for room selection: ${roomName}`);
@@ -17,7 +19,7 @@ test.describe('Room selection test suite', () => {
 
 
 test.describe(`Playlist - song progress bar test suite`, () => {
-    for (const [index, progressConfig] of Object.entries(playlistData.progressBar)){
+    for (const [index, progressConfig] of Object.entries(playlistData.progressBar) as any[]){
         const xfail = playlistData.songData[0].xfail;
         test(`Progress bar case #${Number(index) + 1}: offset(${progressConfig.x}, ${progressConfig.y}) → expected ${progressConfig.expectedPossition}`, async({baseTest}) => {
             if (xfail) {
