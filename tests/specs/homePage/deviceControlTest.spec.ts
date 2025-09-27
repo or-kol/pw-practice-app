@@ -1,8 +1,8 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const SwitchersData = require(`${TEST_PATHS.TEST_DATA}/deviceControlSwitchesData.json`) as any;
-const tempAndHumidSwitcherData = require(`${TEST_PATHS.TEST_DATA}/tempAndHumidSwitcherData.json`) as any;
+const SwitchersData = require(`${TEST_PATHS.TEST_DATA}/homePage/deviceControlSwitchesData.json`) as any;
+const tempAndHumidSwitcherData = require(`${TEST_PATHS.TEST_DATA}/homePage/tempAndHumidSwitcherData.json`) as any;
 
 test.describe('Device controller tests', () => {
     for (const config of SwitchersData.switchers) {

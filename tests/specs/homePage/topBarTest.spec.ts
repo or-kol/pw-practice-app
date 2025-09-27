@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const themes = require(`${TEST_PATHS.TEST_DATA}/themeColorsData.json`) as any;
+const themes = require(`${TEST_PATHS.TEST_DATA}/homePage/themeColorsData.json`) as any;
 
 
 test.describe("Sidebar Menu Toggle States", () => {

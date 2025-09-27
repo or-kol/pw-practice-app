@@ -1,8 +1,8 @@
 import {test, expect} from "../../base/baseTest"
 import { TEST_PATHS } from "../../config/test-config";
 
-const roomData = require(`${TEST_PATHS.TEST_DATA}/roomManagement.json`) as any;
-const playlistData = require(`${TEST_PATHS.TEST_DATA}/playlistData.json`) as any;
+const roomData = require(`${TEST_PATHS.TEST_DATA}/homePage/roomManagement.json`) as any;
+const playlistData = require(`${TEST_PATHS.TEST_DATA}/homePage/playlistData.json`) as any;
 
 
 test.describe('Room selection test suite', () => {

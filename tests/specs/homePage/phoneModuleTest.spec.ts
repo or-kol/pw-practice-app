@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const contactsData = require(`${TEST_PATHS.TEST_DATA}/phoneContactsLists.json`) as any;
+const contactsData = require(`${TEST_PATHS.TEST_DATA}/homePage/phoneContactsLists.json`) as any;
 
 test.describe(`Phone module test suite`, () => {
     const contactsLists = contactsData.contactsLists;

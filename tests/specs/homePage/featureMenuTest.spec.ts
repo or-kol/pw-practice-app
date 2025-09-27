@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const rawMenuData = require(`${TEST_PATHS.TEST_DATA}/menuData.json`) as any;
+const rawMenuData = require(`${TEST_PATHS.TEST_DATA}/homePage/menuData.json`) as any;
 
 test.describe("Features menu navigation suite", () => {
     for (const [category, {routes}] of Object.entries(rawMenuData) as any[]) {

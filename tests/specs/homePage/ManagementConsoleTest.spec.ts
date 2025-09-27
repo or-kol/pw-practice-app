@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const electricityConsumptionData = require(`${TEST_PATHS.TEST_DATA}/electricityConsumptionGraphData.json`) as any;
+const electricityConsumptionData = require(`${TEST_PATHS.TEST_DATA}/homePage/electricityConsumptionGraphData.json`) as any;
 
 
 test.describe("Electricity consumption graph responsivnes", () => {

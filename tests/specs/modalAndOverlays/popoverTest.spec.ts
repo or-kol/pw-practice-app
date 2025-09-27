@@ -1,7 +1,7 @@
 import {test, expect} from "../../base/baseTest"
 import { TEST_PATHS } from "../../config/test-config";
 
-const popoverPageData = require(`${TEST_PATHS.TEST_DATA}/popoverPageData.json`) as any;
+const popoverPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/popoverPageData.json`) as any;
 
 
 test.beforeEach(async ({ baseTest }) => {
@@ -22,7 +22,6 @@ test.describe(`Popover tab content validation test suite`, () => {
         });
     });
 });
-
 
 
 test.describe(`Popover position and content validation test suite`, () => {

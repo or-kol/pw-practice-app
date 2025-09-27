@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const trafficConsumptionData = require(`${TEST_PATHS.TEST_DATA}/trafficConsumptionData.json`) as any;
+const trafficConsumptionData = require(`${TEST_PATHS.TEST_DATA}/homePage/trafficConsumptionData.json`) as any;
 
 test.describe(`Trafic consumption time period selection test suite`, () => {
     trafficConsumptionData.periods.forEach((period) => {

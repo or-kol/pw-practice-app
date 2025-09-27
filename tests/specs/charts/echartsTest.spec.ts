@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const toastsPageData = require(`${TEST_PATHS.TEST_DATA}/echrtsPageData.json`);
+const echartsPageData = require(`${TEST_PATHS.TEST_DATA}/charts/echrtsPageData.json`);
 
 
 test.beforeEach(async ({ baseTest }) => {
@@ -10,7 +10,7 @@ test.beforeEach(async ({ baseTest }) => {
 
 
 test(`Pie chart colors validation test`, async ({ baseTest }) => {
-    const result = await baseTest.echartsPage.validatePieChartColors(toastsPageData.expectedColors);
+    const result = await baseTest.echartsPage.validatePieChartColors(echartsPageData.expectedColors);
     expect(result).toBeTruthy();
 });
 

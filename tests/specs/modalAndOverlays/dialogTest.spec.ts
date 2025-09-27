@@ -1,7 +1,7 @@
 import {test, expect} from "../../base/baseTest"
 import { TEST_PATHS } from "../../config/test-config";
 
-const dialogPageData = require(`${TEST_PATHS.TEST_DATA}/dialogPageData.json`) as any;
+const dialogPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/dialogPageData.json`) as any;
 
 test.beforeEach(async ({baseTest}) => {
     await baseTest.dialogPage.goToDialogPage();

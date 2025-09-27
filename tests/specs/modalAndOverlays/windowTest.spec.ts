@@ -1,7 +1,7 @@
 import {test, expect} from "../../base/baseTest"
 import { TEST_PATHS } from "../../config/test-config";
 
-const windowPageData = require(`${TEST_PATHS.TEST_DATA}/windowPageData.json`) as any;
+const windowPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/windowPageData.json`) as any;
 
 const WINDOWS = Object.values(windowPageData.windows) as any[];
 

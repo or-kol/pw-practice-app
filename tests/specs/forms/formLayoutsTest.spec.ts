@@ -1,7 +1,7 @@
 import { test, expect } from "../../base/baseTest";
 import { TEST_PATHS } from "../../config/test-config";
 
-const formPresets = require(`${TEST_PATHS.TEST_DATA}/formData.json`) as any;
+const formPresets = require(`${TEST_PATHS.TEST_DATA}/forms/formData.json`) as any;
 
 
 
