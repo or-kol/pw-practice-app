@@ -25,7 +25,7 @@ export class DialogPage extends BasePage{
 
 
     private async handleBackdrop(dialogButtonLocator:string): Promise<void> {
-        await this.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
+        await this.mouseInteraction.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
         await this.page.mouse.down();
         await this.page.mouse.up();
     };
@@ -72,7 +72,7 @@ export class DialogPage extends BasePage{
                 
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
-        await this.pressKeyboardKey("Escape");
+        await this.mouseInteraction.pressKeyboardKey("Escape");
         const isdialogVisible = await this.isVisible(dialogButtonLocator);
 
         return (!isdialogVisible) === esc;
@@ -88,7 +88,7 @@ export class DialogPage extends BasePage{
         const returnedValueLocator = `ngx-dialog div nb-card-body ul`;
 
         const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
-        const actualPlaceholder = await this.getAttribute(inputFieldLocator, "placeholder");
+        const actualPlaceholder = await this.attributes.getAttribute(inputFieldLocator, "placeholder");
         await this.fillInput({ selector: inputFieldLocator, value: input });
         await this.click(dialogButtonLocator);
         const returnedValue = await this.getText(returnedValueLocator) || "";

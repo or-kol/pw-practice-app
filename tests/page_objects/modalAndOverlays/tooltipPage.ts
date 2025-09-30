@@ -21,8 +21,8 @@ export class TooltipPage extends BasePage{
     async tooltipTabContentValidation(tooltipExpectedContent: string, buttonName: string): Promise<boolean> {
         
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${buttonName}") >> nth=0`;
-        
-        await this.hover(tooltipButtonLocator);
+
+        await this.mouseInteraction.hover(tooltipButtonLocator);
 
         const tooltipActualContent = await this.getText(this.TOOLTIP_LOCATOR);
         return tooltipActualContent === tooltipExpectedContent;
@@ -31,9 +31,9 @@ export class TooltipPage extends BasePage{
 
     async tooltipIconValidation(icon: string): Promise<boolean> {
         const iconLocator = `${this.TOOLTIP_LOCATOR} nb-icon`;
-        
-        await this.hover(`${this.TOOLTIP_BUTTON_LOCATOR} [nbtooltipicon="${icon}"]`);
-        const actualIcon = await this.getAttribute(iconLocator, `ng-reflect-config`);
+
+        await this.mouseInteraction.hover(`${this.TOOLTIP_BUTTON_LOCATOR} [nbtooltipicon="${icon}"]`);
+        const actualIcon = await this.attributes.getAttribute(iconLocator, `ng-reflect-config`);
 
         return actualIcon === icon;
     };
@@ -41,9 +41,9 @@ export class TooltipPage extends BasePage{
 
     async tooltipPositionValidation(position: string, classValidation: string): Promise<boolean> {
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${position}")`;
-        
-        await this.hover(tooltipButtonLocator);
-        const tooltipClass = await this.getAttribute(this.TOOLTIP_LOCATOR, 'class');
+
+        await this.mouseInteraction.hover(tooltipButtonLocator);
+        const tooltipClass = await this.attributes.getAttribute(this.TOOLTIP_LOCATOR, 'class');
 
         return tooltipClass.includes(classValidation);
     };
@@ -51,9 +51,8 @@ export class TooltipPage extends BasePage{
 
     async tooltipColorValidation(type: string, backgroundColor: string): Promise<boolean> {
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${type}")`;
-        await this.hover(tooltipButtonLocator);
-
-        const actualTooltipColor = await this.getElementCssProperty(this.TOOLTIP_LOCATOR, "background-color");
+        await this.mouseInteraction.hover(tooltipButtonLocator);
+        const actualTooltipColor = await this.attributes.getElementCssProperty(this.TOOLTIP_LOCATOR, "background-color");
         console.log(actualTooltipColor);
         console.log(backgroundColor);
         return actualTooltipColor === backgroundColor;

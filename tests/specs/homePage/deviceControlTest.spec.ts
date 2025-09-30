@@ -16,7 +16,7 @@ test.describe('Device controller tests', () => {
         const title = `${config.controllerName} should be switched ${config.desiredStatus}`;
 
         test(`${title}${config.xfail ? ' (expected failure)' : ''}`, async () => {
-            const result = await pageManager.deviceControlModule.buttonControlerSwitch(
+            const result = await pageManager.deviceControlModule.buttonControllerSwitch(
                 config.controllerName,
                 config.desiredStatus as 'ON' | 'OFF'
             );
@@ -32,7 +32,7 @@ test.describe('Device controller tests', () => {
 test.describe("Temp & Humidity Switch - Direct Element Edit", () => {
     ["Temperature", "Humidity"].forEach((mode) => {
         test(`${mode} switch test - direct element edit`, async () => {
-            const result = await pageManager.deviceControlModule.tempandHumiditySwitch(mode as "Temperature" | "Humidity");
+            const result = await pageManager.deviceControlModule.tempAndHumiditySwitch(mode as "Temperature" | "Humidity");
             expect(result).toBeTruthy();
         });
     });
@@ -48,7 +48,7 @@ test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humi
             const expected = entry[expectedField];
 
             test(`${mode} Case ${index + 1}: offset(${x}, ${y}) → expected ${expected}`, async () => {
-                const result = await pageManager.deviceControlModule.tempandHumiditySwitch2(mode, x, y, expected);
+                const result = await pageManager.deviceControlModule.tempAndHumiditySwitch2(mode, x, y, expected);
 
                 if (xfail) {
                     test.fail(true, `Expected failure for ${mode} offset(${x}, ${y}) → expected ${expected}`);

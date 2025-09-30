@@ -31,7 +31,7 @@ export class WindowPage extends BasePage{
 
 
     async verifyWindowContent(windowName: string, header: string, body?: string): Promise<boolean> {
-        const windowHeaderLocator = `nb-window nb-card-header`;//`nb-windows-container nb-window nb-card nb-card-header`;
+        const windowHeaderLocator = `nb-window nb-card-header`;
         let bodyText: string;
 
         this.openWindow(windowName);
@@ -48,7 +48,7 @@ export class WindowPage extends BasePage{
     async closeWindowWithEsc(windowName: string, closeWithEsc: boolean): Promise<boolean> {
         this.openWindow(windowName);
         await this.waitForVisible(this.WINDOW_BODY_LOCATOR);
-        await this.pressKeyboardKey("Escape");
+        await this.mouseInteraction.pressKeyboardKey("Escape");
         const isWindowBodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
         console.log(isWindowBodyVissible, closeWithEsc);
 
@@ -58,7 +58,7 @@ export class WindowPage extends BasePage{
     async closeWindowWithBackdrop(windowName: string, closeWithEsc: boolean): Promise<boolean> {
         this.openWindow(windowName);
 
-        await this.moveMouseInBoxedElement(this.WINDOW_BODY_LOCATOR, -500, 0);
+        await this.mouseInteraction.moveMouseInBoxedElement(this.WINDOW_BODY_LOCATOR, -500, 0);
         await this.page.mouse.down();
         await this.page.mouse.up();
         const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
@@ -71,9 +71,9 @@ export class WindowPage extends BasePage{
         const minimizeButtonLocator = `nb-window button nb-icon[icon="minus-outline"]`;
 
         await this.click(minimizeButtonLocator);
-        const isWindowBoodyVissibleAfterMinimizing = (await this.getAttribute(`nb-window`, "class")).includes("minimized");
+        const isWindowBoodyVissibleAfterMinimizing = (await this.attributes.getAttribute(`nb-window`, "class")).includes("minimized");
         await this.click(minimizeButtonLocator);
-        const isWindowBoodyVissibleAfterMaximizing = (await this.getAttribute(`nb-window`, "class")).includes("full-screen");
+        const isWindowBoodyVissibleAfterMaximizing = (await this.attributes.getAttribute(`nb-window`, "class")).includes("full-screen");
         
         return isWindowBoodyVissibleAfterMinimizing && isWindowBoodyVissibleAfterMaximizing;
     };
@@ -86,9 +86,9 @@ export class WindowPage extends BasePage{
         const windowsStatusLocator = `nb-window button:nth-child(2) nb-icon`;
         
         await this.click(collapseButtonLocator);
-        const WindowsStatusAfterClickingCollapse = await this.getAttribute(windowsStatusLocator, "icon");
+        const WindowsStatusAfterClickingCollapse = await this.attributes.getAttribute(windowsStatusLocator, "icon");
         await this.click(expendButtonLocator);
-        const WindowsStatusAfterClickingExpand = await this.getAttribute(windowsStatusLocator, "icon");
+        const WindowsStatusAfterClickingExpand = await this.attributes.getAttribute(windowsStatusLocator, "icon");
 
         return WindowsStatusAfterClickingCollapse === collapseStatus && WindowsStatusAfterClickingExpand === expandStatus;
     };
@@ -110,7 +110,7 @@ export class WindowPage extends BasePage{
 
         this.openWindow(windowName);
         await this.click(TextboxLocator);
-        const textboxStatus = await this.getAttribute(TextboxLocator, "class");
+        const textboxStatus = await this.attributes.getAttribute(TextboxLocator, "class");
 
         return textboxStatus.includes(activeStatus);
     };

@@ -17,7 +17,7 @@ export class HomePageFooter extends BasePage{
     async urlAvecoFunctionality(): Promise<boolean> {
         const urlLocator = `ngx-footer .created-by b a`;
 
-        const pageTitle = await this.getPageTitle(true, urlLocator);
+        const pageTitle = await this.navigation.getPageTitle(true, urlLocator);
         console.log(pageTitle);
         return pageTitle === `Software Development, Design & Consulting | Akveo`
     };
@@ -26,7 +26,7 @@ export class HomePageFooter extends BasePage{
     async socialButtonsFunctionality(socialNetwork: string): Promise<boolean> {
         const buttonLocator = `ngx-footer .socials .ion-social-${socialNetwork}`;
         
-        const pageTitle = await this.getPageTitle(true, buttonLocator);
+        const pageTitle = await this.navigation.getPageTitle(true, buttonLocator);
         return pageTitle === `playwright-test-admin Demo Application`
     };
 };

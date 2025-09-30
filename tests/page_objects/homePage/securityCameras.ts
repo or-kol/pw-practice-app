@@ -12,7 +12,7 @@ export class SecurityCameras extends BasePage{
         const LayoutButtonLocator = `ngx-security-cameras .${desiredButtonStatus}-view-button`
         
         await this.click(LayoutButtonLocator);
-        const buttonStatus = await this.getAttribute(LayoutButtonLocator, `ng-reflect-appearance`);
+        const buttonStatus = await this.attributes.getAttribute(LayoutButtonLocator, `ng-reflect-appearance`);
 
         return buttonStatus === `filled`;
     };

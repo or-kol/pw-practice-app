@@ -17,7 +17,7 @@ export class TopBarPage extends BasePage {
         let attempt = 0;
 
         while (attempt < maxTries) {
-            const sidebarClass = await this.getAttribute(sidebarSelector, "class");
+            const sidebarClass = await this.attributes.getAttribute(sidebarSelector, "class");
 
             if (sidebarClass?.includes(expectedStatus)) {
                 return true;
@@ -37,7 +37,7 @@ export class TopBarPage extends BasePage {
         const headerLayout = "nb-layout-header";
         await this.click(themeDropdown);
         await this.click(colorSelection);
-        return await this.getElementCssProperty(headerLayout, "background-color");
+        return await this.attributes.getElementCssProperty(headerLayout, "background-color");
     };
 
     async searchbarFunctionality(searchText: string): Promise<boolean> {
@@ -47,9 +47,9 @@ export class TopBarPage extends BasePage {
 
         await this.click(searchButton);
         await this.fillInput({ selector: searchBar, value: searchText });
-        await this.pressKeyboardKey("Enter");
+        await this.mouseInteraction.pressKeyboardKey("Enter");
 
-        return (await this.getAttribute(searchBarForm, "class")).includes("submitted");
+        return (await this.attributes.getAttribute(searchBarForm, "class")).includes("submitted");
     };
     
 

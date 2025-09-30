@@ -1,8 +1,7 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
-export class ManagementConsoleModul extends BasePage{
+export class ManagementConsoleModule extends BasePage{
     
     constructor(page: Page){
         super(page);
@@ -13,7 +12,7 @@ export class ManagementConsoleModul extends BasePage{
         const electricityConsumptionGraphLocator = `ngx-electricity-chart`;
         const graphKwhValue = `ngx-electricity-chart >> text=/\\d+\\s*kWh/`;
 
-        await this.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
+        await this.mouseInteraction.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
         const actualKwh = await this.getText(graphKwhValue);
 
         return actualKwh === expectedKwh;
@@ -39,7 +38,7 @@ export class ManagementConsoleModul extends BasePage{
         await this.click(timePeriodOptionsLocator);
         const finalTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${expectedPeriod}"`;
         await this.click(finalTimePeriodButtonLocator);
-        const selectedPeriodClass = await this.getAttribute(timePeriodOptionsLocator, "class");
+        const selectedPeriodClass = await this.attributes.getAttribute(timePeriodOptionsLocator, "class");
         
         return selectedPeriodClass.includes("selected");
     };

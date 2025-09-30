@@ -48,7 +48,7 @@ export class FormLayoutsPage extends BasePage {
             return false;
         };
 
-        const classAttr = await this.getAttribute(`${formLocator} form`, "class");
+        const classAttr = await this.attributes.getAttribute(`${formLocator} form`, "class");
 
         if (typeof classAttr !== "string") {
             return false;

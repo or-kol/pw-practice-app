@@ -5,8 +5,8 @@ import { FormLayoutsPage } from './forms/formLayoutsPage';
 import { DatepickerPage } from './forms/datepickerPage';
 import { FeaturesMenuPage } from './homePage/featuresMenuNavigationArea';
 import { TopBarPage } from './homePage/topBarArea';
-import { DevideControlModule } from './homePage/devideControlModule';
-import { ManagementConsoleModul } from './homePage/managementConsoleModule';
+import { DeviceControlModule } from './homePage/deviceControlModule';
+import { ManagementConsoleModule } from './homePage/managementConsoleModule';
 import { RoomManagementModule } from './homePage/roomManagementModule';
 import { PhoneModule } from './homePage/phoneModule';
 import { TrafficConsumption } from './homePage/trafficConsumption';
@@ -31,8 +31,8 @@ export class PageManager {
     private _datepickerPage?: DatepickerPage;
     private _featuresMenuPage?: FeaturesMenuPage;
     private _topBarPage?: TopBarPage;
-    private _deviceControlModule?: DevideControlModule;
-    private _managementConsoleModule?: ManagementConsoleModul;
+    private _deviceControlModule?: DeviceControlModule;
+    private _managementConsoleModule?: ManagementConsoleModule;
     private _roomManagementModule?: RoomManagementModule;
     private _phoneModule?: PhoneModule;
     private _trafficConsumption?: TrafficConsumption;
@@ -78,16 +78,16 @@ export class PageManager {
         return this._topBarPage;
     }
 
-    get deviceControlModule(): DevideControlModule {
+    get deviceControlModule(): DeviceControlModule {
         if (!this._deviceControlModule) {
-            this._deviceControlModule = new DevideControlModule(this.page);
+            this._deviceControlModule = new DeviceControlModule(this.page);
         }
         return this._deviceControlModule;
     }
 
-    get managementConsoleModule(): ManagementConsoleModul {
+    get managementConsoleModule(): ManagementConsoleModule {
         if (!this._managementConsoleModule) {
-            this._managementConsoleModule = new ManagementConsoleModul(this.page);
+            this._managementConsoleModule = new ManagementConsoleModule(this.page);
         }
         return this._managementConsoleModule;
     }

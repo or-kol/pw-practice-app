@@ -27,7 +27,7 @@ export class ToastrPage extends BasePage{
         await this.click(scrollListButtonLocator);
         await this.click(scrollListItemsLocator);
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
-        const positionAttribute = await this.getAttribute(`${this.TOASTR_LOCATOR} .toastr-overlay-container`, 'style');
+        const positionAttribute = await this.attributes.getAttribute(`${this.TOASTR_LOCATOR} .toastr-overlay-container`, 'style');
 
         return positionAttribute === styleExpectedValue;
     };
@@ -52,7 +52,7 @@ export class ToastrPage extends BasePage{
         
         await this.fillInput({ selector: timeoutInputLocator, value: String(cardTimeout) });
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
-        const displayDuration = await this.measureElementVisibilityDuration(`${this.TOASTR_LOCATOR} .content-container`);
+        const displayDuration = await this.visualTesting.measureElementVisibilityDuration(`${this.TOASTR_LOCATOR} .content-container`);
 
         return (Math.abs(displayDuration) - cardTimeout) < 100;
     };
@@ -65,7 +65,7 @@ export class ToastrPage extends BasePage{
         await this.click(typeListLocator);
         await this.click(typeListItemLocator);
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
-        const actualToastType = await this.getAttribute(`${this.TOASTR_LOCATOR} nb-toast`, 'class');
+        const actualToastType = await this.attributes.getAttribute(`${this.TOASTR_LOCATOR} nb-toast`, 'class');
 
         return actualToastType.includes(`status-${toastType}`);
     };
