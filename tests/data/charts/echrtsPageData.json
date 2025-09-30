@@ -1,15 +1,26 @@
 {
-    "pieChart": [
-        { "Country": "USA", "value": 1548, "percentage": "60.42%", "color": {"r": 95, "g": 151, "b": 249}},
-        { "Country": "Germany", "value": 335, "percentage": "13.08%", "color": {"r": 251, "g": 204, "b": 84}},
-        { "Country": "France", "value": 310, "percentage": "12.1%", "color": {"r": 95, "g": 151, "b": 249}},
-        { "Country": "Canada", "value": 234, "percentage": "9.13%", "color": {"r": 251, "g": 116, "b": 148}},
-        { "Country": "Russia", "value": 135, "percentage": "5.27%", "color": {"r": 53, "g": 227, "b": 156}}
-    ],
-    "expectedColors": [
-        {"r": 95, "g": 151, "b": 249},
-        {"r": 251, "g": 116, "b": 148},
-        {"r": 251, "g": 204, "b": 84},
-        {"r": 53, "g": 227, "b": 156}
-    ]
+    "pieChart": { 
+        "countriesColors": [
+            { "Country": "USA",  "color": {"r": 95, "g": 151, "b": 249}, "xfail": false},
+            { "Country": "Germany", "color": {"r": 251, "g": 204, "b": 84}, "xfail": false},
+            { "Country": "France", "color": {"r": 95, "g": 151, "b": 249}, "xfail": false},
+            { "Country": "Canada", "color": {"r": 251, "g": 116, "b": 148}, "xfail": false},
+            { "Country": "Russia", "color": {"r": 53, "g": 227, "b": 156}, "xfail": false}
+        ],
+        "countriesLegendCoordinates": [
+            { "Country": "USA", "legendCoordinates": {"x": -150, "y": 180}, "xfail": false},
+            { "Country": "Germany", "legendCoordinates": {"x": -50, "y": 180}, "xfail": false},
+            { "Country": "France", "legendCoordinates": {"x": 0, "y": 180}, "xfail": false},
+            { "Country": "Canada", "legendCoordinates": {"x": 50, "y": 180}, "xfail": false},
+            { "Country": "Russia", "legendCoordinates": {"x": 150, "y": 180}, "xfail": false}
+        ]
+        ,
+        "countriesChartData": [
+            { "Country": "USA", "value": 1548, "percentage": "60.42%", "xfail": false},
+            { "Country": "Germany", "value": 335, "percentage": "13.08%", "xfail": false},
+            { "Country": "France", "value": 310, "percentage": "12.1%", "xfail": false},
+            { "Country": "Canada", "value": 234, "percentage": "9.13%", "xfail": false},
+            { "Country": "Russia", "value": 135, "percentage": "5.27%", "xfail": false}
+        ]
+    }
 }

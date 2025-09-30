@@ -583,4 +583,26 @@ export class BasePage {
             return false;
         };
     };
+
+    /**
+     * Extracts text from an image using OCR (Optical Character Recognition)
+     * @param imagePath - Path to the image file
+     * @returns Promise<string> - Extracted text from the image
+     */
+    protected async extractTextFromImage(imagePath: string): Promise<string> {
+        try {
+            const { createWorker } = require('tesseract.js');
+            const worker = await createWorker();
+            
+            console.log(`Extracting text from image: ${imagePath}`);
+            const { data: { text } } = await worker.recognize(imagePath);
+            await worker.terminate();
+            
+            console.log(`Extracted text: "${text.trim()}"`);
+            return text.trim();
+        } catch (error) {
+            this.logError('Text extraction from image', error);
+            return '';
+        };
+    };
 };
