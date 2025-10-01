@@ -7,7 +7,6 @@
         "openWindowForm": {
             "windowName": "Open window form",
             "header": "Window",
-            "body": "false",
             "subject": "subject",
             "text": "text",
             "activeTextbox": "cdk-focused cdk-mouse-focused",

@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -17,8 +17,7 @@ test.describe("Data-driven Form Submissions", () => {
             if (config.xfail) {
                 test.fail(true, `${config.title} is expected to fail`);
             }
-            const result = await pageManager.formLayoutsPage.submitForm(config);
-            expect(result).toBeTruthy();
+            await pageManager.formLayoutsPage.submitForm(config);
         });
     }
 });

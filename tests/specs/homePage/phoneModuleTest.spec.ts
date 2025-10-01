@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -19,8 +19,7 @@ test.describe(`Phone module test suite`, () => {
                 test.fail(true, `Expected failure for ${listName} list validation`);
             }
             const contactNames = Array.isArray(listArr) ? listArr.map(contact => contact.name) : [];
-            const result = await pageManager.phoneModule.phoneListsValidation(listName, contactNames);
-            expect(result).toBeTruthy();
+            await pageManager.phoneModule.phoneListsValidation(listName, contactNames);
         });
     }
 });

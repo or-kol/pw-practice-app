@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -13,8 +13,7 @@ test.beforeEach(async ({ page }) => {
 test.describe("Sidebar Menu Toggle States", () => {
     ["compacted", "expanded"].forEach(state => {
         test(`Toggle sidebar to "${state}" state`, async () => {
-            const isInExpectedState = await pageManager.topBarPage.SidebarMenuToggle(state);
-            expect(isInExpectedState).toBe(true);
+            await pageManager.topBarPage.SidebarMenuToggle(state);
         });
     });
 });
@@ -26,38 +25,32 @@ test.describe("Website Theme Suite", () => {
             if (themeObj.xfail) {
                 test.fail(true, `Expected failure for theme: ${theme}`);
             };
-            const actualTheme = await pageManager.topBarPage.changeWebsiteThemeColor(theme);
-            expect(actualTheme).toEqual(themeObj.color);
+            await pageManager.topBarPage.changeWebsiteThemeColor(theme, themeObj.color);
         });
     };
 });
 
 
 test ("Searchbar functionality test", async () => {
-    const isSearchSuccessful = await pageManager.topBarPage.searchbarFunctionality("Search text");
-    expect(isSearchSuccessful).toBe(true);
+    await pageManager.topBarPage.searchbarFunctionality("Search text");
 });
 
 
 test ("Email icon visibility test", async () => {
-    const isMailboxIconVisible = await pageManager.topBarPage.mailboxIcon();
-    expect(isMailboxIconVisible).toBe(true);
+    await pageManager.topBarPage.mailboxIcon();
 });
 
 
 test ("Notifications icon visibility test", async () => {
-    const isNotificationsIconVisible = await pageManager.topBarPage.notificationsIcon();
-    expect(isNotificationsIconVisible).toBe(true);
+    await pageManager.topBarPage.notificationsIcon();
 });
 
 
 test ("User profile visibility test", async () => {
-    const isUserProfileVisible = await pageManager.topBarPage.userProfile();
-    expect(isUserProfileVisible).toBe(true);
+    await pageManager.topBarPage.userProfile();
 });
 
 
 test ("Log out visibility test", async () => {
-    const isLogOutVisible = await pageManager.topBarPage.userLogOut();
-    expect(isLogOutVisible).toBe(true);
+    await pageManager.topBarPage.userLogOut();
 });

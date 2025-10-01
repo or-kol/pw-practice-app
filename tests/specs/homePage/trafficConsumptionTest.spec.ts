@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -16,8 +16,7 @@ test.describe(`Trafic consumption time period selection test suite`, () => {
             if (period.xfail) {
                 test.fail(true, `Expected failure for period: ${period.name}`);
             };
-            const result = await pageManager.trafficConsumption.traficConsumptionPeriod(period.name);
-            expect(result).toBeTruthy();
+            await pageManager.trafficConsumption.traficConsumptionPeriod(period.name);
         });
     });
 });

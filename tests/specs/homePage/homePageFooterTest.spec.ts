@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -11,13 +11,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test(`Rights reseved text validation`, async () => {
-    const result = await pageManager.homePageFooter.rightsReservedText();
-    expect(result).toBeTruthy();
+    await pageManager.homePageFooter.rightsReservedText();
 });
 
 test(`Aveco rights url functionality`, async () => {
-    const result = await pageManager.homePageFooter.urlAvecoFunctionality();
-    expect(result).toBeTruthy();
+    await pageManager.homePageFooter.urlAvecoFunctionality();
 });
 
 test.describe(`Social networks navigation`, () => {
@@ -26,8 +24,7 @@ test.describe(`Social networks navigation`, () => {
             if (socialMedia.xfail) {
                 test.fail(true, `Expected failure for ${socialMedia.name} social Network`);
             };
-            const result = await pageManager.homePageFooter.socialButtonsFunctionality(socialMedia.name);
-            expect(result).toBeTruthy();
+            await pageManager.homePageFooter.socialButtonsFunctionality(socialMedia.name);
         });
     });
 });

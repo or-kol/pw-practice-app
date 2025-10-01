@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import type { DatepickerType } from "../../types/datepickerType";
 import { TEST_PATHS } from "../../config/test-config";
@@ -9,6 +9,7 @@ let pageManager: PageManager;
 
 test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
+    await pageManager.datepickerPage.goToDatePickerPage();
 });
 
 test.describe("Datepicker tests from JSON", () => {
@@ -20,14 +21,11 @@ test.describe("Datepicker tests from JSON", () => {
                                  and endOffset ${config.endOffset}`);
             }
             
-            await pageManager.datepickerPage.goToDatePickerPage();
-            const isValid = await pageManager.datepickerPage.selectDates(
+            await pageManager.datepickerPage.selectDates(
                 config.placeholder,
                 config.startOffset,
                 config.endOffset
             );
-
-            expect(isValid).toBe(config.expectedResult);
         });
     }
 });

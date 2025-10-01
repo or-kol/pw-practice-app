@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -16,11 +16,12 @@ export class EchartsPage extends BasePage{
     };
     
 
-    async validatePieChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<boolean> {
+    async validatePieChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, 'pie-chart-colors');
         const screenshotPath = `${TEST_PATHS.SCREENSHOTS}/pie-chart-colors.png`;
-        return await this.visualTesting.extractAndCompareColorsFromImage(screenshotPath, expectedColors, 50);
-    };
+        const result = await this.visualTesting.extractAndCompareColorsFromImage(screenshotPath, expectedColors, 50);
+        expect(result).toBeTruthy();
+    }
     /*
     async countryButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<boolean> {
         await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y, true);

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -9,51 +9,46 @@ export class RoomManagementModule extends BasePage{
     };
 
 
-    async selectRoomManagement(roomId: string): Promise<boolean> {
+    async selectRoomManagement(roomId: string): Promise<void> {
         const roomLocator = `g[id="${roomId}"]`;
         
         await this.click(roomLocator);
         const selectedClass = await this.attributes.getAttribute(roomLocator, "class");
-
-        return selectedClass.includes("selected-room")
+        expect(selectedClass).toContain("selected-room");
     };
 
 
-    async progressBarScrubbing(xAxis: number, yAxis: number, expectedPossition: string): Promise<boolean> {
+    async progressBarScrubbing(xAxis: number, yAxis: number, expectedPossition: string): Promise<void> {
         const progressBarLocator = `ngx-player nb-card-body .progress-wrap`;
         
         await this.attributes.scrollIntoView(progressBarLocator);
         await this.mouseInteraction.moveMouseInBoxedElement(progressBarLocator, xAxis, yAxis, true);
         const barPercentage = await this.attributes.getAttribute(`${progressBarLocator} div`, "style");
-        console.log(barPercentage);
-
-        return barPercentage.includes(expectedPossition);
+        expect(barPercentage).toContain(expectedPossition);
     };
 
     
-    async playlistshufleOrRepeat(buttonPlace: number): Promise<boolean>{
+    async playlistshufleOrRepeat(buttonPlace: number): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         
         await this.click(playlistControlButtonsLocator);
         const buttonClass = await this.attributes.getAttribute(playlistControlButtonsLocator, "class");
-
-        return /\bon\b/.test(buttonClass);
+        expect(/\bon\b/.test(buttonClass)).toBe(true);
     };
 
     
-    async playlistPrevOrNext(buttonPlace: number): Promise<boolean>{
+    async playlistPrevOrNext(buttonPlace: number): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         const songDataLocator = `ngx-player .details`;
 
         const initialSongData = await this.getText(songDataLocator);
         await this.click(playlistControlButtonsLocator);
         const postClickSongData = await this.getText(songDataLocator);
-        
-        return initialSongData !== postClickSongData;
+        expect(initialSongData).not.toBe(postClickSongData);
     };
 
 
-    async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<boolean>{
+    async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         
         await this.click(playlistControlButtonsLocator);
@@ -63,18 +58,16 @@ export class RoomManagementModule extends BasePage{
         };
 
         const buttonIcon = await this.attributes.getAttribute(playlistControlButtonsLocator, `ng-reflect-icon`);
-
-        return !(buttonIcon.includes(expectedState))
+        expect(buttonIcon).not.toContain(expectedState);
     };
 
 
-    async muteVolume(): Promise<boolean> {
+    async muteVolume(): Promise<void> {
         const muteButtonLocator = `ngx-player nb-card-footer [icon="volume-down-outline"]`;
         const volumeStatusLocator = `ngx-player nb-card-footer .progress-wrap div`;
 
         await this.click(muteButtonLocator);
         const volumeStatus = await this.attributes.getAttribute(volumeStatusLocator, `style`);
-
-        return volumeStatus.includes(`width: 0%`);
+        expect(volumeStatus).toContain(`width: 0%`);
     };
 };

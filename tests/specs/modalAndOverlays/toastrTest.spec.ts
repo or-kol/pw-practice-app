@@ -1,4 +1,4 @@
-import {test, expect} from "../../base/browserSetup"
+import { test } from "../../base/browserSetup"
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -19,9 +19,7 @@ test.describe(`Toastr position validation test suite`, () => {
             if (position.xfail) {
                 test.fail(true, `Expected failure for toastr position: ${position.position}`);
             };
-
-            const result = await pageManager.toastrPage.toastPositionValidation(position.position, position.vertical, position.horizontal);
-            expect(result).toBeTruthy();
+            await pageManager.toastrPage.toastPositionValidation(position.position, position.vertical, position.horizontal);
         });
     });
 });
@@ -34,9 +32,7 @@ test.describe(`Toastr content validation test suite`, () => {
             if (content.xfail) {
                 test.fail(true, `Expected failure for toastr content: ${content.title}`);
             };
-
-            const result = await pageManager.toastrPage.toastrTabContentValidation(content.title, content.message);
-            expect(result).toBeTruthy();
+            await pageManager.toastrPage.toastrTabContentValidation(content.title, content.message);
         });
     });
 }); 
@@ -49,9 +45,7 @@ test.describe(`Toastr duration validation test suite`, () => {
             if (content.xfail) {
                 test.fail(true, `Expected failure for toastr content: ${content.title}`);
             };
-
-            const result = await pageManager.toastrPage.toastrDurationValidation(content.timeout);
-            expect(result).toBeTruthy();
+            await pageManager.toastrPage.toastrDurationValidation(content.timeout);
         });
     });
 });
@@ -64,9 +58,7 @@ test.describe(`Toastr type validation test suite`, () => {
             if (type.xfail) {
                 test.fail(true, `Expected failure for toastr type: ${type.type}`);
             };
-            
-            const result = await pageManager.toastrPage.toastTypeValidation(type.type);
-            expect(result).toBeTruthy();
+            await pageManager.toastrPage.toastTypeValidation(type.type);
         });
     });
 });

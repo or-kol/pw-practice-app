@@ -1,6 +1,5 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
-
 
 export class TopBarPage extends BasePage {
     
@@ -9,38 +8,41 @@ export class TopBarPage extends BasePage {
     };
 
 
-    async SidebarMenuToggle(expectedStatus: string): Promise<boolean> {
+    async SidebarMenuToggle(expectedStatus: string): Promise<void> {
         const sideBarToggle = "a.sidebar-toggle";
         const sidebarSelector = "nb-sidebar";
-
         const maxTries = 5;
         let attempt = 0;
+        let found = false;
 
         while (attempt < maxTries) {
             const sidebarClass = await this.attributes.getAttribute(sidebarSelector, "class");
 
             if (sidebarClass?.includes(expectedStatus)) {
-                return true;
+                found = true;
+                break;
             };
 
             await this.click(sideBarToggle);
             attempt++;
         };
 
-        console.warn(`Sidebar did not reach "${expectedStatus}" state after ${maxTries} attempts.`);
-        return false;
+        expect(found).toBe(true);
     };
 
-    async changeWebsiteThemeColor (color: string) {
+    async changeWebsiteThemeColor (color: string, expectedColor?: string): Promise<void> {
         const themeDropdown = "ngx-header nb-select";
         const colorSelection = `nb-option-list nb-option:has-text("${color}")`;
         const headerLayout = "nb-layout-header";
         await this.click(themeDropdown);
         await this.click(colorSelection);
-        return await this.attributes.getElementCssProperty(headerLayout, "background-color");
+        const actualColor = await this.attributes.getElementCssProperty(headerLayout, "background-color");
+        if (expectedColor) {
+            expect(actualColor).toEqual(expectedColor);
+        }
     };
 
-    async searchbarFunctionality(searchText: string): Promise<boolean> {
+    async searchbarFunctionality(searchText: string): Promise<void> {
         const searchButton = "nb-search button";
         const searchBar = "input.search-input";
         const searchBarForm = "nb-search-field form";
@@ -49,34 +51,39 @@ export class TopBarPage extends BasePage {
         await this.fillInput({ selector: searchBar, value: searchText });
         await this.mouseInteraction.pressKeyboardKey("Enter");
 
-        return (await this.attributes.getAttribute(searchBarForm, "class")).includes("submitted");
+        const formClass = await this.attributes.getAttribute(searchBarForm, "class");
+        expect(formClass).toContain("submitted");
     };
     
 
-    async mailboxIcon(): Promise<boolean> {
+    async mailboxIcon(): Promise<void> {
         const mailboxIcon = "nb-action[icon='email-outline']";
-        return await this.isVisible(mailboxIcon);
+        const visible = await this.isVisible(mailboxIcon);
+        expect(visible).toBe(true);
     };
 
-    async notificationsIcon(): Promise<boolean> {
+    async notificationsIcon(): Promise<void> {
         const notificationsIcon = "nb-action[icon='bell-outline']";
-        return await this.isVisible(notificationsIcon);
+        const visible = await this.isVisible(notificationsIcon);
+        expect(visible).toBe(true);
     };
 
 
-    async userProfile(): Promise<boolean> {
+    async userProfile(): Promise<void> {
         const userProfileButton = "nb-layout-header nb-user.context-menu-host";
         const userProfile = "nb-menu:has-text('Profile')";
 
         await this.click(userProfileButton);
-        return await this.isVisible(userProfile);
+        const visible = await this.isVisible(userProfile);
+        expect(visible).toBe(true);
     };
 
-    async userLogOut(): Promise<boolean> {
+    async userLogOut(): Promise<void> {
         const userProfileButton = "nb-layout-header nb-user.context-menu-host";
         const userProfile = "nb-menu:has-text('Log out')";
 
         await this.click(userProfileButton);
-        return await this.isVisible(userProfile);
+        const visible = await this.isVisible(userProfile);
+        expect(visible).toBe(true);
     };
 };

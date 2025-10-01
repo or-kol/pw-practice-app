@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -18,43 +18,38 @@ export class TooltipPage extends BasePage{
     };
 
 
-    async tooltipTabContentValidation(tooltipExpectedContent: string, buttonName: string): Promise<boolean> {
-        
+    async tooltipTabContentValidation(tooltipExpectedContent: string, buttonName: string): Promise<void> {
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${buttonName}") >> nth=0`;
 
         await this.mouseInteraction.hover(tooltipButtonLocator);
-
         const tooltipActualContent = await this.getText(this.TOOLTIP_LOCATOR);
-        return tooltipActualContent === tooltipExpectedContent;
+        expect(tooltipActualContent).toBe(tooltipExpectedContent);
     };
 
 
-    async tooltipIconValidation(icon: string): Promise<boolean> {
+    async tooltipIconValidation(icon: string): Promise<void> {
         const iconLocator = `${this.TOOLTIP_LOCATOR} nb-icon`;
 
         await this.mouseInteraction.hover(`${this.TOOLTIP_BUTTON_LOCATOR} [nbtooltipicon="${icon}"]`);
         const actualIcon = await this.attributes.getAttribute(iconLocator, `ng-reflect-config`);
-
-        return actualIcon === icon;
+        expect(actualIcon).toBe(icon);
     };
 
 
-    async tooltipPositionValidation(position: string, classValidation: string): Promise<boolean> {
+    async tooltipPositionValidation(position: string, classValidation: string): Promise<void> {
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${position}")`;
 
         await this.mouseInteraction.hover(tooltipButtonLocator);
         const tooltipClass = await this.attributes.getAttribute(this.TOOLTIP_LOCATOR, 'class');
-
-        return tooltipClass.includes(classValidation);
+        expect(tooltipClass).toContain(classValidation);
     };
 
 
-    async tooltipColorValidation(type: string, backgroundColor: string): Promise<boolean> {
+    async tooltipColorValidation(type: string, backgroundColor: string): Promise<void> {
         const tooltipButtonLocator = `${this.TOOLTIP_BUTTON_LOCATOR} button:has-text("${type}")`;
+
         await this.mouseInteraction.hover(tooltipButtonLocator);
         const actualTooltipColor = await this.attributes.getElementCssProperty(this.TOOLTIP_LOCATOR, "background-color");
-        console.log(actualTooltipColor);
-        console.log(backgroundColor);
-        return actualTooltipColor === backgroundColor;
+        expect(actualTooltipColor).toBe(backgroundColor);
     };
 };

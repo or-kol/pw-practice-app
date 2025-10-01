@@ -1,12 +1,14 @@
+
 import { BasePage } from "../basePage";
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
+import { Logger } from "../utils/logger";
 
 export class DeviceControlModule extends BasePage {
     constructor(page: Page) {
         super(page);
     };
 
-    async buttonControllerSwitch(controllerName: string, switchDesiredStatus: "ON" | "OFF", ): Promise<boolean> {
+    async buttonControllerSwitch(controllerName: string, switchDesiredStatus: "ON" | "OFF"): Promise<void> {
         const switchLocator = `ngx-status-card[ng-reflect-title='${controllerName}']`;
         const switchStatusLocator = `${switchLocator} div.status.paragraph-2`;
 
@@ -14,18 +16,15 @@ export class DeviceControlModule extends BasePage {
 
         if (switchInitialStatus != switchDesiredStatus) {
             await this.click(switchLocator);
-        }
-        else {
-            return true;
         };
 
         const switchCurrentstatus = await this.getText(switchStatusLocator);
-        return switchCurrentstatus == switchDesiredStatus;
+        expect(switchCurrentstatus).toBe(switchDesiredStatus);
     };
 
-    async tempAndHumiditySwitch(switchName: "Temperature" | "Humidity"){
+    async tempAndHumiditySwitch(switchName: "Temperature" | "Humidity"): Promise<void> {
         if (switchName == "Humidity"){
-            this.click(`li.tab >> text=${switchName}`);
+            await this.click(`li.tab >> text=${switchName}`);
         };
 
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger circle`;
@@ -35,13 +34,12 @@ export class DeviceControlModule extends BasePage {
         await this.attributes.setAttributeVal(switchLoctor, "cy", "232.63");
         await this.click(switchLoctor);
         const ActualVal = await this.getText(valueLoctor);
-
-        return ActualVal.includes("30") ? switchName = "Temperature": ActualVal.includes("100");
+        expect(ActualVal.includes("30") || ActualVal.includes("100")).toBeTruthy();
     };
 
-    async tempAndHumiditySwitch2(switchName: "Temperature" | "Humidity", offsetX: number, offsetY: number, expectedTemp: string){
+    async tempAndHumiditySwitch2(switchName: "Temperature" | "Humidity", offsetX: number, offsetY: number, expectedTemp: string): Promise<void> {
         if (switchName == "Humidity"){
-            this.click(`li.tab >> text=${switchName}`);
+            await this.click(`li.tab >> text=${switchName}`);
         };
 
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
@@ -49,12 +47,11 @@ export class DeviceControlModule extends BasePage {
         await this.attributes.scrollIntoView(switchLoctor);
         await this.mouseInteraction.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
         const ActualVal = await this.getText(switchLoctor);
-
-        return ActualVal.includes(expectedTemp);
+        expect(ActualVal.includes(expectedTemp)).toBeTruthy();
     };
 
 
-    async acStatesSwitch(desiredState: string): Promise<boolean>  {
+    async acStatesSwitch(desiredState: string): Promise<void>  {
         let stateButtonLoctor: string;
 
         switch (desiredState){
@@ -71,17 +68,17 @@ export class DeviceControlModule extends BasePage {
                 stateButtonLoctor = "[tabtitle='Temperature'] .nb-loop-circled";
                 break;
             default:
-                console.log("State button was not found")
+                Logger.logError("acStatesSwitch", "State button was not found");
+                throw new Error("State button was not found");
         };
-        
-        await this.click(stateButtonLoctor);
-        const currentState = this.attributes.getAttribute("[ng-reflect-name='temperature-mode']", "ng-reflect-model");
 
-        return (await currentState).includes(desiredState);
+        await this.click(stateButtonLoctor);
+        const currentState = await this.attributes.getAttribute("[ng-reflect-name='temperature-mode']", "ng-reflect-model");
+        expect(currentState).toContain(desiredState);
     };
 
 
-    async tempSwitchOnOffButton(desiredState: "on" | "off"): Promise<boolean> {
+    async tempSwitchOnOffButton(desiredState: "on" | "off"): Promise<void> {
         const tempSwitchLoctor = "[tabtitle='Temperature'] ngx-temperature-dragger button";
         let classAttr = await this.attributes.getAttribute(tempSwitchLoctor, "class");
         const isOnInitailly = /\bon\b/.test(classAttr ?? "");
@@ -93,6 +90,10 @@ export class DeviceControlModule extends BasePage {
         classAttr = await this.attributes.getAttribute(tempSwitchLoctor, "class");
         const isOnFinally = /\bon\b/.test(classAttr ?? "");
 
-        return (desiredState === "on" && isOnFinally) || (desiredState === "off" && !(isOnFinally));
+        if (desiredState === "on") {
+            expect(isOnFinally).toBe(true);
+        } else {
+            expect(isOnFinally).toBe(false);
+        }
     };
 };

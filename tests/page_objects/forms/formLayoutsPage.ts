@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -13,47 +13,26 @@ export class FormLayoutsPage extends BasePage {
         await this.page.click(`a:has-text("Form Layouts")`);
     };
 
-    async submitForm(config): Promise<boolean> {
+    async submitForm(config): Promise<void> {
         const formLocator = `nb-card:has-text("${config.title}")`;
 
         for (const [placeholder, value] of Object.entries(config.fields)) {
-            const success = await this.fillInput(
-                { selector: `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`, value }
-            );
-
-            if (!success) {
-                return false;
-            };
+            await this.fillInput({
+                selector: `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`,
+                value
+            });
         };
 
         if (config.checkbox) {
-            const checked = await this.check(`${formLocator} nb-checkbox :text-is("${config.checkbox}")`);
-
-            if (!checked) {
-                return false;
-            };
+            await this.check(`${formLocator} nb-checkbox :text-is("${config.checkbox}")`);
         };
 
         if (config.radio) {
-            const clicked = await this.click(`${formLocator} nb-radio :text-is("${config.radio}")`);
-            
-            if (!clicked) {
-                return false;
-            };
+            await this.click(`${formLocator} nb-radio :text-is("${config.radio}")`);
         };
 
-        const submitted = await this.click(`${formLocator} button:has-text("${config.button}")`);
-        
-        if (!submitted) {
-            return false;
-        };
-
+        await this.click(`${formLocator} button:has-text("${config.button}")`);
         const classAttr = await this.attributes.getAttribute(`${formLocator} form`, "class");
-
-        if (typeof classAttr !== "string") {
-            return false;
-        };
-
-        return classAttr.includes("ng-submitted");
+        expect(classAttr).toContain("ng-submitted");
     };
 };

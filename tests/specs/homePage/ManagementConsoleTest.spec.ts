@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -18,18 +18,15 @@ test.describe("Electricity consumption graph responsivnes", () => {
             if (config.xfail) {
                 test.fail(true, `Expected failure: Tooltip may not appear at offset (${config.x}, ${config.y}) for ${config.expectedKwh}`);
             }
-            const result = await pageManager.managementConsoleModule.electricityConsumptionGraphResponsivnes(config.x, config.y, config.expectedKwh);
-            expect(result).toBe(true);
+            await pageManager.managementConsoleModule.electricityConsumptionGraphResponsivnes(config.x, config.y, config.expectedKwh);
         });
     };
 });
 
 test ("Electricity consumption switch year to 2015", async () => {
-    const result = await pageManager.managementConsoleModule.electricityConsumptionSwitchYears("2015");
-    expect(result).toBeTruthy();
+    await pageManager.managementConsoleModule.electricityConsumptionSwitchYears("2015");
 });
 
 test ("Electricity consumption graph time period switch to year", async () => {
-    const result = await pageManager.managementConsoleModule.changeGraphTimePeriod("year");
-    expect(result).toBeTruthy();
+    await pageManager.managementConsoleModule.changeGraphTimePeriod("year");
 });

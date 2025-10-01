@@ -1,6 +1,5 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
-import { time } from "console";
 
 
 export class HomePageFooter extends BasePage{
@@ -8,25 +7,21 @@ export class HomePageFooter extends BasePage{
         super(page)
     };
 
-    async rightsReservedText(): Promise<boolean> {
+    async rightsReservedText(): Promise<void> {
         const rightsTextLocator = `ngx-footer .created-by`;
         const rightsText = await this.getText(rightsTextLocator);
-        return rightsText === `Created with ♥ by Akveo 2019`;
+        expect(rightsText).toBe(`Created with ♥ by Akveo 2019`);
     };
 
-    async urlAvecoFunctionality(): Promise<boolean> {
+    async urlAvecoFunctionality(): Promise<void> {
         const urlLocator = `ngx-footer .created-by b a`;
-
         const pageTitle = await this.navigation.getPageTitle(true, urlLocator);
-        console.log(pageTitle);
-        return pageTitle === `Software Development, Design & Consulting | Akveo`
+        expect(pageTitle).toBe(`Software Development, Design & Consulting | Akveo`);
     };
 
-
-    async socialButtonsFunctionality(socialNetwork: string): Promise<boolean> {
+    async socialButtonsFunctionality(socialNetwork: string): Promise<void> {
         const buttonLocator = `ngx-footer .socials .ion-social-${socialNetwork}`;
-        
         const pageTitle = await this.navigation.getPageTitle(true, buttonLocator);
-        return pageTitle === `playwright-test-admin Demo Application`
+        expect(pageTitle).toBe(`playwright-test-admin Demo Application`);
     };
 };

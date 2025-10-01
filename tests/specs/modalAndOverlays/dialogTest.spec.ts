@@ -1,4 +1,4 @@
-import {test, expect} from "../../base/browserSetup"
+import { test } from "../../base/browserSetup"
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -19,10 +19,9 @@ test.describe(`Validate dialog content`, () => {
             if (dataSet.xfail) {
                 test.fail(true, `Expected failure for dialog: ${dataSet.dialogName}`);
             }
-            const result = await pageManager.dialogPage.dialogContentValidation(
+            await pageManager.dialogPage.dialogContentValidation(
                 dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body
             );
-            expect(result).toBeTruthy();
         });
     }); 
 });
@@ -35,10 +34,9 @@ test.describe(`Dialog with component vs template`, () => {
             if (dataSet.xfail) {
                 test.fail(true, `Expected failure for dialog component/template: ${dataSet.dialogName}`);
             }
-            const result = await pageManager.dialogPage.dialogComponentOrTemplate(
+            await pageManager.dialogPage.dialogComponentOrTemplate(
                 dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText
             );
-            expect(result).toBeTruthy();
         });
     });
 });
@@ -56,10 +54,9 @@ test.describe(`Dialog with backdrop vs without backdrop`, () => {
             if (dataSet.xfail) {
                 test.fail(true, `Expected failure for dialog backdrop: ${dataSet.dialogName}`);
             }
-            const result = await pageManager.dialogPage.dialogBackdrop(
+            await pageManager.dialogPage.dialogBackdrop(
                 dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText, dataSet.backdrop
             );
-            expect(result).toBeTruthy();
         });
     });
 });
@@ -75,10 +72,9 @@ test.describe(`Dialog with ESC close vs ESC close`, () => {
             if (dataSet.xfail) {
                 test.fail(true, `Expected failure for dialog ESC: ${dataSet.dialogName}`);
             }
-            const result = await pageManager.dialogPage.dialogEscClose(
+            await pageManager.dialogPage.dialogEscClose(
                 dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText, dataSet.esc
             );
-            expect(result).toBeTruthy();
         });
     });
 });
@@ -90,19 +86,17 @@ test.describe(`Return result from dialog`, () => {
         if (dialogResultReturn.xfail) {
             test.fail(true, `Expected failure for approve button dialog`);
         }
-        const result = await pageManager.dialogPage.dialogResultReturn(
+        await pageManager.dialogPage.dialogResultReturn(
             dialogResultReturn.dialogNum, dialogResultReturn.dialogName, dialogResultReturn.header, dialogResultReturn.approveButton, dialogResultReturn.textInput
         );
-        expect(result).toBeTruthy();
     });
 
     test(`test Return Result From Dialog ${dialogResultReturn.cancelButton} test`, async () => {
         if (dialogResultReturn.xfail) {
             test.fail(true, `Expected failure for cancel button dialog`);
         }
-        const result = await pageManager.dialogPage.dialogResultReturn(
+        await pageManager.dialogPage.dialogResultReturn(
             dialogResultReturn.dialogNum, dialogResultReturn.dialogName, dialogResultReturn.header, dialogResultReturn.cancelButton, dialogResultReturn.emptyInput
         );
-        expect(result).toBeTruthy();
     });
 });

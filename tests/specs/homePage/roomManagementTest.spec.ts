@@ -1,4 +1,4 @@
-import {test, expect} from "../../base/browserSetup"
+import { test } from "../../base/browserSetup"
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -17,8 +17,7 @@ test.describe('Room selection test suite', () => {
             if (roomObj.xfail) {
                 test.fail(true, `Expected failure for room selection: ${roomName}`);
             };
-            const result = await pageManager.roomManagementModule.selectRoomManagement(roomObj.id);
-            expect(result).toBeTruthy();
+            await pageManager.roomManagementModule.selectRoomManagement(roomObj.id);
         });
     };
 });
@@ -27,12 +26,11 @@ test.describe('Room selection test suite', () => {
 test.describe(`Playlist - song progress bar test suite`, () => {
     for (const [index, progressConfig] of Object.entries(playlistData.progressBar) as any[]){
         const xfail = playlistData.songData[0].xfail;
-        test(`Progress bar case #${Number(index) + 1}: offset(${progressConfig.x}, ${progressConfig.y}) → expected ${progressConfig.expectedPossition}`, async() => {
+        test(`Progress bar case #${Number(index) + 1}: offset(${progressConfig.x}, ${progressConfig.y})  expected ${progressConfig.expectedPossition}`, async() => {
             if (xfail) {
                 test.fail(true, `Expected failure: Progress bar may not match expected possition: ${progressConfig.expectedPossition}`);
             };
-            const result = await pageManager.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
-            expect(result).toBeTruthy();
+            await pageManager.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
         });
     };
 });
@@ -43,8 +41,7 @@ test.describe(`Playlist - select shufle/repeat list options test suite`, () => {
 
     buttons.forEach(({ index, label }) => {
         test(`Play ${label} with button index ${index}`, async () => {
-            const result = await pageManager.roomManagementModule.playlistshufleOrRepeat(index);
-            expect(result).toBeTruthy();
+            await pageManager.roomManagementModule.playlistshufleOrRepeat(index);
         });
     });
 });
@@ -55,8 +52,7 @@ test.describe(`Playlist - next/previous song test suite`, () => {
 
     buttons.forEach(({ index, label }) => {
         test(`Go to ${label} song with button index ${index}`, async () => {
-            const result = await pageManager.roomManagementModule.playlistPrevOrNext(index);
-            expect(result).toBeTruthy();
+            await pageManager.roomManagementModule.playlistPrevOrNext(index);
         });
     });
 });
@@ -65,8 +61,7 @@ test.describe(`Playlist - next/previous song test suite`, () => {
 test.describe(`Playlist - Play/pause song test suite`, ()=> {
     ["play", "pause"].forEach((state) => {
         test(`Play/pause song with button index 3 and expected state ${state}`, async () => {
-            const result = await pageManager.roomManagementModule.playlistPlayOrPause(3, state);
-            expect(result).toBeTruthy();
+            await pageManager.roomManagementModule.playlistPlayOrPause(3, state);
         });
     });
 });
@@ -74,7 +69,6 @@ test.describe(`Playlist - Play/pause song test suite`, ()=> {
 
 test.describe(`Playlist - volume control test suite`, () => {
     test(`Mute button test`, async () => {
-        const result = await pageManager.roomManagementModule.muteVolume();
-        expect(result).toBeTruthy();
+        await pageManager.roomManagementModule.muteVolume();
     });
 });

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -10,7 +10,7 @@ export class PhoneModule extends BasePage{
     };
 
 
-    async phoneListsValidation(tabName: string, contactsList: string[]): Promise <boolean> {
+    async phoneListsValidation(tabName: string, contactsList: string[]): Promise<void> {
         const tabButtonLocator = `ngx-contacts span:has-text("${tabName}")`;
         const tabListItemLocator = `ngx-contacts [tabtitle="${tabName}"] nb-list`;
 
@@ -18,13 +18,7 @@ export class PhoneModule extends BasePage{
 
         for (let i = 1; i<=5; i++){
             const contactItem = await this.getText(`${tabListItemLocator} nb-list-item:nth-of-type(${i})`);
-            const isExistInData = contactItem.includes(contactsList[i-1]);
-
-            if (!isExistInData) {
-                return false;
-            };
+            expect(contactItem).toContain(contactsList[i-1]);
         };
-
-        return true;
     };
 };

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -8,7 +8,7 @@ export class TrafficConsumption extends BasePage{
         super(page);
     };
 
-    async traficConsumptionPeriod(expectedTimePeriod: string) {
+    async traficConsumptionPeriod(expectedTimePeriod: string): Promise<void> {
         const consumptionPeriodDropdown = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;
         const periodSelection = `nb-option-list nb-option:has-text("${expectedTimePeriod}")`;
 
@@ -16,6 +16,6 @@ export class TrafficConsumption extends BasePage{
         await this.click(periodSelection);
         const selectedPeriod = await this.getText(consumptionPeriodDropdown);
         
-        return selectedPeriod.includes(expectedTimePeriod);
+        expect(selectedPeriod).toContain(expectedTimePeriod);
     };
 };

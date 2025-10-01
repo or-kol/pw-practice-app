@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 export class ManagementConsoleModule extends BasePage{
@@ -8,29 +8,27 @@ export class ManagementConsoleModule extends BasePage{
     };
 
 
-    async electricityConsumptionGraphResponsivnes(offsetX: number, offsetY: number, expectedKwh: string): Promise<boolean>{
+    async electricityConsumptionGraphResponsivnes(offsetX: number, offsetY: number, expectedKwh: string): Promise<void>{
         const electricityConsumptionGraphLocator = `ngx-electricity-chart`;
         const graphKwhValue = `ngx-electricity-chart >> text=/\\d+\\s*kWh/`;
 
         await this.mouseInteraction.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
         const actualKwh = await this.getText(graphKwhValue);
-
-        return actualKwh === expectedKwh;
+        expect(actualKwh).toBe(expectedKwh);
     };
 
 
-    async electricityConsumptionSwitchYears (expectedYear: string): Promise<boolean>{
+    async electricityConsumptionSwitchYears (expectedYear: string): Promise<void>{
         const yearLocator = `ngx-electricity >> text=${expectedYear}`;
 
         await this.click(yearLocator);
         const validationLocator = `ngx-electricity [class="tab ng-star-inserted active"]`;
-        const actualYear = await this.page.textContent(validationLocator);
-
-        return actualYear === expectedYear;
+        const actualYear = await this.getText(validationLocator);
+        expect(actualYear).toBe(expectedYear);
     };
 
     
-    async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<boolean>{
+    async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<void>{
         const initialTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${initialPeriod}"`;
         const timePeriodOptionsLocator = `nb-option >> text=${expectedPeriod}`;
 
@@ -39,7 +37,6 @@ export class ManagementConsoleModule extends BasePage{
         const finalTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${expectedPeriod}"`;
         await this.click(finalTimePeriodButtonLocator);
         const selectedPeriodClass = await this.attributes.getAttribute(timePeriodOptionsLocator, "class");
-        
-        return selectedPeriodClass.includes("selected");
+        expect(selectedPeriodClass).toContain("selected");
     };
 };

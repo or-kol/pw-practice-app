@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -17,8 +17,7 @@ test.describe("Features menu navigation suite", () => {
                 if (xfail) {
                     test.fail(true, `Expected failure for ${category} > ${subCategory}`);
                 };
-                const isLoaded = await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
-                expect(isLoaded).toBeTruthy();
+                await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
             });
         };
     };

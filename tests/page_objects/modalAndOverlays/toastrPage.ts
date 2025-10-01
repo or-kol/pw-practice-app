@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 
@@ -18,8 +18,7 @@ export class ToastrPage extends BasePage{
     };
 
 
-
-    async toastPositionValidation(position: string, verticalLocation: string, horizontalLocation: string): Promise<boolean> {
+    async toastPositionValidation(position: string, verticalLocation: string, horizontalLocation: string): Promise<void> {
         const scrollListButtonLocator = `ngx-toastr nb-card-body .position-select`;
         const scrollListItemsLocator = `nb-option-list nb-option:has-text("${position}")`;
         const styleExpectedValue = `justify-content: flex-${horizontalLocation}; align-items: flex-${verticalLocation};`
@@ -28,12 +27,11 @@ export class ToastrPage extends BasePage{
         await this.click(scrollListItemsLocator);
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const positionAttribute = await this.attributes.getAttribute(`${this.TOASTR_LOCATOR} .toastr-overlay-container`, 'style');
-
-        return positionAttribute === styleExpectedValue;
+        expect(positionAttribute).toBe(styleExpectedValue);
     };
     
 
-    async toastrTabContentValidation(cardHedline: string, cardDescription: string): Promise<boolean> {
+    async toastrTabContentValidation(cardHedline: string, cardDescription: string): Promise<void> {
         const headerInputLocator = `ngx-toastr nb-card-body [name="title"]`;
         const bodyInputLocator = `ngx-toastr nb-card-body [name="content"]`;
 
@@ -42,23 +40,22 @@ export class ToastrPage extends BasePage{
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const toastHeaderText = await this.getText(`${this.TOASTR_LOCATOR} .content-container .title`);
         const toastBodyText = await this.getText(`${this.TOASTR_LOCATOR} .content-container .message`);
-
-        return toastHeaderText === `Toast 2. ${cardHedline}` && toastBodyText === cardDescription;
+        expect(toastHeaderText).toBe(`Toast 2. ${cardHedline}`);
+        expect(toastBodyText).toBe(cardDescription);
     };
     
 
-    async toastrDurationValidation(cardTimeout: number): Promise<boolean> {
+    async toastrDurationValidation(cardTimeout: number): Promise<void> {
         const timeoutInputLocator = `ngx-toastr nb-card-body [name="timeout"]`;
         
         await this.fillInput({ selector: timeoutInputLocator, value: String(cardTimeout) });
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const displayDuration = await this.visualTesting.measureElementVisibilityDuration(`${this.TOASTR_LOCATOR} .content-container`);
-
-        return (Math.abs(displayDuration) - cardTimeout) < 100;
+        expect(Math.abs(displayDuration) - cardTimeout).toBeLessThan(100);
     };
 
 
-    async toastTypeValidation(toastType: string): Promise<boolean> {
+    async toastTypeValidation(toastType: string): Promise<void> {
         const typeListLocator = `ngx-toastr nb-card-body nb-select button:has-text("primary")`;
         const typeListItemLocator = `nb-option-list nb-option:has-text("${toastType}")`;
 
@@ -66,7 +63,6 @@ export class ToastrPage extends BasePage{
         await this.click(typeListItemLocator);
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const actualToastType = await this.attributes.getAttribute(`${this.TOASTR_LOCATOR} nb-toast`, 'class');
-
-        return actualToastType.includes(`status-${toastType}`);
+        expect(actualToastType).toContain(`status-${toastType}`);
     };
 };

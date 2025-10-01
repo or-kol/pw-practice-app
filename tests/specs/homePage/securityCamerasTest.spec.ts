@@ -1,4 +1,4 @@
-import {test, expect} from "../../base/browserSetup"
+import { test } from "../../base/browserSetup"
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -13,8 +13,7 @@ test.beforeEach(async ({ page }) => {
 test.describe(`Security cameras layout test suite`, () => {
     [`grid`, `single`].forEach((view) => {
         test(`Check ${view} view button`, async () => {
-            const result = await pageManager.securityCameras.layoutViewButton(view);
-            expect(result).toBeTruthy();
+            await pageManager.securityCameras.layoutViewButton(view);
         });
     });
 });
@@ -25,8 +24,7 @@ test.describe(`Security Camera selection from grid view`, () => {
             if (camera.xfail) {
                 test.fail(true, `Expected failure for camera selection: ${camera.name}`);
             };
-            const result = await pageManager.securityCameras.chooseCameraFromGrid(camera.name);
-            expect(result).toBeTruthy();
+            await pageManager.securityCameras.chooseCameraFromGrid(camera.name);
         });
     });
 });
@@ -37,8 +35,7 @@ test.describe(`Scurity Cameras control panel buttons visibility test suite`, () 
             if (button.xfail) {
                 test.fail(true, `Expected failure for control panel button: ${button.name}`);
             };
-            const result = await pageManager.securityCameras.controlPanelButonVisibility(button.name);
-            expect(result).toBeTruthy();
+            await pageManager.securityCameras.controlPanelButonVisibility(button.name);
         });
     });
 });

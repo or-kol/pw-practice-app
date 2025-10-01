@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -21,8 +21,7 @@ test.describe(`Window page header verification`, () => {
             if (header.xfail) {
                 test.fail(true, `Expected failure for ${header.name}`);
             }
-            const result = await pageManager.windowPage.verifyWindowPageHeaders(header.name);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.verifyWindowPageHeaders(header.name);
         });
     });
 });
@@ -33,8 +32,7 @@ test.describe(`Window content verification`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.verifyWindowContent(window.windowName, window.header, window.body);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.verifyWindowContent(window.windowName, window.header, window.body);
         });
     });
 });
@@ -45,8 +43,7 @@ test.describe(`Window ESC close functionality`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.closeWindowWithEsc(window.windowName, window.closeEsc);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.closeWindowWithEsc(window.windowName, window.closeEsc);
         });
     });
 });
@@ -57,8 +54,7 @@ test.describe(`Window backdrop close functionality`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.closeWindowWithBackdrop(window.windowName, window.closeBackdrop);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.closeWindowWithBackdrop(window.windowName, window.closeBackdrop);
         });
     });
 });
@@ -69,8 +65,7 @@ test.describe(`Window minimize functionality`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.minimizeWindowButtonFunctionality(window.windowName);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.minimizeWindowButtonFunctionality(window.windowName);
         });
     });
 });
@@ -81,12 +76,11 @@ test.describe(`Window collapse functionality`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.colapseWindowButtonFunctionality(
+            await pageManager.windowPage.colapseWindowButtonFunctionality(
                 window.windowName, 
                 windowPageData.windowStatus.collapsed, 
                 windowPageData.windowStatus.expended
             );
-            expect(result).toBeTruthy();
         });
     });
 });
@@ -97,8 +91,7 @@ test.describe(`Window close button functionality`, () => {
             if (window.xfail) {
                 test.fail(true, `Expected failure for ${window.windowName}`);
             }
-            const result = await pageManager.windowPage.closeWindowWithCloseButton(window.windowName);
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.closeWindowWithCloseButton(window.windowName);
         });
     });
 });
@@ -109,12 +102,7 @@ test.describe(`Textbox activation`, () => {
     
     textboxNames.forEach((Textbox) => {
         test(`${Textbox} activation`, async () => {
-            const result = await pageManager.windowPage.isOpenWindowformTextBoxesActive(
-                window.windowName, 
-                Textbox, 
-                window.activeTextbox
-            );
-            expect(result).toBeTruthy();
+            await pageManager.windowPage.isOpenWindowformTextBoxesActive(window.windowName, Textbox, window.activeTextbox);
         });
     });
 });

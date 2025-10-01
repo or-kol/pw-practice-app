@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 export class DatepickerPage extends BasePage{
@@ -13,54 +13,39 @@ export class DatepickerPage extends BasePage{
     };
 
     
-    async selectDates(placeholder: string, startOffset: number, endOffset?: number){
+    async selectDates(placeholder: string, startOffset: number, endOffset?: number): Promise<void> {
         const calendarLocator = `input[placeholder="${placeholder}"]`;
         await this.click(calendarLocator, 500);
 
         const expectedStartDate = await this.selectDateInTheCalendar(startOffset);
 
-        if (!expectedStartDate) {
-            return false;
-        };
-
-        let actualDate: string;
-
-        if (endOffset){
+        if (endOffset) {
             const expectedEndDate = await this.selectDateInTheCalendar(endOffset);
-            if (!expectedEndDate) {
-                return false;
-            }
-            actualDate = await this.getText(calendarLocator);
-            return actualDate === `${expectedStartDate} - ${expectedEndDate}`;
-        } else{
-            actualDate = await this.getText(calendarLocator);
-            return actualDate === expectedStartDate;
-        };
-    };
+            const expectedDateRange = `${expectedStartDate} - ${expectedEndDate}`;
+            await expect(this.page.locator(calendarLocator)).toHaveValue(expectedDateRange, { timeout: 5000 });
+        } else {
+            await expect(this.page.locator(calendarLocator)).toHaveValue(expectedStartDate, { timeout: 5000 });
+        }
+    }
 
 
     /**
-     * select a date in the calendar.
-     * @param numberOfDaysFromToday - number of days from today to select
-     * @returns expected date in the format "MMM DD, YYYY"
+     * Selects a date in the calendar by navigating through year, month, and day.
+     * @param numberOfDaysFromToday - Number of days from today to select
+     * @returns The formatted date string in "MMM DD, YYYY" format
+     * @throws Error if date selection fails at any step
      */
-    private async selectDateInTheCalendar(numberOfDaysFromToday: number){
+    private async selectDateInTheCalendar(numberOfDaysFromToday: number): Promise<string> {
         let date = new Date();
         date.setDate(date.getDate() + numberOfDaysFromToday);
         const expectedDay = date.getDate().toString();
         const expectedMonth = date.toLocaleString("En-US", {month: "short"});
         const expectedYear = date.getFullYear().toString();
         const expectedDate = `${expectedMonth} ${expectedDay}, ${expectedYear}`;
-
-        if (
-            !(await this.click("nb-calendar-view-mode button")) ||
-            !(await this.click(`.year-cell:has-text("${expectedYear}")`)) ||
-            !(await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`)) ||
-            !(await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`))
-        ) {
-            return false;
-        };
-        
+        await this.click("nb-calendar-view-mode button");
+        await this.click(`.year-cell:has-text("${expectedYear}")`);
+        await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`);
+        await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`);
         return expectedDate;
     };
-};
+}

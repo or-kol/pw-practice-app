@@ -1,4 +1,4 @@
-import { test, expect } from "../../base/browserSetup";
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
@@ -11,18 +11,16 @@ test.beforeEach(async ({ page }) => {
     await pageManager.tooltipPage.goToTooltipPage();
 });
 
+
 test.describe(`Tooltip tab content validation test suite`, () => {
     const tooltipContent = toastsPageData.tooltipContent;
     const tooltipReflections = toastsPageData.tooltipReflection;
-
     tooltipReflections.forEach((Reflection) => {
         test(`Tooltip content: ${Reflection.buttonName} test`, async () => {
             if (Reflection.xfail) {
                 test.fail(true, `Expected failure for tooltip content: ${Reflection.buttonName}`);
             };
-
-            const result = await pageManager.tooltipPage.tooltipTabContentValidation(tooltipContent, Reflection.buttonName);
-            expect(result).toBeTruthy();
+            await pageManager.tooltipPage.tooltipTabContentValidation(tooltipContent, Reflection.buttonName);
         });
     });
 });
@@ -30,15 +28,12 @@ test.describe(`Tooltip tab content validation test suite`, () => {
 
 test.describe(`Tooltip icon validation test suite`, () => {
     const tooltipReflections = toastsPageData.tooltipsIcons;
-    
     tooltipReflections.forEach((icon) => {
         test(`Tooltip icon: ${icon.icon} test`, async () => {
             if (icon.xfail) {
                 test.fail(true, `Expected failure for tooltip icon: ${icon.icon}`);
             };
-
-            const result = await pageManager.tooltipPage.tooltipIconValidation(icon.icon);
-            expect(result).toBeTruthy();
+            await pageManager.tooltipPage.tooltipIconValidation(icon.icon);
         });
     });
 });
@@ -51,9 +46,7 @@ test.describe(`Tooltip position validation test suite`, () => {
             if (position.xfail) {
                 test.fail(true, `Expected failure for tooltip position: ${position.position}`);
             };
-
-            const result = await pageManager.tooltipPage.tooltipPositionValidation(position.position, position.classValidation);
-            expect(result).toBeTruthy();
+            await pageManager.tooltipPage.tooltipPositionValidation(position.position, position.classValidation);
         });
     });
 });
@@ -66,8 +59,7 @@ test.describe(`Tooltip color validation test suite`, () => {
             if (color.xfail) {
                 test.fail(true, `Expected failure for tooltip type: ${color.type}`);
             };
-            const result = await pageManager.tooltipPage.tooltipColorValidation(color.type, color.color);
-            expect(result).toBeTruthy();
+            await pageManager.tooltipPage.tooltipColorValidation(color.type, color.color);
         });
     });
 });
