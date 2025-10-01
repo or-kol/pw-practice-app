@@ -1,6 +1,6 @@
-import { test, expect } from "../../base/browserSetup";
+import { test, expect } from "../../page_objects/utils/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../config/test-config";
+import { TEST_PATHS } from "../../page_objects/utils/testConfig";
 
 const echartsPageData = require(`${TEST_PATHS.TEST_DATA}/charts/echrtsPageData.json`);
 

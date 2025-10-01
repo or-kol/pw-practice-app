@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { TEST_TIMEOUTS } from "../config/test-config";
+import { TEST_TIMEOUTS } from "./utils/testConfig";
 import { LocatorHelper } from "./utils/locatorHelper";
 import { AttributesMixin } from "./utils/mixins/attributesMixin";
 import { MouseInteractionMixin } from "./utils/mixins/mouseInteractionMixin";

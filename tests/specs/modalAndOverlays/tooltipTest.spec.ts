@@ -1,6 +1,6 @@
-import { test } from "../../base/browserSetup";
+import { test } from "../../page_objects/utils/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../config/test-config";
+import { TEST_PATHS } from "../../page_objects/utils/testConfig";
 
 const toastsPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/tooltipPageData.json`) as any;
 

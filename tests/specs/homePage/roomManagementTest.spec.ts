@@ -1,6 +1,6 @@
-import { test } from "../../base/browserSetup"
+import { test } from "../../page_objects/utils/browserSetup"
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../config/test-config";
+import { TEST_PATHS } from "../../page_objects/utils/testConfig";
 
 const roomData = require(`${TEST_PATHS.TEST_DATA}/homePage/roomManagement.json`) as any;
 const playlistData = require(`${TEST_PATHS.TEST_DATA}/homePage/playlistData.json`) as any;

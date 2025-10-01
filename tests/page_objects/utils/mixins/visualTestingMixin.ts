@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import getColors from "get-image-colors";
-import { TEST_PATHS } from "../../../config/test-config";
+import { TEST_PATHS } from "../testConfig";
 import { Logger } from "../logger";
 import { LocatorHelper } from "../locatorHelper";
 

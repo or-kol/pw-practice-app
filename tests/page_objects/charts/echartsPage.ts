@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
-import { TEST_PATHS } from "../../config/test-config";
+import { TEST_PATHS } from "../utils/testConfig";
 
 export class EchartsPage extends BasePage{
 
