@@ -1,9 +1,9 @@
-import { test } from "../../base/browserSetup"
+import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
 const dialogPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/dialogPageData.json`) as any;
-
+const dialogs = dialogPageData.dialogs as Array<any>;
 let pageManager: PageManager;
 
 test.beforeEach(async ({ page }) => {
@@ -12,89 +12,74 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe(`Validate dialog content`, () => {
-    const dialogdata = dialogPageData;
-
-    (Object.values(dialogdata) as any[]).filter((dataSet) => 'body' in dataSet).forEach((dataSet) => {
-        test(`test ${dataSet.dialogName}`, async () => {
-            if (dataSet.xfail) {
-                test.fail(true, `Expected failure for dialog: ${dataSet.dialogName}`);
+    const dialogsWithBody = dialogs.filter(({ body }) => body !== undefined);
+    dialogsWithBody.forEach(({ dialogNum, dialogName, header, body, xfail }) => {
+        test(`test ${dialogName}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for dialog: ${dialogName}`);
             }
             await pageManager.dialogPage.dialogContentValidation(
-                dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body
+                dialogNum, dialogName, header, body
             );
         });
-    }); 
+    });
 });
 
 test.describe(`Dialog with component vs template`, () => {
-    const dialogTypeList = [dialogPageData.openDialogWithComponent, dialogPageData.openDialogWithTemplate];
-
-    dialogTypeList.forEach ((dataSet) => {
-        test(`test ${dataSet.dialogName}`, async () => {
-            if (dataSet.xfail) {
-                test.fail(true, `Expected failure for dialog component/template: ${dataSet.dialogName}`);
-            }
-            await pageManager.dialogPage.dialogComponentOrTemplate(
-                dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText
-            );
+    const dialogsData = dialogs.filter(({ dialogName }) => (dialogName === "Open Dialog with component" || dialogName === "Open Dialog with template"));
+    dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText, xfail }) => {
+        test(`test ${dialogName}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for dialog component/template: ${dialogName}`);
+            };
+            await pageManager.dialogPage.dialogComponentOrTemplate(dialogNum, dialogName, header, body, buttonText);
         });
     });
 });
 
 test.describe(`Dialog with backdrop vs without backdrop`, () => {
-    const backdropElementList = [
-        dialogPageData.openDialogWithBackdrop,
-        dialogPageData.openDialogWithoutBackdrop, 
-        dialogPageData.openDialogWithBackdropClick,
-        dialogPageData.openDialogWithoutBackdropClick
-    ];
-
-    backdropElementList.forEach ((dataSet) => {
-        test(`test ${dataSet.dialogName}`, async () => {
-            if (dataSet.xfail) {
-                test.fail(true, `Expected failure for dialog backdrop: ${dataSet.dialogName}`);
+    const dialogsData = dialogs.filter(({ dialogName }) => dialogName.toLowerCase().includes("backdrop"));
+    dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText, backdrop, xfail }) => {
+        test(`test ${dialogName}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for dialog backdrop: ${dialogName}`);
             }
-            await pageManager.dialogPage.dialogBackdrop(
-                dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText, dataSet.backdrop
-            );
+            await pageManager.dialogPage.dialogBackdrop(dialogNum, dialogName, header, body, buttonText, backdrop);
         });
     });
 });
 
-test.describe(`Dialog with ESC close vs ESC close`, () => {
-    const dialogEscElementList = [
-        dialogPageData.openDialogWithEscClose,
-        dialogPageData.openDialogWithoutEscClose
-    ];
 
-    dialogEscElementList.forEach ((dataSet) => {
-        test(`test ${dataSet.dialogName}`, async () => {
-            if (dataSet.xfail) {
-                test.fail(true, `Expected failure for dialog ESC: ${dataSet.dialogName}`);
-            }
+test.describe(`Dialog with ESC close vs ESC close`, () => {
+    const dialogsData = dialogs.filter(({ dialogName }) => dialogName.toLowerCase().includes("esc close"));
+    dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText, esc, xfail }) => {
+        test(`test ${dialogName}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for dialog ESC: ${dialogName}`);
+            };
             await pageManager.dialogPage.dialogEscClose(
-                dataSet.dialogNum, dataSet.dialogName, dataSet.header, dataSet.body, dataSet.buttonText, dataSet.esc
+                dialogNum, dialogName, header, body, buttonText, esc
             );
         });
     });
 });
 
 test.describe(`Return result from dialog`, () => {
-    const dialogResultReturn = dialogPageData.returnResultFromDialog;
+    const dialogResultReturn = dialogs.find(({ dialogName }) => dialogName === "Enter Name");
 
     test(`test Return Result From Dialog ${dialogResultReturn.approveButton} test`, async () => {
         if (dialogResultReturn.xfail) {
             test.fail(true, `Expected failure for approve button dialog`);
-        }
+        };
         await pageManager.dialogPage.dialogResultReturn(
             dialogResultReturn.dialogNum, dialogResultReturn.dialogName, dialogResultReturn.header, dialogResultReturn.approveButton, dialogResultReturn.textInput
         );
     });
-
+    
     test(`test Return Result From Dialog ${dialogResultReturn.cancelButton} test`, async () => {
         if (dialogResultReturn.xfail) {
             test.fail(true, `Expected failure for cancel button dialog`);
-        }
+        };
         await pageManager.dialogPage.dialogResultReturn(
             dialogResultReturn.dialogNum, dialogResultReturn.dialogName, dialogResultReturn.header, dialogResultReturn.cancelButton, dialogResultReturn.emptyInput
         );

@@ -78,7 +78,7 @@ export class DeviceControlModule extends BasePage {
     };
 
 
-    async tempSwitchOnOffButton(desiredState: "on" | "off"): Promise<void> {
+    async tempSwitchOnOffButton(desiredState: string): Promise<void> {
         const tempSwitchLoctor = "[tabtitle='Temperature'] ngx-temperature-dragger button";
         let classAttr = await this.attributes.getAttribute(tempSwitchLoctor, "class");
         const isOnInitailly = /\bon\b/.test(classAttr ?? "");

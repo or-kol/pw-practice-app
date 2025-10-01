@@ -1,20 +1,27 @@
 {
     "contactsLists": [
         {
-            "Contacts": [
-                { "name": "Nick Jones", "xfail": false },
-                { "name": "Eva Moor", "xfail": false },
-                { "name": "Jack Williams", "xfail": false },
-                { "name": "Lee Wong", "xfail": false },
-                { "name": "Alan Thompson", "xfail": false }
+            "listName": "Contacts",
+            "contacts": [
+                "Nick Jones",
+                "Eva Moor",
+                "Jack Williams",
+                "Lee Wong",
+                "Alan Thompson"
             ],
-            "Recent": [
-                { "name": "Alan Thompson", "xfail": false },
-                { "name": "Eva Moor", "xfail": false },
-                { "name": "Nick Jones", "xfail": false },
-                { "name": "Lee Wong", "xfail": false },
-                { "name": "Jack Williams", "xfail": false }
-            ]
+            "xfail": false
+            
+        },
+        {
+            "listName": "Recent",
+            "contacts": [
+                "Alan Thompson",
+                "Eva Moor",
+                "Nick Jones",
+                "Lee Wong",
+                "Jack Williams"
+            ],
+            "xfail": false
         }
     ]
 }

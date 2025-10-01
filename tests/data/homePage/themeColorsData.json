@@ -1,8 +1,0 @@
-{
-    "themeColors": {
-        "Light": { "color": "rgb(255, 255, 255)", "xfail": false },
-        "Dark": { "color": "rgb(34, 43, 69)", "xfail": false },
-        "Cosmic": { "color": "rgb(50, 50, 89)", "xfail": false },
-        "Corporate": { "color": "rgb(255, 255, 255)", "xfail": false }
-    }
-}

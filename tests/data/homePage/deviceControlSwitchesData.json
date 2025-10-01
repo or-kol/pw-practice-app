@@ -1,44 +1,34 @@
 {
-    "switchers": [
-        {
-            "controllerName": "Light",
-            "desiredStatus": "ON",
-            "xfail": false
-        },
-        {
-            "controllerName": "Light",
-            "desiredStatus": "OFF",
-            "xfail": false
-        },
-        {
-            "controllerName": "Roller Shades",
-            "desiredStatus": "ON",
-            "xfail": false
-        },
-        {
-            "controllerName": "Roller Shades",
-            "desiredStatus": "OFF",
-            "xfail": false
-        },
-        {
-            "controllerName": "Wireless Audio",
-            "desiredStatus": "ON",
-            "xfail": false
-        },
-        {
-            "controllerName": "Wireless Audio",
-            "desiredStatus": "OFF",
-            "xfail": false
-        },
-        {
-            "controllerName": "Coffee Maker",
-            "desiredStatus": "ON",
-            "xfail": false
-        },
-        {
-            "controllerName": "Coffee Maker",
-            "desiredStatus": "OFF",
-            "xfail": false
-        }
+    "buttonSwitchers": [
+        { "controllerName": "Light", "desiredStatus": "ON", "xfail": false },
+        { "controllerName": "Light", "desiredStatus": "OFF", "xfail": false },
+        { "controllerName": "Roller Shades", "desiredStatus": "ON", "xfail": false },
+        { "controllerName": "Roller Shades", "desiredStatus": "OFF", "xfail": false },
+        { "controllerName": "Wireless Audio", "desiredStatus": "ON", "xfail": false },
+        { "controllerName": "Wireless Audio", "desiredStatus": "OFF", "xfail": false },
+        { "controllerName": "Coffee Maker", "desiredStatus": "ON", "xfail": false },
+        { "controllerName": "Coffee Maker", "desiredStatus": "OFF", "xfail": false }
+    ],
+    "directTempAndhumidSwitches": [
+        { "controllerName": "Temperature", "xfail": false },
+        { "controllerName": "Humidity", "xfail": false }
+    ],
+    "mouseMovementTempAndhumidSwitches": [
+        { "mode": "Temperature", "x": -100, "y": 100, "expected": "13", "xfail": false },
+        { "mode": "Temperature", "x": 100, "y": -600, "expected": "22", "xfail": false },
+        { "mode": "Temperature", "x": 300, "y": 300, "expected": "30", "xfail": false },
+        { "mode": "Humidity", "x": -100, "y": 100, "expected": "3", "xfail": false },
+        { "mode": "Humidity", "x": 100, "y": -600, "expected": "53", "xfail": false },
+        { "mode": "Humidity", "x": 300, "y": 300, "expected": "99", "xfail": false }
+    ],
+    "temperatureStatesSwitchers": [
+        { "state": "cool", "xfail": false },
+        { "state": "warm", "xfail": false },
+        { "state": "heat", "xfail": false },
+        { "state": "fan", "xfail": false }
+    ],
+    "temperatureOnOffSwitchers": [
+        { "state": "on", "xfail": false },
+        { "state": "off", "xfail": false }
     ]
 }

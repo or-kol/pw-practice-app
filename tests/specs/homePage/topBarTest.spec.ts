@@ -1,8 +1,9 @@
 import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
+
 import { TEST_PATHS } from "../../config/test-config";
 
-const themes = require(`${TEST_PATHS.TEST_DATA}/homePage/themeColorsData.json`) as any;
+const topBarData = require(`${TEST_PATHS.TEST_DATA}/homePage/topBarData.json`) as any;
 
 let pageManager: PageManager;
 
@@ -11,8 +12,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Sidebar Menu Toggle States", () => {
-    ["compacted", "expanded"].forEach(state => {
+    const sidebarMenuStates = topBarData.sidebarMenuStates;
+    sidebarMenuStates.forEach(({ state, xfail }) => {
         test(`Toggle sidebar to "${state}" state`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for sidebar state: ${state}`);
+            };
             await pageManager.topBarPage.SidebarMenuToggle(state);
         });
     });
@@ -20,14 +25,15 @@ test.describe("Sidebar Menu Toggle States", () => {
 
 
 test.describe("Website Theme Suite", () => {
-    for (const [theme, themeObj] of Object.entries(themes.themeColors) as any[]) {
-        test(`Theme "${theme}" should apply correct background color`, async () => {
-            if (themeObj.xfail) {
-                test.fail(true, `Expected failure for theme: ${theme}`);
+    const themeColors = topBarData.themeColors;
+    themeColors.forEach(({ name, color, xfail }) => {
+        test(`Theme "${name}" should apply correct background color`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for theme: ${name}`);
             };
-            await pageManager.topBarPage.changeWebsiteThemeColor(theme, themeObj.color);
+            await pageManager.topBarPage.changeWebsiteThemeColor(name, color);
         });
-    };
+    });
 });
 
 

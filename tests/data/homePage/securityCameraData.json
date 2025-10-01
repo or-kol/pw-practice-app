@@ -10,5 +10,9 @@
         { "name": " Logs ", "xfail": false },
         { "name": " Search ", "xfail": false },
         { "name": " Setup ", "xfail": false }
+    ],
+    "layoutViews": [
+        { "view": "grid" },
+        { "view": "single" }
     ]
 }

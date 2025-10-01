@@ -15,7 +15,6 @@ export class FormLayoutsPage extends BasePage {
 
     async submitForm(config): Promise<void> {
         const formLocator = `nb-card:has-text("${config.title}")`;
-
         for (const [placeholder, value] of Object.entries(config.fields)) {
             await this.fillInput({
                 selector: `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`,
@@ -26,7 +25,6 @@ export class FormLayoutsPage extends BasePage {
         if (config.checkbox) {
             await this.check(`${formLocator} nb-checkbox :text-is("${config.checkbox}")`);
         };
-
         if (config.radio) {
             await this.click(`${formLocator} nb-radio :text-is("${config.radio}")`);
         };

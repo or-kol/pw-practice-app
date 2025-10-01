@@ -3,8 +3,8 @@
         { "name": "Window Form", "xfail": false },
         { "name": "Window Without Backdrop", "xfail": false }
     ],
-    "windows": {
-        "openWindowForm": {
+    "windows": [
+        {
             "windowName": "Open window form",
             "header": "Window",
             "subject": "subject",
@@ -14,7 +14,7 @@
             "closeBackdrop": true,
             "xfail": false
         },
-        "openWindowWithTemplate": {
+        {
             "windowName": "Open window with template",
             "header": "Window content from template",
             "body": "Here is the text provided via config: \"some text to pass into template\"",
@@ -22,7 +22,7 @@
             "closeBackdrop": true,
             "xfail": false
         },
-        "Open window with backdrop": {
+        {
             "windowName": "Open window with backdrop",
             "header": "Window content from template",
             "body": "Here is the text provided via config: \"some text to pass into template\"",
@@ -30,7 +30,7 @@
             "closeBackdrop": true,
             "xfail": false
         },
-        "Open window without backdrop": {
+        {
             "windowName": "Open window without backdrop",
             "header": "Window without backdrop",
             "body": "Disabled close on escape click.",
@@ -38,9 +38,9 @@
             "closeBackdrop": false,
             "xfail": false
         }
-    },
+    ],
     "windowStatus": {
         "collapsed": "expand-outline",
-        "expended": "collapse-outline"
+        "expanded": "collapse-outline"
     }
 }

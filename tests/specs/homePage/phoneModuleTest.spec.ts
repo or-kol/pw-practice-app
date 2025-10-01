@@ -11,15 +11,14 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe(`Phone module test suite`, () => {
-    const contactsLists = contactsData.contactsLists;
-    for (const [listName, listArr] of Object.entries(contactsLists[0])) {
+    contactsData.contactsLists.forEach(({ listName, contacts, xfail }) => {
         test(`${listName} list validation`, async () => {
-            const hasXfail = Array.isArray(listArr) && listArr.some(contact => contact.xfail);
-            if (hasXfail) {
+            if (xfail) {
                 test.fail(true, `Expected failure for ${listName} list validation`);
             }
-            const contactNames = Array.isArray(listArr) ? listArr.map(contact => contact.name) : [];
-            await pageManager.phoneModule.phoneListsValidation(listName, contactNames);
+            await pageManager.phoneModule.phoneListsValidation(listName, contacts);
         });
-    }
+    });
 });
+
+

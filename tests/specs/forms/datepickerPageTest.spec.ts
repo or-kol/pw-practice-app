@@ -13,20 +13,13 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Datepicker tests from JSON", () => {
-    for (const [name, config] of Object.entries(datepickerData) as [string, DatepickerType][]) {
+    datepickerData.forEach(({ name, placeholder, startOffset, endOffset, xfail }) => {
         test(`should select date(s) for ${name}`, async () => {
-            if (config.xfail) {
-                test.fail(true, `Expected failure for ${config.placeholder} 
-                                 with startOffset ${config.startOffset} 
-                                 and endOffset ${config.endOffset}`);
+            if (xfail) {
+                test.fail(true, `Expected failure for ${placeholder} with startOffset ${startOffset} and endOffset ${endOffset}`);
             }
-            
-            await pageManager.datepickerPage.selectDates(
-                config.placeholder,
-                config.startOffset,
-                config.endOffset
-            );
+            await pageManager.datepickerPage.selectDates(placeholder, startOffset, endOffset);
         });
-    }
+    });
 });
 

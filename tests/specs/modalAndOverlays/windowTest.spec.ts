@@ -2,9 +2,10 @@ import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
-const windowPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/windowPageData.json`) as any;
 
-const WINDOWS = Object.values(windowPageData.windows) as any[];
+const windowPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/windowPageData.json`) as any;
+const { windows, headers, windowStatus } = windowPageData;
+const WINDOWS = windows;
 
 let pageManager: PageManager;
 
@@ -13,96 +14,89 @@ test.beforeEach(async ({ page }) => {
     await pageManager.windowPage.goToWindowPage();
 });
 
-test.describe(`Window page header verification`, () => {
-    const headers = Object.values(windowPageData.headers) as any[];
 
-    headers.forEach((header) => {
-        test(`Verify ${header.name} window page header`, async () => {
-            if (header.xfail) {
-                test.fail(true, `Expected failure for ${header.name}`);
-            }
-            await pageManager.windowPage.verifyWindowPageHeaders(header.name);
+test.describe(`Window page header verification`, () => {
+    headers.forEach(({ name, xfail }) => {
+        test(`Verify ${name} window page header`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${name}`);
+            };
+            await pageManager.windowPage.verifyWindowPageHeaders(name);
         });
     });
 });
 
 test.describe(`Window content verification`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Verify ${window.windowName} window content`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.verifyWindowContent(window.windowName, window.header, window.body);
+    WINDOWS.forEach(({ windowName, header, body, xfail }) => {
+        test(`Verify ${windowName} window content`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.verifyWindowContent(windowName, header, body);
         });
     });
 });
 
 test.describe(`Window ESC close functionality`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Close ${window.windowName} window with ESC`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.closeWindowWithEsc(window.windowName, window.closeEsc);
+    WINDOWS.forEach(({ windowName, closeEsc, xfail }) => {
+        test(`Close ${windowName} window with ESC`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.closeWindowWithEsc(windowName, closeEsc);
         });
     });
 });
 
 test.describe(`Window backdrop close functionality`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Close ${window.windowName} window with backdrop`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.closeWindowWithBackdrop(window.windowName, window.closeBackdrop);
+    WINDOWS.forEach(({ windowName, closeBackdrop, xfail }) => {
+        test(`Close ${windowName} window with backdrop`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.closeWindowWithBackdrop(windowName, closeBackdrop);
         });
     });
 });
 
 test.describe(`Window minimize functionality`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Minimize ${window.windowName} window`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.minimizeWindowButtonFunctionality(window.windowName);
+    WINDOWS.forEach(({ windowName, xfail }) => {
+        test(`Minimize ${windowName} window`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.minimizeWindowButtonFunctionality(windowName);
         });
     });
 });
 
 test.describe(`Window collapse functionality`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Collapse ${window.windowName} window`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.colapseWindowButtonFunctionality(
-                window.windowName, 
-                windowPageData.windowStatus.collapsed, 
-                windowPageData.windowStatus.expended
-            );
+    WINDOWS.forEach(({ windowName, xfail }) => {
+        test(`Collapse ${windowName} window`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.colapseWindowButtonFunctionality(windowName, windowStatus.collapsed, windowStatus.expanded);
         });
     });
 });
 
 test.describe(`Window close button functionality`, () => {
-    WINDOWS.forEach((window) => {
-        test(`Close ${window.windowName} window with close button`, async () => {
-            if (window.xfail) {
-                test.fail(true, `Expected failure for ${window.windowName}`);
-            }
-            await pageManager.windowPage.closeWindowWithCloseButton(window.windowName);
+    WINDOWS.forEach(({ windowName, xfail }) => {
+        test(`Close ${windowName} window with close button`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${windowName}`);
+            };
+            await pageManager.windowPage.closeWindowWithCloseButton(windowName);
         });
     });
 });
 
 test.describe(`Textbox activation`, () => {
-    const window = windowPageData.windows.openWindowForm;
-    const textboxNames = [window.subject, window.text];
-    
-    textboxNames.forEach((Textbox) => {
-        test(`${Textbox} activation`, async () => {
-            await pageManager.windowPage.isOpenWindowformTextBoxesActive(window.windowName, Textbox, window.activeTextbox);
+    const openWindowForm = WINDOWS.find(window => window.windowName === "Open window form");
+    [openWindowForm.subject, openWindowForm.text].forEach((textbox) => {
+        test(`${textbox} activation`, async () => {
+            await pageManager.windowPage.isOpenWindowformTextBoxesActive(openWindowForm.windowName, textbox, openWindowForm.activeTextbox);
         });
     });
 });

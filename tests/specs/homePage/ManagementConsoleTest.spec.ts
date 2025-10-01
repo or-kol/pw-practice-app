@@ -11,16 +11,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Electricity consumption graph responsivnes", () => {
-    for (const config of electricityConsumptionData.electricityConsumtion) {
-        const title = `Hover at (${config.x}, ${config.y}) should show ${config.expectedKwh}`;
-
-        test(`${title}${config.xfail ? ' (expected failure)' : ''}`, async () => {
-            if (config.xfail) {
-                test.fail(true, `Expected failure: Tooltip may not appear at offset (${config.x}, ${config.y}) for ${config.expectedKwh}`);
+    electricityConsumptionData.electricityConsumtion.forEach(({ x, y, expectedKwh, xfail }) => {
+        const title = `Hover at (${x}, ${y}) should show ${expectedKwh}`;
+        test(`${title}${xfail ? ' (expected failure)' : ''}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure: Tooltip may not appear at offset (${x}, ${y}) for ${expectedKwh}`);
             }
-            await pageManager.managementConsoleModule.electricityConsumptionGraphResponsivnes(config.x, config.y, config.expectedKwh);
+            await pageManager.managementConsoleModule.electricityConsumptionGraphResponsivnes(x, y, expectedKwh);
         });
-    };
+    });
 });
 
 test ("Electricity consumption switch year to 2015", async () => {

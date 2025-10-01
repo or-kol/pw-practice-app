@@ -16,9 +16,9 @@ export class PhoneModule extends BasePage{
 
         await this.click(tabButtonLocator);
 
-        for (let i = 1; i<=5; i++){
-            const contactItem = await this.getText(`${tabListItemLocator} nb-list-item:nth-of-type(${i})`);
-            expect(contactItem).toContain(contactsList[i-1]);
+        for (let i = 0; i < contactsList.length; i++) {
+            const contactItem = await this.getText(`${tabListItemLocator} nb-list-item:nth-of-type(${i + 1})`);
+            expect(contactItem).toContain(contactsList[i]);
         };
     };
 };

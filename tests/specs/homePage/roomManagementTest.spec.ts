@@ -12,34 +12,33 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Room selection test suite', () => {
-    for (const [roomName, roomObj] of Object.entries(roomData.roomID[0]) as any[]) {
-        test(`Select ${roomName} test`, async () => {
-            if (roomObj.xfail) {
-                test.fail(true, `Expected failure for room selection: ${roomName}`);
-            };
-            await pageManager.roomManagementModule.selectRoomManagement(roomObj.id);
+    roomData.rooms.forEach(({ name, id, xfail }) => {
+        test(`Select ${name} test`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for room selection: ${name}`);
+            }
+            await pageManager.roomManagementModule.selectRoomManagement(id);
         });
-    };
+    });
 });
 
 
 test.describe(`Playlist - song progress bar test suite`, () => {
-    for (const [index, progressConfig] of Object.entries(playlistData.progressBar) as any[]){
-        const xfail = playlistData.songData[0].xfail;
-        test(`Progress bar case #${Number(index) + 1}: offset(${progressConfig.x}, ${progressConfig.y})  expected ${progressConfig.expectedPossition}`, async() => {
+    const progressBarData = playlistData.progressBar;
+    progressBarData.forEach(({ x, y, expectedPossition, xfail }, index: number) => {
+        test(`Progress bar case #${index + 1}: offset(${x}, ${y}) expected ${expectedPossition}`, async () => {
             if (xfail) {
-                test.fail(true, `Expected failure: Progress bar may not match expected possition: ${progressConfig.expectedPossition}`);
-            };
-            await pageManager.roomManagementModule.progressBarScrubbing(progressConfig.x, progressConfig.y, progressConfig.expectedPossition);
+                test.fail(true, `Expected failure: Progress bar may not match expected possition: ${expectedPossition}`);
+            }
+            await pageManager.roomManagementModule.progressBarScrubbing(x, y, expectedPossition);
         });
-    };
+    });
 });
 
 
 test.describe(`Playlist - select shufle/repeat list options test suite`, () => {
-    const buttons = [{ index: 1, label: "shuffle" }, { index: 5, label: "repeat" }];
-
-    buttons.forEach(({ index, label }) => {
+    const shuffleRepeatButtons = playlistData.shuffleRepeatButtons;
+    shuffleRepeatButtons.forEach(({ index, label }) => {
         test(`Play ${label} with button index ${index}`, async () => {
             await pageManager.roomManagementModule.playlistshufleOrRepeat(index);
         });
@@ -48,9 +47,8 @@ test.describe(`Playlist - select shufle/repeat list options test suite`, () => {
 
 
 test.describe(`Playlist - next/previous song test suite`, () => {
-    const buttons = [{ index: 2, label: "previous" }, { index: 4, label: "next" }];
-
-    buttons.forEach(({ index, label }) => {
+    const prevNextButtons = playlistData.prevNextButtons;
+    prevNextButtons.forEach(({ index, label }) => {
         test(`Go to ${label} song with button index ${index}`, async () => {
             await pageManager.roomManagementModule.playlistPrevOrNext(index);
         });
@@ -59,9 +57,10 @@ test.describe(`Playlist - next/previous song test suite`, () => {
 
 
 test.describe(`Playlist - Play/pause song test suite`, ()=> {
-    ["play", "pause"].forEach((state) => {
-        test(`Play/pause song with button index 3 and expected state ${state}`, async () => {
-            await pageManager.roomManagementModule.playlistPlayOrPause(3, state);
+    const playPauseStates = playlistData.playPauseStates;
+    playPauseStates.forEach(({ index, state }) => {
+        test(`Play/pause song with button index ${index} and expected state ${state}`, async () => {
+            await pageManager.roomManagementModule.playlistPlayOrPause(index, state);
         });
     });
 });

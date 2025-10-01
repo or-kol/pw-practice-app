@@ -2,7 +2,7 @@ import { test } from "../../base/browserSetup";
 import { PageManager } from "../../page_objects/pageManager";
 import { TEST_PATHS } from "../../config/test-config";
 
-const rawMenuData = require(`${TEST_PATHS.TEST_DATA}/homePage/menuData.json`) as any;
+const menuData = require(`${TEST_PATHS.TEST_DATA}/homePage/menuData.json`) as any;
 
 let pageManager: PageManager;
 
@@ -11,14 +11,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Features menu navigation suite", () => {
-    for (const [category, {routes}] of Object.entries(rawMenuData) as any[]) {
-        for (const { subCategory, expectedRes, xfail} of routes as any[]) {
-            test(`Navigate to ${category} > ${subCategory}`, async () => {
-                if (xfail) {
-                    test.fail(true, `Expected failure for ${category} > ${subCategory}`);
-                };
-                await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
-            });
-        };
-    };
+    menuData.forEach(({ category, subCategory, expectedRes, xfail }) => {
+        test(`Navigate to ${category} > ${subCategory}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${category} > ${subCategory}`);
+            };
+            await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
+        });
+    });
 });

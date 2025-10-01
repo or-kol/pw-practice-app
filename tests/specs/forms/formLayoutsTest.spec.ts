@@ -11,15 +11,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Data-driven Form Submissions", () => {
-    for (const config of Object.values(formPresets) as any[]) {
-        test(`Submit ${config.title} Form`, async () => {
+    formPresets.forEach(({ title, xfail, ...rest }) => {
+        test(`Submit ${title} Form`, async () => {
             await pageManager.formLayoutsPage.goToFormLayoutsPage();
-            if (config.xfail) {
-                test.fail(true, `${config.title} is expected to fail`);
-            }
-            await pageManager.formLayoutsPage.submitForm(config);
+            if (xfail) {
+                test.fail(true, `${title} is expected to fail`);
+            };
+            await pageManager.formLayoutsPage.submitForm({ title, xfail, ...rest });
         });
-    }
+    });
 });
 
 

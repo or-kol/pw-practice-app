@@ -35,5 +35,17 @@
             "expectedPossition": "50%",
             "xfail": false
         }
+    ],
+    "shuffleRepeatButtons": [
+        { "index": 1, "label": "shuffle" },
+        { "index": 5, "label": "repeat" }
+    ],
+    "prevNextButtons": [
+        { "index": 2, "label": "previous" },
+        { "index": 4, "label": "next" }
+    ],
+    "playPauseStates": [
+        { "index": 3, "state": "play" },
+        { "index": 3, "state": "pause" }
     ]
 }

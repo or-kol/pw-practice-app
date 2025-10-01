@@ -1,109 +1,19 @@
 
-{
-    "Forms":
-    {
-        "routes": [
-            { 
-                "subCategory": "Form Layouts", 
-                "expectedRes": "layouts", 
-                "xfail": false 
-            },
-            { 
-                "subCategory": "Datepicker", 
-                "expectedRes": "datepicker", 
-                "xfail": false 
-            }
-        ]
-    },
-    "Modal & Overlays":
-    {
-        "routes": [
-            { 
-                "subCategory": "Dialog",
-                "expectedRes": "dialog", 
-                "xfail": false 
-            },
-            {
-                "subCategory": "Window",
-                "expectedRes": "window", 
-                "xfail": false 
-            },
-            {
-                "subCategory": "Popover",
-                "expectedRes": "popover", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Toastr",
-                "expectedRes": "toastr", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Tooltip", 
-                "expectedRes": "tooltip", 
-                "xfail": false  
-            }
-        ]
-    },
-    "Extra Components": 
-    {
-        "routes": [
-            { 
-                "subCategory": "Calendar", 
-                "expectedRes": "calendar", 
-                "xfail": false  
-            }
-        ]
-    },
-    "Charts": 
-    {
-        "routes": [
-            { 
-                "subCategory": "Echarts", 
-                "expectedRes": "echarts", 
-                "xfail": false 
-            }
-        ]
-    },
-    "Tables & Data":
-    {
-        "routes": [
-            { 
-                "subCategory": "Smart Table", 
-                "expectedRes": "smart-table", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Tree Grid", 
-                "expectedRes": "tree-grid", 
-                "xfail": false  
-            }
-        ]
-    },
-    "Auth": 
-    {
-        "routes": [
-            { 
-                "subCategory": "Login", 
-                "expectedRes": "login", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Register", 
-                "expectedRes": "register", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Request Password", 
-                "expectedRes": "request-password", 
-                "xfail": false  
-            },
-            { 
-                "subCategory": "Reset Password", 
-                "expectedRes": "reset-password", 
-                "xfail": false  
-            }
-        ]
-    }
-}
+[
+    { "category": "Forms", "subCategory": "Form Layouts", "expectedRes": "layouts", "xfail": false },
+    { "category": "Forms", "subCategory": "Datepicker", "expectedRes": "datepicker", "xfail": false },
+    { "category": "Modal & Overlays", "subCategory": "Dialog", "expectedRes": "dialog", "xfail": false },
+    { "category": "Modal & Overlays", "subCategory": "Window", "expectedRes": "window", "xfail": false },
+    { "category": "Modal & Overlays", "subCategory": "Popover", "expectedRes": "popover", "xfail": false },
+    { "category": "Modal & Overlays", "subCategory": "Toastr", "expectedRes": "toastr", "xfail": false },
+    { "category": "Modal & Overlays", "subCategory": "Tooltip", "expectedRes": "tooltip", "xfail": false },
+    { "category": "Extra Components", "subCategory": "Calendar", "expectedRes": "calendar", "xfail": false },
+    { "category": "Charts", "subCategory": "Echarts", "expectedRes": "echarts", "xfail": false },
+    { "category": "Tables & Data", "subCategory": "Smart Table", "expectedRes": "smart-table", "xfail": false },
+    { "category": "Tables & Data", "subCategory": "Tree Grid", "expectedRes": "tree-grid", "xfail": false },
+    { "category": "Auth", "subCategory": "Login", "expectedRes": "login", "xfail": false },
+    { "category": "Auth", "subCategory": "Register", "expectedRes": "register", "xfail": false },
+    { "category": "Auth", "subCategory": "Request Password", "expectedRes": "request-password", "xfail": false },
+    { "category": "Auth", "subCategory": "Reset Password", "expectedRes": "reset-password", "xfail": false }
+]
 

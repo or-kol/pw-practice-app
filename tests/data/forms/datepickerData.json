@@ -1,23 +1,27 @@
-{
-    "formPicker": {
+[
+    {
+        "name": "formPicker",
         "placeholder": "Form Picker",
         "startOffset": 7,
         "xfail": false
     },
-    "rangePicker": {
+    {
+        "name": "rangePicker",
         "placeholder": "Range Picker",
         "startOffset": 24,
         "endOffset": 25,
         "xfail": false
     },
-    "minMaxPickerExpectedToPass": {
+    {
+        "name": "minMaxPickerExpectedToPass",
         "placeholder": "Min Max Picker",
         "startOffset": 3,
         "xfail": false
     },
-    "minMaxPickerInvalidEndDate": {
+    {
+        "name": "minMaxPickerInvalidEndDate",
         "placeholder": "Min Max Picker",
         "startOffset": 30,
         "xfail": true
     }
-}
+]

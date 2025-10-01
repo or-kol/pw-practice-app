@@ -10,13 +10,14 @@ test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
 });
 
-test.describe(`Trafic consumption time period selection test suite`, () => {
-    trafficConsumptionData.periods.forEach((period) => {
-        test(`Select "${period.name}" period`, async () => {
-            if (period.xfail) {
-                test.fail(true, `Expected failure for period: ${period.name}`);
+test.describe(`Traffic consumption time span selection test suite`, () => {
+    const timeSpans = trafficConsumptionData.timeSpans;
+    timeSpans.forEach(({ name, xfail }) => {
+        test(`Select "${name}" time span`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for time span: ${name}`);
             };
-            await pageManager.trafficConsumption.traficConsumptionPeriod(period.name);
+            await pageManager.trafficConsumption.trafficConsumptionTimeSpan(name);
         });
     });
 });
