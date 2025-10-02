@@ -7,9 +7,23 @@ import { LocatorHelper } from "../locatorHelper";
  * including hover effects, mouse movements, and keyboard interactions
  */
 export class MouseInteractionMixin {
-    
+
+
     constructor(private page: Page) {}
 
+    /**
+     * Performs a mouse click (down + up) at the current mouse position, with optional delay between.
+     * @param delayMs - Optional delay in milliseconds between mouse down and up (default: 0).
+     */
+    async mouseClick(delayMs: number = 0): Promise<void> {
+        await this.page.mouse.down();
+        if (delayMs > 0) {
+            await this.page.waitForTimeout(delayMs);
+        }
+        await this.page.mouse.up();
+    }
+    
+    
     /**
      * Hovers the mouse over the element specified by the selector.
      * Waits for the element to be visible (timeout: 5000ms).

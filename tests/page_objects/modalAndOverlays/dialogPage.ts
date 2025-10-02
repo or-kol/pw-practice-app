@@ -23,8 +23,7 @@ export class DialogPage extends BasePage{
 
     private async handleBackdrop(dialogButtonLocator:string): Promise<void> {
         await this.mouseInteraction.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
-        await this.page.mouse.down();
-        await this.page.mouse.up();
+        await this.mouseInteraction.mouseClick();
     };
 
     async dialogContentValidation(dialogNum: number, dialogName: string, header: string, body:string): Promise<void> {

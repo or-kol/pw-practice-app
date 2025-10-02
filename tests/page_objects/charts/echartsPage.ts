@@ -5,6 +5,8 @@ import { TEST_PATHS } from "../utils/testConfig";
 export class EchartsPage extends BasePage{
 
     readonly PIE_CHART_LOCATOR = 'ngx-echarts-pie';
+    readonly BAR_CHART_LOCATOR = 'ngx-echarts-bar';
+
 
     constructor(page: Page){
         super(page);
@@ -17,29 +19,42 @@ export class EchartsPage extends BasePage{
     
 
     async validatePieChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
-        await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, 'pie-chart-colors');
-        const screenshotPath = `${TEST_PATHS.SCREENSHOTS}/pie-chart-colors.png`;
-        const result = await this.visualTesting.extractAndCompareColorsFromImage(screenshotPath, expectedColors, 50);
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, 'pie-chart-colors');
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
         expect(result).toBeTruthy();
-    }
-    /*
-    async countryButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<boolean> {
-        await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y, true);
-        await this.page.waitForTimeout(500);
-        await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, screenshotName);
-        
-        // Extract text from screenshot using OCR
-        const screenshotPath = `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png`;
-        const extractedText = await this.visualTesting.extractTextFromImage(screenshotPath);
-        
-        // Check if country name is NOT found in the extracted text (meaning it disappeared)
-        const countryDisappeared = !extractedText.toLowerCase().includes(countryName.toLowerCase());
-        console.log(extractedText);
-        
-        return countryDisappeared;
-    }
-    */
-};
+    };
+    
+    async countryButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<void> {
+        await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
+        await this.mouseInteraction.mouseClick();
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, screenshotName);
+        const extractedText = await this.visualTesting.extractTextFromImage(screenshotPath!);
+        const countryDisappeared = extractedText.toLowerCase().includes(countryName.toLowerCase());
+        expect(countryDisappeared).toBeFalsy();
+    };
 
 
+    async pieChartContentValidation(country: string, x: number, y: number, value: number, percentage: string): Promise<void> {
+        await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
+        const countryData = await this.getText(this.PIE_CHART_LOCATOR);
+        expect(countryData).toContain(country);
+        expect(countryData).toContain(value.toString());
+        expect(countryData).toContain(percentage);
+    };
 
+
+    async validateBarChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.BAR_CHART_LOCATOR} canvas`, 'bar-chart-colors');
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
+        expect(result).toBeTruthy();
+    };
+
+    async barChartContentValidation(country: string, x: number, y: number, value: number): Promise<void> {
+        await this.mouseInteraction.moveMouseInBoxedElement(this.BAR_CHART_LOCATOR, x, y);
+        const barContent = await this.getText(this.BAR_CHART_LOCATOR);
+        expect(barContent).toContain(country);
+        expect(barContent).toContain(value.toString());
+    };
+}

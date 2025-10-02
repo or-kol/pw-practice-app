@@ -3,7 +3,7 @@
  */
 export const TEST_PATHS = {
   /** Directory where test screenshots are saved */
-  SCREENSHOTS: 'test-results/testImages',
+  SCREENSHOTS: 'test-results/screenshots',
   /** Directory for test reports */
   REPORTS: 'test-results/reports',
   /** Directory for test data files */

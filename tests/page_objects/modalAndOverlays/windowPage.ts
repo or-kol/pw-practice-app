@@ -65,8 +65,7 @@ export class WindowPage extends BasePage{
         this.openWindow(windowName);
 
         await this.mouseInteraction.moveMouseInBoxedElement(this.WINDOW_BODY_LOCATOR, -500, 0);
-        await this.page.mouse.down();
-        await this.page.mouse.up();
+        await this.mouseInteraction.mouseClick();
         const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
 
         if (closeWithEsc) {

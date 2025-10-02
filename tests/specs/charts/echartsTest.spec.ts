@@ -11,32 +11,55 @@ test.beforeEach(async ({ page }) => {
     await pageManager.echartsPage.goToEchartsPage();
 });
 
+
 test(`Pie chart colors validation test`, async () => {
     const expectedColors = echartsPageData.pieChart.countriesColors.map((segment: any) => segment.color);
         await pageManager.echartsPage.validatePieChartColors(expectedColors);
 });
 
-/*
+
 test.describe(`Legend buttons validation test suite`, () => {
     const countriesLegendCoordinates = echartsPageData.pieChart.countriesLegendCoordinates;
-    countriesLegendCoordinates.forEach((country: any) => {
-        
-        test(`Legend button: ${country.Country} validation test`, async () => {
-            
-            if (country.xfail) {
-                test.fail(true, `Expected failure for legend button: ${country.Country}`);
-            }
 
-            // Only echartsPage is used - no other page objects created
-            const result = await pageManager.echartsPage.countryButtonFunctionality(
-                country.legendCoordinates.x, 
-                country.legendCoordinates.y, 
-                `${country.Country}Removed`, 
-                country.Country
-            );
-            
-            expect(result).toBeTruthy();
+    countriesLegendCoordinates.forEach(({country, legendCoordinates, xfail}) => {
+        test(`Legend button: ${country} validation test`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for legend button: ${country}`);
+            };
+            await pageManager.echartsPage.countryButtonFunctionality(legendCoordinates.x, legendCoordinates.y, `${country}Removed`, country);
         });
     });
 });
-*/
+
+
+test.describe(`Countries chart data validation test suite`, () => {
+    const countriesChartData = echartsPageData.pieChart.countriesChartData;
+
+    countriesChartData.forEach(({country, coordinatesOnChart, value, percentage, xfail}) => {
+        test(`Country: ${country} validation test`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for country: ${country}`);
+            };
+            await pageManager.echartsPage.pieChartContentValidation(country, coordinatesOnChart.x, coordinatesOnChart.y, value, percentage);
+        });
+    });
+});
+
+
+test(`Bar chart colors validation test`, async () => {
+    const expectedColors = [echartsPageData.barChart.barsColor];
+    await pageManager.echartsPage.validateBarChartColors(expectedColors);
+});
+
+test.describe(`Bar chart data validation test suite`, () => {
+    const barChartData = echartsPageData.barChart.barsData;
+
+    barChartData.forEach(({day, value, barCoordinates, xfail}) => {
+        test(`Bar: ${day} validation test`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for bar: ${day}`);
+            };
+            await pageManager.echartsPage.barChartContentValidation(day, barCoordinates.x, barCoordinates.y, value);
+        });
+    });
+});
