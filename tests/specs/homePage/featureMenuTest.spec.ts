@@ -11,15 +11,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Features menu navigation suite", () => {
-    for (const [category, {routes}] of Object.entries(rawMenuData) as any[]) {
-        for (const { subCategory, expectedRes, xfail} of routes as any[]) {
-            test(`Navigate to ${category} > ${subCategory}`, async () => {
-                if (xfail) {
-                    test.fail(true, `Expected failure for ${category} > ${subCategory}`);
-                };
-                const isLoaded = await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
-                expect(isLoaded).toBeTruthy();
-            });
-        };
-    };
+    rawMenuData.forEach(({ category, subCategory, expectedRes, xfail }) => {
+        test(`Navigate to ${category} > ${subCategory}`, async () => {
+            if (xfail) {
+                test.fail(true, `Expected failure for ${category} > ${subCategory}`);
+            }
+            await pageManager.featuresMenuPage.goToMenuPage(category, subCategory, expectedRes);
+        });
+    });
 });
