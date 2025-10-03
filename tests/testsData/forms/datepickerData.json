@@ -1,0 +1,25 @@
+{
+    "datePickers": [
+        {
+            "name": "formPicker",
+            "placeholder": "Form Picker",
+            "startOffset": 7
+        },
+        {
+            "name": "rangePicker",
+            "placeholder": "Range Picker",
+            "startOffset": 24,
+            "endOffset": 25
+        },
+        {
+            "name": "minMaxPickerExpectedToPass",
+            "placeholder": "Min Max Picker",
+            "startOffset": 3
+        },
+        {
+            "name": "minMaxPickerInvalidEndDate",
+            "placeholder": "Min Max Picker",
+            "startOffset": 30
+        }
+    ]
+}

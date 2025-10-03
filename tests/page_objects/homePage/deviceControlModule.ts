@@ -1,7 +1,7 @@
 
 import { BasePage } from "../basePage";
 import { Page, expect } from "@playwright/test";
-import { Logger } from "../utils/logger";
+import { Logger } from "../../utils";
 
 export class DeviceControlModule extends BasePage {
     constructor(page: Page) {
@@ -37,13 +37,13 @@ export class DeviceControlModule extends BasePage {
         expect(ActualVal.includes("30") || ActualVal.includes("100")).toBeTruthy();
     };
 
-    async tempAndHumiditySwitch2(switchName: "Temperature" | "Humidity", offsetX: number, offsetY: number, expectedTemp: string): Promise<void> {
+    async tempAndHumiditySwitch2(switchName: string, offsetX: number, offsetY: number, expectedTemp: string): Promise<void> {
         if (switchName == "Humidity"){
             await this.click(`li.tab >> text=${switchName}`);
         };
 
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
-
+        
         await this.attributes.scrollIntoView(switchLoctor);
         await this.mouseInteraction.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
         const ActualVal = await this.getText(switchLoctor);

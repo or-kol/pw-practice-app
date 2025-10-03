@@ -1,21 +1,20 @@
-import { test } from "../../page_objects/utils/browserSetup";
+import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../page_objects/utils/testConfig";
+import path from "path";
 
-const contactsData = require(`${TEST_PATHS.TEST_DATA}/homePage/phoneContactsLists.json`) as any;
-
+const contactsData = require(`${TEST_PATHS.TEST_DATA}/homePage/phoneContactsLists.json`);
 let pageManager: PageManager;
+const specFile = path.basename(__filename, ".spec.ts");
 
 test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
 });
 
+
 test.describe(`Phone module test suite`, () => {
-    contactsData.contactsLists.forEach(({ listName, contacts, xfail }) => {
-        test(`${listName} list validation`, async () => {
-            if (xfail) {
-                test.fail(true, `Expected failure for ${listName} list validation`);
-            }
+    contactsData.contactsLists.forEach(({ listName, contacts }) => {
+        test(`${listName} list validation`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
             await pageManager.phoneModule.phoneListsValidation(listName, contacts);
         });
     });

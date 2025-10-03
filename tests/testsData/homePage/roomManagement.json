@@ -1,0 +1,32 @@
+{
+    "rooms": [
+        { "name": "Kitchen", "id": "0" },
+        { "name": "Bedroom", "id": "1" },
+        { "name": "LivingRoom", "id": "2" },
+        { "name": "hallway", "id": "3" }
+    ],
+    "playlist": {
+        "songData": [
+            { "name": "Harder", "artist": "Daft Punk" },
+            { "name": "Come Together", "artist": "Beatles" },
+            { "name": "Don't Wanna Fight", "artist": "Alabama Shakes" }
+        ],
+        "progressBar": [
+            { "x": 100, "y": 0, "expectedPossition": "79.47%" },
+            { "x": -100, "y": 0, "expectedPossition": "20.53%" },
+            { "x": 0, "y": 0, "expectedPossition": "50%" }
+        ],
+        "shuffleRepeatButtons": [
+            { "index": 1, "label": "shuffle" },
+            { "index": 5, "label": "repeat" }
+        ],
+        "prevNextButtons": [
+            { "index": 2, "label": "previous" },
+            { "index": 4, "label": "next" }
+        ],
+        "playPauseStates": [
+            { "index": 3, "state": "play" },
+            { "index": 3, "state": "pause" }
+        ]
+    }
+}

@@ -1,10 +1,10 @@
-import { test } from "../../page_objects/utils/browserSetup"
+import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../page_objects/utils/testConfig";
+import path from "path";
 
-const toastsPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/toastrPageData.json`) as any;
-
+const toastrPageData = require(`${TEST_PATHS.TEST_DATA}/modalsAndOverlays/toastrPageData.json`);
 let pageManager: PageManager;
+const specFile = path.basename(__filename, ".spec.ts");
 
 test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
@@ -13,51 +13,40 @@ test.beforeEach(async ({ page }) => {
 
 
 test.describe(`Toastr position validation test suite`, () => {
-    const positions = toastsPageData.positions 
-    positions.forEach(({ position, vertical, horizontal, xfail }) => {
-        test(`Toastr position: ${position} test`, async () => {
-            if (xfail) {
-                test.fail(true, `Expected failure for toastr position: ${position}`);
-            }
+    const positions = toastrPageData.variants.positions;
+    positions.forEach(({ position, vertical, horizontal }: { position: string, vertical: string, horizontal: string }) => {
+        test(`Toastr position: ${position} test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
             await pageManager.toastrPage.toastPositionValidation(position, vertical, horizontal);
         });
     });
 });
 
-
 test.describe(`Toastr content validation test suite`, () => {
-    const tabContent = toastsPageData.TabContent;
-    tabContent.forEach(({ testNum, title, message, xfail }) => {
-        test(`Toastr content #${testNum} test`, async () => {
-            if (xfail) {
-                test.fail(true, `Expected failure for toastr content: ${title}`);
-            }
+    const tabContents = toastrPageData.tabContents;
+    tabContents.forEach(({ title, message }: { title: string, message: string }) => {
+        test(`${title} toastr content test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
             await pageManager.toastrPage.toastrTabContentValidation(title, message);
         });
     });
-}); 
-
+});
 
 test.describe(`Toastr duration validation test suite`, () => {
-    const tabContent = toastsPageData.TabContent;
-    tabContent.forEach(({ testNum, title, timeout, xfail }) => {
-        test(`Toastr duration #${testNum} test`, async () => {
-            if (xfail) {
-                test.fail(true, `Expected failure for toastr content: ${title}`);
-            }
+    const tabContents = toastrPageData.tabContents;
+    tabContents.forEach(({ title, timeout }: { title: string, timeout: number }) => {
+        test(`${title} toastr duration test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
             await pageManager.toastrPage.toastrDurationValidation(timeout);
         });
     });
 });
 
-
 test.describe(`Toastr type validation test suite`, () => {
-    const toastTypes = toastsPageData.toastTypes;
-    toastTypes.forEach(({ type, xfail }) => {
-        test(`Toastr type: ${type} test`, async () => {
-            if (xfail) {
-                test.fail(true, `Expected failure for toastr type: ${type}`);
-            }
+    const toastTypes = toastrPageData.toastTypes;
+    toastTypes.forEach((type: string) => {
+        test(`Toastr type: ${type} test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
             await pageManager.toastrPage.toastTypeValidation(type);
         });
     });

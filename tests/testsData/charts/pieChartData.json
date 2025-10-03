@@ -1,0 +1,25 @@
+{
+    "pieChart": { 
+        "countriesColors": [
+            { "country": "USA",  "color": {"r": 95, "g": 151, "b": 249}},
+            { "country": "Germany", "color": {"r": 251, "g": 204, "b": 84}},
+            { "country": "France", "color": {"r": 95, "g": 151, "b": 249}},
+            { "country": "Canada", "color": {"r": 251, "g": 116, "b": 148}},
+            { "country": "Russia", "color": {"r": 53, "g": 227, "b": 156}}
+        ],
+        "countriesLegendCoordinates": [
+            { "country": "USA", "legendCoordinates": {"x": -345, "y": -224}},
+            { "country": "Germany", "legendCoordinates": {"x": -345, "y": -194}},
+            { "country": "France", "legendCoordinates": {"x": -345, "y": -164}},
+            { "country": "Canada", "legendCoordinates": {"x": -345, "y": -154}},
+            { "country": "Russia", "legendCoordinates": {"x": -345, "y": -124}}
+        ],
+        "countriesChartData": [
+            { "country": "USA", "coordinatesOnChart": {"x": -94, "y": 4}, "value": 1548, "percentage": "60.42%"},
+            { "country": "Germany", "coordinatesOnChart": {"x": 37, "y": -92}, "value": 335, "percentage": "13.08%"},
+            { "country": "France", "coordinatesOnChart": {"x": 110, "y": -37}, "value": 310, "percentage": "12.1%"},
+            { "country": "Canada", "coordinatesOnChart": {"x": 111, "y": 34}, "value": 234, "percentage": "9.13%"},
+            { "country": "Russia", "coordinatesOnChart": {"x": 87, "y": 89}, "value": 135, "percentage": "5.27%"}
+        ]
+    }
+}

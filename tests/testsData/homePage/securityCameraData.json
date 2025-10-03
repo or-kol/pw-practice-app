@@ -1,0 +1,18 @@
+{
+    "cameraNames": [
+        "Camera #1",
+        "Camera #2",
+        "Camera #3",
+        "Camera #4"
+    ],
+    "controlButtonNames": [
+        "Pause",
+        "Logs",
+        "Search",
+        "Setup"
+    ],
+    "layoutViews": [
+        "grid",
+        "single"
+    ]
+}

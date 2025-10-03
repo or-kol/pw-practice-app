@@ -1,10 +1,6 @@
 import { Page } from "@playwright/test";
-import { TEST_TIMEOUTS } from "./utils/testConfig";
-import { LocatorHelper } from "./utils/locatorHelper";
-import { AttributesMixin } from "./utils/mixins/attributesMixin";
-import { MouseInteractionMixin } from "./utils/mixins/mouseInteractionMixin";
-import { VisualTestingMixin } from "./utils/mixins/visualTestingMixin";
-import { NavigationMixin } from "./utils/mixins/navigationMixin";
+import { TEST_TIMEOUTS, LocatorHelper } from "../utils";
+import { AttributesMixin, MouseInteractionMixin, VisualTestingMixin, NavigationMixin } from "../utils/mixins";
 
 export class BasePage {
     

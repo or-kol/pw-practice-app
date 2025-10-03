@@ -1,0 +1,36 @@
+{
+    "buttons": [
+        "Show Tooltip",
+        "Top",
+        "Right",
+        "Bottom",
+        "Left",
+        "Default",
+        "Primary",
+        "Success",
+        "Info",
+        "Warning",
+        "Danger"
+    ],
+    "icons": [
+        "home-outline",
+        "alert-triangle"
+    ],
+    "variants": {
+        "positions": [
+            { "label": "Top", "class": "top" },
+            { "label": "Right", "class": "end" },
+            { "label": "Bottom", "class": "bottom" },
+            { "label": "Left", "class": "start" }
+        ],
+        "backgroundColors": [
+            { "type": "default", "color": "rgb(21, 26, 48)" },
+            { "type": "primary", "color": "rgb(51, 102, 255)" },
+            { "type": "success", "color": "rgb(0, 214, 143)" },
+            { "type": "info", "color": "rgb(0, 149, 255)" },
+            { "type": "warning", "color": "rgb(255, 170, 0)" },
+            { "type": "danger", "color": "rgb(255, 61, 113)" }
+        ]
+    },
+    "tooltipContent": "This is a tooltip"
+}

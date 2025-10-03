@@ -1,23 +1,23 @@
-import { test } from "../../page_objects/utils/browserSetup";
+import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../page_objects/pageManager";
-import { TEST_PATHS } from "../../page_objects/utils/testConfig";
+import path from "path";
 
-const formPresets = require(`${TEST_PATHS.TEST_DATA}/forms/formData.json`) as any;
-
+const formPresets = require(`${TEST_PATHS.TEST_DATA}/forms/formData.json`);
 let pageManager: PageManager;
+const specFile = path.basename(__filename, ".spec.ts");
 
 test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
+    await pageManager.formLayoutsPage.goToFormLayoutsPage();
 });
 
+
 test.describe("Data-driven Form Submissions", () => {
-    formPresets.forEach(({ title, xfail, ...rest }) => {
-        test(`Submit ${title} Form`, async () => {
-            await pageManager.formLayoutsPage.goToFormLayoutsPage();
-            if (xfail) {
-                test.fail(true, `${title} is expected to fail`);
-            };
-            await pageManager.formLayoutsPage.submitForm({ title, xfail, ...rest });
+    const forms = formPresets.forms;
+    forms.forEach(({ title, ...rest }) => {
+        test(`Submit ${title} Form`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
+            await pageManager.formLayoutsPage.submitForm({ title, ...rest });
         });
     });
 });

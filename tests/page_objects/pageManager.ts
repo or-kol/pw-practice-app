@@ -17,7 +17,8 @@ import { WindowPage } from './modalAndOverlays/windowPage';
 import { PopoverPage } from './modalAndOverlays/popoverPage';
 import { ToastrPage } from './modalAndOverlays/toastrPage';
 import { TooltipPage } from './modalAndOverlays/tooltipPage';
-import { EchartsPage } from './charts/echartsPage';
+import { PieChartModule } from './echarts/pieChartModule';
+import { BarChartModule } from './echarts/barChartModule';
 
 /**
  * PageManager with lazy initialization
@@ -43,7 +44,8 @@ export class PageManager {
     private _popoverPage?: PopoverPage;
     private _toastrPage?: ToastrPage;
     private _tooltipPage?: TooltipPage;
-    private _echartsPage?: EchartsPage;
+    private _pieChartModule?: PieChartModule;
+    private _barChartModule?: BarChartModule;
 
     constructor(page: Page) {
         this.page = page;
@@ -162,11 +164,18 @@ export class PageManager {
         return this._tooltipPage;
     }
 
-    get echartsPage(): EchartsPage {
-        if (!this._echartsPage) {
-            this._echartsPage = new EchartsPage(this.page);
+    get pieChartModule(): PieChartModule {
+        if (!this._pieChartModule) {
+            this._pieChartModule = new PieChartModule(this.page);
         }
-        return this._echartsPage;
+        return this._pieChartModule;
+    }
+
+    get barChartModule(): BarChartModule {
+        if (!this._barChartModule) {
+            this._barChartModule = new BarChartModule(this.page);
+        }
+        return this._barChartModule;
     }
 
     /**
@@ -190,6 +199,7 @@ export class PageManager {
         this._popoverPage = undefined;
         this._toastrPage = undefined;
         this._tooltipPage = undefined;
-        this._echartsPage = undefined;
+        this._pieChartModule = undefined;
+        this._barChartModule = undefined;
     }
 }

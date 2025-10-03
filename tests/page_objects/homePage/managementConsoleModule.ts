@@ -8,7 +8,7 @@ export class ManagementConsoleModule extends BasePage{
     };
 
 
-    async electricityConsumptionGraphResponsivnes(offsetX: number, offsetY: number, expectedKwh: string): Promise<void>{
+    async electricityConsumptionGraphResponsiveness(offsetX: number, offsetY: number, expectedKwh: string): Promise<void>{
         const electricityConsumptionGraphLocator = `ngx-electricity-chart`;
         const graphKwhValue = `ngx-electricity-chart >> text=/\\d+\\s*kWh/`;
 

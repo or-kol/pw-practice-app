@@ -1,8 +1,0 @@
-{
-    "rooms": [
-        { "name": "Kitchen", "id": "0", "xfail": false },
-        { "name": "Bedroom", "id": "1", "xfail": false },
-        { "name": "LivingRoom", "id": "2", "xfail": false },
-        { "name": "hallway", "id": "3", "xfail": false }
-    ]
-}

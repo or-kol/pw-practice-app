@@ -68,6 +68,7 @@ export class DialogPage extends BasePage{
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${button}")`;
         const inputFieldLocator = `ngx-dialog-name-prompt input`;
         const returnedValueLocator = `ngx-dialog div nb-card-body ul`;
+        
         const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
         const actualPlaceholder = await this.attributes.getAttribute(inputFieldLocator, "placeholder");
         await this.fillInput({ selector: inputFieldLocator, value: input });

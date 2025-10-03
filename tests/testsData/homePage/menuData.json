@@ -1,0 +1,20 @@
+{
+    "menuItems": [
+        { "category": "Forms", "subCategory": "Form Layouts", "expectedRes": "layouts" },
+        { "category": "Forms", "subCategory": "Datepicker", "expectedRes": "datepicker" },
+        { "category": "Modal & Overlays", "subCategory": "Dialog", "expectedRes": "dialog" },
+        { "category": "Modal & Overlays", "subCategory": "Window", "expectedRes": "window" },
+        { "category": "Modal & Overlays", "subCategory": "Popover", "expectedRes": "popover" },
+        { "category": "Modal & Overlays", "subCategory": "Toastr", "expectedRes": "toastr" },
+        { "category": "Modal & Overlays", "subCategory": "Tooltip", "expectedRes": "tooltip" },
+        { "category": "Extra Components", "subCategory": "Calendar", "expectedRes": "calendar" },
+        { "category": "Charts", "subCategory": "Echarts", "expectedRes": "echarts" },
+        { "category": "Tables & Data", "subCategory": "Smart Table", "expectedRes": "smart-table" },
+        { "category": "Tables & Data", "subCategory": "Tree Grid", "expectedRes": "tree-grid" },
+        { "category": "Auth", "subCategory": "Login", "expectedRes": "login" },
+        { "category": "Auth", "subCategory": "Register", "expectedRes": "register" },
+        { "category": "Auth", "subCategory": "Request Password", "expectedRes": "request-password" },
+        { "category": "Auth", "subCategory": "Reset Password", "expectedRes": "reset-password" }
+    ]
+}
+

@@ -1,0 +1,36 @@
+{
+    "variants": {
+        "buttonSwitchers": [
+            { "controllerName": "Light", "desiredStatus": "ON" },
+            { "controllerName": "Light", "desiredStatus": "OFF" },
+            { "controllerName": "Roller Shades", "desiredStatus": "ON" },
+            { "controllerName": "Roller Shades", "desiredStatus": "OFF" },
+            { "controllerName": "Wireless Audio", "desiredStatus": "ON" },
+            { "controllerName": "Wireless Audio", "desiredStatus": "OFF" },
+            { "controllerName": "Coffee Maker", "desiredStatus": "ON" },
+            { "controllerName": "Coffee Maker", "desiredStatus": "OFF" }
+        ],
+        "directTempAndhumidSwitches": [
+            "Temperature",
+            "Humidity"
+        ],
+        "mouseMovementTempAndhumidSwitches": [
+            { "mode": "Temperature", "x": -100, "y": 100, "expected": "13" },
+            { "mode": "Temperature", "x": 100, "y": -600, "expected": "22" },
+            { "mode": "Temperature", "x": 300, "y": 300, "expected": "30" },
+            { "mode": "Humidity", "x": -100, "y": 100, "expected": "3" },
+            { "mode": "Humidity", "x": 100, "y": -600, "expected": "53" },
+            { "mode": "Humidity", "x": 300, "y": 300, "expected": "99" }
+        ],
+        "temperatureStatesSwitchers": [
+            "cool",
+            "warm",
+            "heat",
+            "fan"
+        ],
+        "temperatureOnOffSwitchers": [
+            "on",
+            "off"
+        ]
+    }
+}
