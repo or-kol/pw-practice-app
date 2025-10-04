@@ -1,17 +1,14 @@
 {
-    "Popover tab headline: Component Popovers": {
-        "description": "Known issue with Component Popovers card",
-        "bugId": "BUG-0001",
+    "BUG_ID-0001": {
+        "feature": "popoverTest",
+        "testName": "Popover tab headline: Component Popovers",
+        "description": "UI card for Component Popovers contains a typo: 'compnoent' should be 'component'.",
         "dateReported": "2025-09-15"
     },
-    "should select date(s) for minMaxPickerInvalidEndDate": {
-        "description": "Known issue with minMaxPickerInvalidEndDate",
-        "bugId": "BUG-0002",
-        "dateReported": "2025-09-20"
-    },
-    "Submit Block form Form": {
-        "description": "Known issue with Block form",
-        "bugId": "BUG-0003",
+    "BUG_ID-0002": {
+        "feature": "formLayoutsTest",
+        "testName": "Submit Block form Form",
+        "description": "After submitting the Block form, the form's class attribute does not include 'ng-submitted' as expected. This prevents validation of form submission state in automated tests.",
         "dateReported": "2025-09-25"
     }
 }

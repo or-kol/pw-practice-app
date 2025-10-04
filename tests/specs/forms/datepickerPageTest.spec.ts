@@ -1,5 +1,5 @@
 import { test, TEST_PATHS, handleXfail } from "../../utils";
-import { PageManager } from "../../page_objects/pageManager";
+import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
 const datepickerData = require(`${TEST_PATHS.TEST_DATA}/forms/datepickerData.json`);
@@ -14,10 +14,14 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Datepicker tests from JSON", () => {
     const dates = datepickerData.datePickers;
-    dates.forEach(({ name, placeholder, startOffset, endOffset }) => {
-        test(`should select date(s) for ${name}`, async ({}, testInfo) => {
+    dates.forEach(({ name, placeholder, startOffset, endOffset, expectInvalid }) => {
+        test(`Select date(s) for ${name} test`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.datepickerPage.selectDates(placeholder, startOffset, endOffset);
+            if (endOffset !== undefined) {
+                await pageManager.datepickerPage.selectDateRange(placeholder, startOffset, endOffset);
+            } else {
+                await pageManager.datepickerPage.selectSingleDate(placeholder, startOffset, expectInvalid);
+            };
         });
     });
 });

@@ -17,9 +17,10 @@
             "startOffset": 3
         },
         {
-            "name": "minMaxPickerInvalidEndDate",
+            "name": "minMaxPickerInvalidEndDate", 
             "placeholder": "Min Max Picker",
-            "startOffset": 30
+            "startOffset": 30,
+            "expectInvalid": true
         }
     ]
 }

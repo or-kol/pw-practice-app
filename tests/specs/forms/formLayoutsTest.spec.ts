@@ -1,5 +1,5 @@
 import { test, TEST_PATHS, handleXfail } from "../../utils";
-import { PageManager } from "../../page_objects/pageManager";
+import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
 const formPresets = require(`${TEST_PATHS.TEST_DATA}/forms/formData.json`);
