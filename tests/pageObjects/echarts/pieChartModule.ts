@@ -1,6 +1,5 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
-import { TEST_PATHS } from "../../utils/testConfig";
 
 export class PieChartModule extends BasePage{
 
@@ -40,4 +39,4 @@ export class PieChartModule extends BasePage{
         expect(countryData).toContain(value.toString());
         expect(countryData).toContain(percentage);
     };
-}
+};
