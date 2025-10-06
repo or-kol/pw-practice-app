@@ -35,14 +35,14 @@ export class NavigationMixin {
                 });
 
                 return clickResult as string || '';
-            }
+            };
 
             return this.page.title();
         } catch (error) {
             Logger.logError('Get page title', error);
             return '';
-        }
-    }
+        };
+    };
 
     /**
      * Gets the current URL of the page.
@@ -58,6 +58,6 @@ export class NavigationMixin {
         } catch (error) {
             Logger.logError('Get page URL', error);
             return '';
-        }
-    }
-}
+        };
+    };
+};

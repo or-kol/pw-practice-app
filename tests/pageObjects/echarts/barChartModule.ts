@@ -24,9 +24,9 @@ export class BarChartModule extends BasePage{
     };
 
     async barChartContentValidation(country: string, x: number, y: number, value: number): Promise<void> {
-        await this.mouseInteraction.moveMouseInBoxedElement(this.BAR_CHART_LOCATOR, x, y);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.BAR_CHART_LOCATOR, x, y);
         const barContent = await this.getText(this.BAR_CHART_LOCATOR);
         expect(barContent).toContain(country);
         expect(barContent).toContain(value.toString());
     };
-}
+};

@@ -1,12 +1,12 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
 export class SecurityCameras extends BasePage{
     
     constructor(page: Page){
         super(page);
     };
+
 
     async layoutViewButton(desiredButtonStatus: string): Promise<void>{
         const LayoutButtonLocator = `ngx-security-cameras .${desiredButtonStatus}-view-button`
@@ -15,7 +15,6 @@ export class SecurityCameras extends BasePage{
         const buttonStatus = await this.attributes.getAttribute(LayoutButtonLocator, `ng-reflect-appearance`);
         expect(buttonStatus).toBe(`filled`);
     };
-
 
     async chooseCameraFromGrid(cameraName: string): Promise<void> {
         const gridViewLocator = `ngx-security-cameras .grid-view-button`;

@@ -8,6 +8,7 @@ export class DeviceControlModule extends BasePage {
         super(page);
     };
 
+
     async buttonControllerSwitch(controllerName: string, switchDesiredStatus: "ON" | "OFF"): Promise<void> {
         const switchLocator = `ngx-status-card[ng-reflect-title='${controllerName}']`;
         const switchStatusLocator = `${switchLocator} div.status.paragraph-2`;
@@ -45,11 +46,10 @@ export class DeviceControlModule extends BasePage {
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
         
         await this.attributes.scrollIntoView(switchLoctor);
-        await this.mouseInteraction.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
         const ActualVal = await this.getText(switchLoctor);
         expect(ActualVal.includes(expectedTemp)).toBeTruthy();
     };
-
 
     async acStatesSwitch(desiredState: string): Promise<void>  {
         let stateButtonLoctor: string;
@@ -77,7 +77,6 @@ export class DeviceControlModule extends BasePage {
         expect(currentState).toContain(desiredState);
     };
 
-
     async tempSwitchOnOffButton(desiredState: string): Promise<void> {
         const tempSwitchLoctor = "[tabtitle='Temperature'] ngx-temperature-dragger button";
         let classAttr = await this.attributes.getAttribute(tempSwitchLoctor, "class");
@@ -94,6 +93,6 @@ export class DeviceControlModule extends BasePage {
             expect(isOnFinally).toBe(true);
         } else {
             expect(isOnFinally).toBe(false);
-        }
+        };
     };
 };

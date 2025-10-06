@@ -1,4 +1,4 @@
 export * from './attributesMixin';
-export * from './mouseInteractionMixin';
+export * from './mouseAndKeyboardMixin';
 export * from './navigationMixin';
 export * from './visualTestingMixin';

@@ -33,7 +33,7 @@ export class PopoverPage extends BasePage{
     async popoverPositionValidation(popoverExpectedPosition: string, expectedcontent: string): Promise<void> {
         const popoverButtonLocator = `ngx-popovers nb-card:has-text("Popover Position") button:has-text("${popoverExpectedPosition}")`;
         const popoverLocator = `nb-popover nb-overlay-container`;
-        await this.mouseInteraction.moveMouseInBoxedElement(popoverButtonLocator);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator);
         await this.popoverContentValidation(popoverLocator, expectedcontent);
         const actualPopoverPosition = await this.attributes.getAttribute(popoverButtonLocator ,'nbpopoverplacement');
         expect(actualPopoverPosition).toBe(popoverExpectedPosition.toLocaleLowerCase());
@@ -43,10 +43,10 @@ export class PopoverPage extends BasePage{
         const popoverButtonLocator = `ngx-popovers nb-card:has-text("Simple Popovers") button:has-text("${popoverName}")`;
         const popoverLocator = `nb-popover nb-overlay-container`;
         if (isClickNeeded) {
-            await this.mouseInteraction.moveMouseInBoxedElement(popoverButtonLocator, 0, 0, true);
+            await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator, 0, 0, true);
         } 
         else {
-            await this.mouseInteraction.moveMouseInBoxedElement(popoverButtonLocator);
+            await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator);
         };
         await this.popoverContentValidation(popoverLocator, expectedcontent);
     };
@@ -86,8 +86,8 @@ export class PopoverPage extends BasePage{
     async eventDebouncingValidation(): Promise<void> {
         const eventDebouncingButtonsLocator = `ngx-popovers nb-card:has-text("Event Debouncing") button`;
         const popoverLocator = `nb-popover nb-overlay-container`;
-        await this.mouseInteraction.fastSweepHover(eventDebouncingButtonsLocator);
-        await this.mouseInteraction.hover(`${eventDebouncingButtonsLocator} >> nth=9`, 500);
+        await this.mouseAndKeyboardInteraction.fastSweepHover(eventDebouncingButtonsLocator);
+        await this.mouseAndKeyboardInteraction.hover(`${eventDebouncingButtonsLocator} >> nth=9`, 500);
         const isPopoverVisible = await this.isVisible(popoverLocator);
         expect(isPopoverVisible).toBe(true);
     };

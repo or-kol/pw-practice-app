@@ -22,8 +22,8 @@ export class DialogPage extends BasePage{
     };
 
     private async handleBackdrop(dialogButtonLocator:string): Promise<void> {
-        await this.mouseInteraction.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
-        await this.mouseInteraction.mouseClick();
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
+        await this.mouseAndKeyboardInteraction.mouseClick();
     };
 
     async dialogContentValidation(dialogNum: number, dialogName: string, header: string, body:string): Promise<void> {
@@ -57,7 +57,7 @@ export class DialogPage extends BasePage{
         dialogNum: number, dialogName: string, header: string, body:string, buttonText: string, esc: boolean): Promise<void> {
         await this.openDialogbox(dialogNum, dialogName);
         const dialogButtonLocator = `${this.DIALOG_FOOTER_LOCATOR} button:has-text("${buttonText}")`;
-        await this.mouseInteraction.pressKeyboardKey("Escape");
+        await this.mouseAndKeyboardInteraction.pressKeyboardKey("Escape");
         const isdialogVisible = await this.isVisible(dialogButtonLocator);
         expect((!isdialogVisible)).toBe(esc);
     };

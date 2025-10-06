@@ -1,12 +1,12 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
 export class TrafficConsumption extends BasePage{
 
     constructor(page: Page){
         super(page);
     };
+
 
     async trafficConsumptionTimeSpan(expectedTimeSpan: string): Promise<void> {
         const consumptionPeriodDropdown = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;

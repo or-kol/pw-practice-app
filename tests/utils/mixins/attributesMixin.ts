@@ -23,7 +23,7 @@ export class AttributesMixin {
             await locator.waitFor({ state: "attached", timeout: 5000 });
             return (await locator.getAttribute(attribute)) ?? "";
         })) as string || "";
-    }
+    };
 
     /**
      * Gets the computed style property value of the element.
@@ -42,7 +42,7 @@ export class AttributesMixin {
                 property
             );
         })) as string || "";
-    }
+    };
 
     /**
      * Sets an attribute value on the element.
@@ -63,7 +63,7 @@ export class AttributesMixin {
             );
             return true;
         });
-    }
+    };
 
     /**
      * Scrolls the element into view if needed.
@@ -79,5 +79,5 @@ export class AttributesMixin {
             await locator.scrollIntoViewIfNeeded();
             return true;
         });
-    }
-}
+    };
+};

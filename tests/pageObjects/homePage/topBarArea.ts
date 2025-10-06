@@ -39,7 +39,7 @@ export class TopBarPage extends BasePage {
         const actualColor = await this.attributes.getElementCssProperty(headerLayout, "background-color");
         if (expectedColor) {
             expect(actualColor).toEqual(expectedColor);
-        }
+        };
     };
 
     async searchbarFunctionality(searchText: string): Promise<void> {
@@ -49,13 +49,12 @@ export class TopBarPage extends BasePage {
 
         await this.click(searchButton);
         await this.fillInput({ selector: searchBar, value: searchText });
-        await this.mouseInteraction.pressKeyboardKey("Enter");
+        await this.mouseAndKeyboardInteraction.pressKeyboardKey("Enter");
 
         const formClass = await this.attributes.getAttribute(searchBarForm, "class");
         expect(formClass).toContain("submitted");
     };
     
-
     async mailboxIcon(): Promise<void> {
         const mailboxIcon = "nb-action[icon='email-outline']";
         const visible = await this.isVisible(mailboxIcon);
@@ -67,7 +66,6 @@ export class TopBarPage extends BasePage {
         const visible = await this.isVisible(notificationsIcon);
         expect(visible).toBe(true);
     };
-
 
     async userProfile(): Promise<void> {
         const userProfileButton = "nb-layout-header nb-user.context-menu-host";

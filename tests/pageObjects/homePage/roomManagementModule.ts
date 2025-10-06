@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
 export class RoomManagementModule extends BasePage{
 
     constructor(page: Page){
@@ -17,17 +16,15 @@ export class RoomManagementModule extends BasePage{
         expect(selectedClass).toContain("selected-room");
     };
 
-
     async progressBarScrubbing(xAxis: number, yAxis: number, expectedPossition: string): Promise<void> {
         const progressBarLocator = `ngx-player nb-card-body .progress-wrap`;
         
         await this.attributes.scrollIntoView(progressBarLocator);
-        await this.mouseInteraction.moveMouseInBoxedElement(progressBarLocator, xAxis, yAxis, true);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(progressBarLocator, xAxis, yAxis, true);
         const barPercentage = await this.attributes.getAttribute(`${progressBarLocator} div`, "style");
         expect(barPercentage).toContain(expectedPossition);
     };
 
-    
     async playlistshufleOrRepeat(buttonPlace: number): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         
@@ -36,7 +33,6 @@ export class RoomManagementModule extends BasePage{
         expect(/\bon\b/.test(buttonClass)).toBe(true);
     };
 
-    
     async playlistPrevOrNext(buttonPlace: number): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         const songDataLocator = `ngx-player .details`;
@@ -46,7 +42,6 @@ export class RoomManagementModule extends BasePage{
         const postClickSongData = await this.getText(songDataLocator);
         expect(initialSongData).not.toBe(postClickSongData);
     };
-
 
     async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<void>{
         const playlistControlButtonsLocator = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;

@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
 export class ToastrPage extends BasePage{
 
     private readonly TOASTR_LOCATOR = `nb-layout .cdk-overlay-container`;
@@ -17,7 +16,6 @@ export class ToastrPage extends BasePage{
         await this.click(`a:has-text("toastr")`, 500);
     };
 
-
     async toastPositionValidation(position: string, verticalLocation: string, horizontalLocation: string): Promise<void> {
         const scrollListButtonLocator = `ngx-toastr nb-card-body .position-select`;
         const scrollListItemsLocator = `nb-option-list nb-option:has-text("${position}")`;
@@ -30,7 +28,6 @@ export class ToastrPage extends BasePage{
         expect(positionAttribute).toBe(styleExpectedValue);
     };
     
-
     async toastrTabContentValidation(cardHedline: string, cardDescription: string): Promise<void> {
         const headerInputLocator = `ngx-toastr nb-card-body [name="title"]`;
         const bodyInputLocator = `ngx-toastr nb-card-body [name="content"]`;
@@ -44,7 +41,6 @@ export class ToastrPage extends BasePage{
         expect(toastBodyText).toBe(cardDescription);
     };
     
-
     async toastrDurationValidation(cardTimeout: number): Promise<void> {
         const timeoutInputLocator = `ngx-toastr nb-card-body [name="timeout"]`;
         
@@ -53,7 +49,6 @@ export class ToastrPage extends BasePage{
         const displayDuration = await this.visualTesting.measureElementVisibilityDuration(`${this.TOASTR_LOCATOR} .content-container`);
         expect(Math.abs(displayDuration) - cardTimeout).toBeLessThan(100);
     };
-
 
     async toastTypeValidation(toastType: string): Promise<void> {
         const typeListLocator = `ngx-toastr nb-card-body nb-select button:has-text("primary")`;

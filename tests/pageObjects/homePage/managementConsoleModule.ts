@@ -12,11 +12,10 @@ export class ManagementConsoleModule extends BasePage{
         const electricityConsumptionGraphLocator = `ngx-electricity-chart`;
         const graphKwhValue = `ngx-electricity-chart >> text=/\\d+\\s*kWh/`;
 
-        await this.mouseInteraction.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(electricityConsumptionGraphLocator, offsetX, offsetY);
         const actualKwh = await this.getText(graphKwhValue);
         expect(actualKwh).toBe(expectedKwh);
     };
-
 
     async electricityConsumptionSwitchYears (expectedYear: string): Promise<void>{
         const yearLocator = `ngx-electricity >> text=${expectedYear}`;
@@ -27,7 +26,6 @@ export class ManagementConsoleModule extends BasePage{
         expect(actualYear).toBe(expectedYear);
     };
 
-    
     async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<void>{
         const initialTimePeriodButtonLocator = `ngx-electricity nb-select >> text="${initialPeriod}"`;
         const timePeriodOptionsLocator = `nb-option >> text=${expectedPeriod}`;

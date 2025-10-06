@@ -8,19 +8,19 @@ export class DatepickerPage extends BasePage{
         super(page);
     };
 
+
     async goToDatePickerPage(): Promise<void> {
         await this.click(`a[title="Forms"]`);
         await this.click(`a:has-text("Datepicker")`);
     };
     
-
     async selectSingleDate(placeholder: string, offset: number, expectInvalid?: boolean): Promise<void> {
         const calendarLocator = `input[placeholder="${placeholder}"]`;
         await this.click(calendarLocator, 500);
         const expectedDate = await this.trySelectDate(offset);
         const actualValue = await this.getText(calendarLocator);
         this.assertSingleDate(actualValue, expectedDate, expectInvalid);
-    }
+    };
 
     async selectDateRange(placeholder: string, startOffset: number, endOffset: number): Promise<void> {
         const calendarLocator = `input[placeholder="${placeholder}"]`;
@@ -31,8 +31,7 @@ export class DatepickerPage extends BasePage{
         const expectedRange = `${expectedStart} - ${expectedEnd}`;
         const actualValue = await this.getText(calendarLocator);
         expect(actualValue).toBe(expectedRange);
-    }
-
+    };
 
     /**
      * Selects a date in the calendar by navigating through year, month, and day.

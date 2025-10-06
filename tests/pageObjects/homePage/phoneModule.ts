@@ -1,8 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
-
-
 export class PhoneModule extends BasePage{
 
     constructor(page: Page){

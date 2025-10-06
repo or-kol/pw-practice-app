@@ -7,7 +7,7 @@ export class Logger {
      */
     static logError(operation: string, error: any): void {
         console.error(`${operation} failed:`, error);
-    }
+    };
 
     /**
      * Logs a warning message to the console for validation or operational warnings.
@@ -15,5 +15,5 @@ export class Logger {
      */
     static logWarning(message: string): void {
         console.warn(message);
-    }
-}
+    };
+};

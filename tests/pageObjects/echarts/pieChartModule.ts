@@ -24,8 +24,8 @@ export class PieChartModule extends BasePage{
     };
     
     async countryButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<void> {
-        await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
-        await this.mouseInteraction.mouseClick();
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
+        await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR} canvas`, screenshotName);
         const extractedText = await this.visualTesting.extractTextFromImage(screenshotPath!);
         const countryDisappeared = extractedText.toLowerCase().includes(countryName.toLowerCase());
@@ -33,7 +33,7 @@ export class PieChartModule extends BasePage{
     };
 
     async pieChartContentValidation(country: string, x: number, y: number, value: number, percentage: string): Promise<void> {
-        await this.mouseInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR} canvas`, x, y);
         const countryData = await this.getText(this.PIE_CHART_LOCATOR);
         expect(countryData).toContain(country);
         expect(countryData).toContain(value.toString());

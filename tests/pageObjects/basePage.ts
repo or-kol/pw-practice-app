@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { TEST_TIMEOUTS, LocatorHelper } from "../utils";
-import { AttributesMixin, MouseInteractionMixin, VisualTestingMixin, NavigationMixin } from "../utils/mixins";
+import { AttributesMixin, MouseAndKeyboardMixin, VisualTestingMixin, NavigationMixin } from "../utils/mixins";
 
 export class BasePage {
     
@@ -9,14 +9,14 @@ export class BasePage {
     
     // Public mixins - direct access for page objects
     public readonly attributes: AttributesMixin;
-    public readonly mouseInteraction: MouseInteractionMixin;
+    public readonly mouseAndKeyboardInteraction: MouseAndKeyboardMixin;
     public readonly visualTesting: VisualTestingMixin;
     public readonly navigation: NavigationMixin;
 
     constructor(page: Page) {
         this.page = page;
         this.attributes = new AttributesMixin(page);
-        this.mouseInteraction = new MouseInteractionMixin(page);
+        this.mouseAndKeyboardInteraction = new MouseAndKeyboardMixin(page);
         this.visualTesting = new VisualTestingMixin(page);
         this.navigation = new NavigationMixin(page);
     }
@@ -44,7 +44,6 @@ export class BasePage {
         });
     };
 
-
     /**
      * Fills the input field with the specified value.
      * Waits for the input to be visible using ACTION_TIMEOUT.
@@ -61,7 +60,6 @@ export class BasePage {
             return true;
         });
     };
-
 
     /**
      * Checks the checkbox if not already checked.
@@ -81,7 +79,6 @@ export class BasePage {
         });
     };
 
-
     /**
      * Unchecks the checkbox if not already unchecked.
      * Waits for the checkbox to be visible using ACTION_TIMEOUT.
@@ -100,7 +97,6 @@ export class BasePage {
         });
     };
 
-
     /**
      * Checks if the element is visible on the page.
      * Waits for the element to be visible using ACTION_TIMEOUT.
@@ -115,7 +111,6 @@ export class BasePage {
             return locator.isVisible();
         });
     };
-
 
     /**
      * Retrieves the text content or input value of an element.
@@ -143,7 +138,6 @@ export class BasePage {
         })) as string;
     };
 
-
     /**
      * Waits for an element to become visible (timeout: 5000ms).
      * @param selector - The CSS selector to wait for.
@@ -156,5 +150,5 @@ export class BasePage {
             await locator.waitFor({ state: 'visible', timeout: this.ACTION_TIMEOUT });
             return true;
         });
-    }
-}
+    };
+};

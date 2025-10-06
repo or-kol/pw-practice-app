@@ -3,11 +3,10 @@ import { Logger } from "../logger";
 import { LocatorHelper } from "../locatorHelper";
 
 /**
- * MouseInteractionMixin provides advanced mouse interaction capabilities
- * including hover effects, mouse movements, and keyboard interactions
+ * MouseAndKeyboardMixin provides advanced mouse and keyboard interaction capabilities.
+ * Includes hover effects, mouse movements, clicks, and keyboard actions for UI automation.
  */
-export class MouseInteractionMixin {
-
+export class MouseAndKeyboardMixin {
 
     constructor(private page: Page) {}
 
@@ -19,9 +18,9 @@ export class MouseInteractionMixin {
         await this.page.mouse.down();
         if (delayMs > 0) {
             await this.page.waitForTimeout(delayMs);
-        }
+        };
         await this.page.mouse.up();
-    }
+    };
     
     
     /**
@@ -41,11 +40,11 @@ export class MouseInteractionMixin {
 
             if (waitAfterMs > 0) {
                 await this.page.waitForTimeout(waitAfterMs);
-            }
+            };
 
             return true;
         });
-    }
+    };
 
     /**
      * Quickly hovers over all elements matching the given locator, moving the mouse to the center of each.
@@ -63,17 +62,17 @@ export class MouseInteractionMixin {
             if (buttons.length === 0) {
                 Logger.logWarning(`Selector not found: ${buttonsLocator}`);
                 return;
-            }
+            };
 
             for (const btn of buttons) {
                 const box = await btn.boundingBox();
 
                 if (box) {
                     await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 1 });
-                }
-            }
+                };
+            };
         });
-    }
+    };
 
     /**
      * Moves the mouse cursor to the center of the specified element and optionally drags it by a given offset.
@@ -94,7 +93,7 @@ export class MouseInteractionMixin {
             if (!box) {
                 Logger.logWarning(`Selector not found: ${selector}`);
                 return false;
-            }
+            };
 
             const centerX = box.x + box.width / 2;
             const centerY = box.y + box.height / 2;
@@ -106,7 +105,7 @@ export class MouseInteractionMixin {
                 await this.page.mouse.up();
             } else {
                 await this.page.mouse.move(centerX + pixelsToMoveX, centerY + pixelsToMoveY, { steps: 20 });
-            }
+            };
 
             return true;
         });
@@ -135,7 +134,7 @@ export class MouseInteractionMixin {
             } catch (error) {
                 Logger.logWarning(`Selector not found: ${selector ?? "keyboard"}`);
                 return false;
-            }
-        }
-    }
-}
+            };
+        };
+    };
+};
