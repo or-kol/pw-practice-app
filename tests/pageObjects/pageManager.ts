@@ -49,134 +49,134 @@ export class PageManager {
 
     constructor(page: Page) {
         this.page = page;
-    }
+    };
 
     // Lazy getters - only create instances when accessed
     get formLayoutsPage(): FormLayoutsPage {
         if (!this._formLayoutsPage) {
             this._formLayoutsPage = new FormLayoutsPage(this.page);
-        }
+        };
         return this._formLayoutsPage;
-    }
+    };
 
     get datepickerPage(): DatepickerPage {
         if (!this._datepickerPage) {
             this._datepickerPage = new DatepickerPage(this.page);
-        }
+        };
         return this._datepickerPage;
-    }
+    };
 
     get featuresMenuPage(): FeaturesMenuPage {
         if (!this._featuresMenuPage) {
             this._featuresMenuPage = new FeaturesMenuPage(this.page);
-        }
+        };
         return this._featuresMenuPage;
-    }
+    };
 
     get topBarPage(): TopBarPage {
         if (!this._topBarPage) {
             this._topBarPage = new TopBarPage(this.page);
-        }
+        };
         return this._topBarPage;
-    }
+    };
 
     get deviceControlModule(): DeviceControlModule {
         if (!this._deviceControlModule) {
             this._deviceControlModule = new DeviceControlModule(this.page);
-        }
+        };
         return this._deviceControlModule;
-    }
+    };
 
     get managementConsoleModule(): ManagementConsoleModule {
         if (!this._managementConsoleModule) {
             this._managementConsoleModule = new ManagementConsoleModule(this.page);
-        }
+        };
         return this._managementConsoleModule;
-    }
+    };
 
     get roomManagementModule(): RoomManagementModule {
         if (!this._roomManagementModule) {
             this._roomManagementModule = new RoomManagementModule(this.page);
-        }
+        };
         return this._roomManagementModule;
-    }
+    };
 
     get phoneModule(): PhoneModule {
         if (!this._phoneModule) {
             this._phoneModule = new PhoneModule(this.page);
-        }
+        };
         return this._phoneModule;
-    }
+    };
 
     get trafficConsumption(): TrafficConsumption {
         if (!this._trafficConsumption) {
             this._trafficConsumption = new TrafficConsumption(this.page);
-        }
+        };
         return this._trafficConsumption;
-    }
+    };
 
     get securityCameras(): SecurityCameras {
         if (!this._securityCameras) {
             this._securityCameras = new SecurityCameras(this.page);
-        }
+        };
         return this._securityCameras;
-    }
+    };
 
     get homePageFooter(): HomePageFooter {
         if (!this._homePageFooter) {
             this._homePageFooter = new HomePageFooter(this.page);
-        }
+        };
         return this._homePageFooter;
-    }
+    };
 
     get dialogPage(): DialogPage {
         if (!this._dialogPage) {
             this._dialogPage = new DialogPage(this.page);
-        }
+        };
         return this._dialogPage;
-    }
+    };
 
     get windowPage(): WindowPage {
         if (!this._windowPage) {
             this._windowPage = new WindowPage(this.page);
-        }
+        };
         return this._windowPage;
-    }
+    };
 
     get popoverPage(): PopoverPage {
         if (!this._popoverPage) {
             this._popoverPage = new PopoverPage(this.page);
-        }
+        };
         return this._popoverPage;
-    }
+    };
 
     get toastrPage(): ToastrPage {
         if (!this._toastrPage) {
             this._toastrPage = new ToastrPage(this.page);
-        }
+        };
         return this._toastrPage;
-    }
+    };
 
     get tooltipPage(): TooltipPage {
         if (!this._tooltipPage) {
             this._tooltipPage = new TooltipPage(this.page);
-        }
+        };
         return this._tooltipPage;
-    }
+    };
 
     get pieChartModule(): PieChartModule {
         if (!this._pieChartModule) {
             this._pieChartModule = new PieChartModule(this.page);
-        }
+        };
         return this._pieChartModule;
-    }
+    };
 
     get barChartModule(): BarChartModule {
         if (!this._barChartModule) {
             this._barChartModule = new BarChartModule(this.page);
-        }
+        };
         return this._barChartModule;
-    }
+    };
 
     /**
      * Optional: Reset method to clear all instances
@@ -201,5 +201,5 @@ export class PageManager {
         this._tooltipPage = undefined;
         this._pieChartModule = undefined;
         this._barChartModule = undefined;
-    }
+    };
 }
