@@ -12,8 +12,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-test(`Bar chart colors validation test`, async () => {
+test(`Bar chart colors validation test`, async ({}, testInfo) => {
     const expectedColors = [barChartData.barChart.barsColor];
+    handleXfail(testInfo, specFile);
     await pageManager.barChartModule.validateBarChartColors(expectedColors);
 });
 

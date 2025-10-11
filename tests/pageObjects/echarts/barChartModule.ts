@@ -3,7 +3,6 @@ import { BasePage } from "../basePage";
 
 export class BarChartModule extends BasePage{
 
-    readonly PIE_CHART_LOCATOR = 'ngx-echarts-pie';
     readonly BAR_CHART_LOCATOR = 'ngx-echarts-bar';
 
     constructor(page: Page){
@@ -17,7 +16,7 @@ export class BarChartModule extends BasePage{
 
 
     async validateBarChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.BAR_CHART_LOCATOR} canvas`, 'bar-chart-colors');
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.BAR_CHART_LOCATOR}`, 'bar-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
         expect(result).toBeTruthy();

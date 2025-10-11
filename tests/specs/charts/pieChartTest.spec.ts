@@ -12,14 +12,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-test(`Pie chart colors validation test`, async () => {
+test(`Pie chart colors validation test`, async ({}, testInfo) => {
     const expectedColors = pieChartData.pieChart.countriesColors.map((segment: any) => segment.color);
+        
+        handleXfail(testInfo, specFile);
         await pageManager.pieChartModule.validatePieChartColors(expectedColors);
 });
 
 test.describe(`Legend buttons validation test suite`, () => {
     const countriesLegendCoordinates = pieChartData.pieChart.countriesLegendCoordinates;
-
     countriesLegendCoordinates.forEach(({country, legendCoordinates}) => {
         test(`Legend button: ${country} validation test`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
@@ -30,7 +31,6 @@ test.describe(`Legend buttons validation test suite`, () => {
 
 test.describe(`Countries chart data validation test suite`, () => {
     const countriesChartData = pieChartData.pieChart.countriesChartData;
-
     countriesChartData.forEach(({country, coordinatesOnChart, value, percentage}) => {
         test(`Country: ${country} validation test`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);

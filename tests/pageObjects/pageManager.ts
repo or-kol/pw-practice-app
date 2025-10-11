@@ -19,6 +19,7 @@ import { ToastrPage } from './modalAndOverlays/toastrPage';
 import { TooltipPage } from './modalAndOverlays/tooltipPage';
 import { PieChartModule } from './echarts/pieChartModule';
 import { BarChartModule } from './echarts/barChartModule';
+import { LineChartModule } from './echarts/lineChartModule';
 
 /**
  * PageManager with lazy initialization
@@ -46,6 +47,7 @@ export class PageManager {
     private _tooltipPage?: TooltipPage;
     private _pieChartModule?: PieChartModule;
     private _barChartModule?: BarChartModule;
+    private _lineChartModule?: LineChartModule;
 
     constructor(page: Page) {
         this.page = page;
@@ -178,6 +180,13 @@ export class PageManager {
         return this._barChartModule;
     };
 
+    get lineChartModule(): LineChartModule {
+        if (!this._lineChartModule) {
+            this._lineChartModule = new LineChartModule(this.page);
+        };
+        return this._lineChartModule;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -201,5 +210,6 @@ export class PageManager {
         this._tooltipPage = undefined;
         this._pieChartModule = undefined;
         this._barChartModule = undefined;
+        this._lineChartModule = undefined;
     };
-}
+};
