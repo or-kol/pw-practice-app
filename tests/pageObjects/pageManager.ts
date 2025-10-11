@@ -20,6 +20,7 @@ import { TooltipPage } from './modalAndOverlays/tooltipPage';
 import { PieChartModule } from './echarts/pieChartModule';
 import { BarChartModule } from './echarts/barChartModule';
 import { LineChartModule } from './echarts/lineChartModule';
+import { MultipleXAxisChartModule } from './echarts/MultipleXAxisChartModule';
 
 /**
  * PageManager with lazy initialization
@@ -48,6 +49,7 @@ export class PageManager {
     private _pieChartModule?: PieChartModule;
     private _barChartModule?: BarChartModule;
     private _lineChartModule?: LineChartModule;
+    private _multipleXAxisChartModule?: MultipleXAxisChartModule;
 
     constructor(page: Page) {
         this.page = page;
@@ -187,6 +189,13 @@ export class PageManager {
         return this._lineChartModule;
     };
 
+    get multipleXAxisChartModule(): MultipleXAxisChartModule {
+        if (!this._multipleXAxisChartModule) {
+            this._multipleXAxisChartModule = new MultipleXAxisChartModule(this.page);
+        };
+        return this._multipleXAxisChartModule;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -211,5 +220,6 @@ export class PageManager {
         this._pieChartModule = undefined;
         this._barChartModule = undefined;
         this._lineChartModule = undefined;
+        this._multipleXAxisChartModule = undefined;
     };
 };

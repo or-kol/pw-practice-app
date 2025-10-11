@@ -3,6 +3,7 @@ import getColors from "get-image-colors";
 import { TEST_PATHS } from "../testConfig";
 import { Logger } from "../logger";
 import { LocatorHelper } from "../locatorHelper";
+import { count } from "console";
 
 /**
  * VisualTestingMixin provides advanced visual testing capabilities
@@ -48,7 +49,7 @@ export class VisualTestingMixin {
         const screenshotPath = `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png`;
         const result = await LocatorHelper.withLocator(this.page, selector, async (locator) => {
             await locator.waitFor({ state: "visible", timeout: 5000 });
-            await locator.screenshot({ path: screenshotPath });
+            await locator.screenshot({ path: screenshotPath, animations: 'disabled' });
             return true;
         });
         return result ? screenshotPath : null;
@@ -62,7 +63,7 @@ export class VisualTestingMixin {
     async takePageScreenshot(screenshotName: string): Promise<string | null> {
         const screenshotPath = `${TEST_PATHS.SCREENSHOTS}/${screenshotName}.png`;
         try {
-            await this.page.screenshot({ path: screenshotPath });
+            await this.page.screenshot({ path: screenshotPath, animations: 'disabled' });
             return screenshotPath;
         } catch (error) {
             Logger.logError('Page screenshot', error);
@@ -97,7 +98,7 @@ export class VisualTestingMixin {
      */
     async extractColorsFromImage(imagePath: string): Promise<any[]> {
         try {
-            return await getColors(imagePath);
+            return await getColors(imagePath, {count: 20});
         } catch (error) {
             Logger.logError('Color extraction', error);
             return [];
@@ -134,7 +135,7 @@ export class VisualTestingMixin {
      * @param imagePath - Path to the image file.
      * @returns Extracted text from the image.
      */
-    async extractTextFromImage(imagePath: string): Promise<string> {
+    async extractTextFromImage(imagePath: string): Promise<string> { 
         try {
             const { createWorker } = require('tesseract.js');
             const worker = await createWorker();

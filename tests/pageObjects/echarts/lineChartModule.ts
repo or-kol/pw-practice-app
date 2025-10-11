@@ -18,7 +18,7 @@ export class LineChartModule extends BasePage{
     async validateLineChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.LINE_CHART_LOCATOR}`, 'line-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 70);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
         expect(result).toBeTruthy();
     };
 

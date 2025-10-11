@@ -1,7 +1,7 @@
 import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
-import { point } from "leaflet";
+
 
 const lineChartData = require(`${TEST_PATHS.TEST_DATA}/charts/lineChartData.json`);
 let pageManager: PageManager;
@@ -23,8 +23,8 @@ test.describe(`Line chart data validation test suite`, () => {
         line.points.map(pt => ({
             value: pt.value,
             coordinates: pt,
-            lineName: line.name,
-            pointName: pt.name
+            lineName: line.lineName,
+            pointName: pt.pointName
         }))
     );
 
