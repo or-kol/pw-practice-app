@@ -130,24 +130,47 @@ export class VisualTestingMixin {
     };
 
     /**
-     * Extracts text from an image using OCR (Optical Character Recognition).
-     * Useful for validating text content in screenshots (e.g., chart labels, tooltips).
-     * @param imagePath - Path to the image file.
-     * @returns Extracted text from the image.
+     * Extracts all visible text from an image using OCR (Optical Character Recognition).
+     * Preprocesses the image by resizing for better accuracy, then runs Tesseract.js OCR.
+     * Cleans up temporary files after extraction.
+     * Useful for validating any text content in screenshots, such as chart labels, tooltips, or UI elements.
+     * @param imagePath - Absolute or relative path to the image file to process.
+     * @returns The extracted text as a trimmed string, or an empty string if extraction fails.
      */
-    async extractTextFromImage(imagePath: string): Promise<string> { 
+    async extractTextFromImage(imagePath: string): Promise<string> {
+        // Preprocess image using sharp to a temp file, gentle contrast only
+        const sharp = require('sharp');
+        const path = require('path');
+        const tempPath = path.join(path.dirname(imagePath), 'temp_' + path.basename(imagePath));
+        const fs = require('fs');
+
         try {
+            // Resize and preprocess
+            const { width, height } = await sharp(imagePath).metadata();
+            await sharp(imagePath)
+                .resize({ 
+                    width: width ? width * 2 : 400, 
+                    height: height ? height * 2 : 200 
+                })
+                .toFile(tempPath);
+
             const { createWorker } = require('tesseract.js');
             const worker = await createWorker();
-            
-            console.log(`Extracting text from image: ${imagePath}`);
-            const { data: { text } } = await worker.recognize(imagePath);
+            const { data: { text } } = await worker.recognize(tempPath);
             await worker.terminate();
-            
-            console.log(`Extracted text: "${text.trim()}"`);
+
+            if (fs.existsSync(tempPath)) {
+                fs.unlinkSync(tempPath);
+            };
+
             return text.trim();
         } catch (error) {
             Logger.logError('Text extraction from image', error);
+
+            if (fs.existsSync(tempPath)) {
+                fs.unlinkSync(tempPath);
+            };
+
             return '';
         };
     };

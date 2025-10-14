@@ -26,10 +26,9 @@ export class MultipleXAxisChartModule extends BasePage{
     async multipleXAxisChartContentValidation(x: number, y: number, value2015: string, value2016: string): Promise<void> {
         await this.attributes.scrollIntoView(this.MULTIPLE_XAXIS_CHART_LOCATOR);
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.MULTIPLE_XAXIS_CHART_LOCATOR, x, y);
-        //await this.page.waitForTimeout(2000); 
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
         const lineContent = await this.visualTesting.extractTextFromImage(screenshotPath);
-        //console.log(lineContent);
+        console.log(lineContent);
         expect(lineContent).toContain(value2015);
         expect(lineContent).toContain(value2016);
     };
