@@ -21,6 +21,7 @@ import { PieChartModule } from './echarts/pieChartModule';
 import { BarChartModule } from './echarts/barChartModule';
 import { LineChartModule } from './echarts/lineChartModule';
 import { MultipleXAxisChartModule } from './echarts/MultipleXAxisChartModule';
+import { AreaStackChartModule } from './echarts/areaStrackChartModule';
 
 /**
  * PageManager with lazy initialization
@@ -50,6 +51,7 @@ export class PageManager {
     private _barChartModule?: BarChartModule;
     private _lineChartModule?: LineChartModule;
     private _multipleXAxisChartModule?: MultipleXAxisChartModule;
+    private _areaStackChartModule?: AreaStackChartModule;
 
     constructor(page: Page) {
         this.page = page;
@@ -196,6 +198,13 @@ export class PageManager {
         return this._multipleXAxisChartModule;
     };
 
+    get areaStackChartModule(): AreaStackChartModule {
+        if (!this._areaStackChartModule) {
+            this._areaStackChartModule = new AreaStackChartModule(this.page);
+        };
+        return this._areaStackChartModule;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -221,5 +230,6 @@ export class PageManager {
         this._barChartModule = undefined;
         this._lineChartModule = undefined;
         this._multipleXAxisChartModule = undefined;
+        this._areaStackChartModule = undefined;
     };
 };

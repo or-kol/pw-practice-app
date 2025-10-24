@@ -1,0 +1,95 @@
+{
+    "chartDays": [
+        {
+            "day": "Monday",
+            "xAxis": -305,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "820"},
+                { "areaStack": "Direct interview", "value": "320"},
+                { "areaStack": "Video ad", "value": "150"},
+                { "areaStack": "Affiliate advertising", "value": "220"},
+                { "areaStack": "Mail marketing", "value": "120"}
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "xAxis": -198,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "932"},
+                { "areaStack": "Direct interview", "value": "332"},
+                { "areaStack": "Video ad", "value": "232"},
+                { "areaStack": "Affiliate advertising", "value": "182"},
+                { "areaStack": "Mail marketing", "value": "132"}
+            ]
+        },
+        {
+            "day": "Wednesday",
+            "xAxis": -92,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "901"},
+                { "areaStack": "Direct interview", "value": "301"},
+                { "areaStack": "Video ad", "value": "201"},
+                { "areaStack": "Affiliate advertising", "value": "191"},
+                { "areaStack": "Mail marketing", "value": "101"}
+            ]
+        },
+        {
+            "day": "Thursday",
+            "xAxis": 16,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "934"},
+                { "areaStack": "Direct interview", "value": "334"},
+                { "areaStack": "Video ad", "value": "154"},
+                { "areaStack": "Affiliate advertising", "value": "234"},
+                { "areaStack": "Mail marketing", "value": "134"}
+            ]
+        },
+        {
+            "day": "Friday",
+            "xAxis": 122,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "1,290", "x": -261.5, "y": 39 },
+                { "areaStack": "Direct interview", "value": "390", "x": -191.5, "y": 14 },
+                { "areaStack": "Video ad", "value": "190" },
+                { "areaStack": "Affiliate advertising", "value": "290" },
+                { "areaStack": "Mail marketing", "value": "90" }
+            ]
+        },
+        {
+            "day": "Saturday",
+            "xAxis": 230,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "1,330" },
+                { "areaStack": "Direct interview", "value": "330" },
+                { "areaStack": "Video ad", "value": "330" },
+                { "areaStack": "Affiliate advertising", "value": "330" },
+                { "areaStack": "Mail marketing", "value": "230" }
+            ]
+        },
+        {
+            "day": "Sunday",
+            "xAxis": 334,
+            "yAxis": 69,
+            "stacks": [
+                { "areaStack": "Search engine", "value": "1,320" },
+                { "areaStack": "Direct interview", "value": "320" },
+                { "areaStack": "Video ad", "value": "410" },
+                { "areaStack": "Affiliate advertising", "value": "310" },
+                { "areaStack": "Mail marketing", "value": "210" }
+            ]
+        }
+    ],
+    "chartColors": [
+        { "stack": "Search engine", "color": { "r": 143, "g": 174, "b": 253 } },
+        { "stack": "Direct interview", "color": { "r": 116, "g": 138, "b": 186 } },
+        { "stack": "Video ad", "color": { "r": 252, "g": 154, "b": 176 } },
+        { "stack": "Affiliate advertising", "color": { "r": 129, "g": 195, "b": 253 } },
+        { "stack": "Mail marketing", "color": { "r": 253, "g": 217, "b": 135 } }
+    ]
+}

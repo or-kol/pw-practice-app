@@ -3,7 +3,6 @@ import getColors from "get-image-colors";
 import { TEST_PATHS } from "../testConfig";
 import { Logger } from "../logger";
 import { LocatorHelper } from "../locatorHelper";
-import { count } from "console";
 
 /**
  * VisualTestingMixin provides advanced visual testing capabilities

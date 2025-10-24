@@ -19,7 +19,6 @@ export class MultipleXAxisChartModule extends BasePage{
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
-        console.log(extractedColors);
         expect(result).toBeTruthy();
     };
 
@@ -28,7 +27,6 @@ export class MultipleXAxisChartModule extends BasePage{
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.MULTIPLE_XAXIS_CHART_LOCATOR, x, y);
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
         const lineContent = await this.visualTesting.extractTextFromImage(screenshotPath);
-        console.log(lineContent);
         expect(lineContent).toContain(value2015);
         expect(lineContent).toContain(value2016);
     };
