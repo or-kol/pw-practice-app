@@ -12,14 +12,26 @@ test.beforeEach(async ({ page }) => {
     await pageManager.barChartModule.goToEchartsPage();
 });
 
+
 test(`Line chart colors validation test`, async ({}, testInfo) => {
-    const expectedColors = lineChartData.lineChart.map(line => line.color);
+    const expectedColors = lineChartData.lineChart.linesData.map(line => line.color);
     handleXfail(testInfo, specFile);
     await pageManager.lineChartModule.validateLineChartColors(expectedColors);
 });
 
+test.describe(`Pie chart legend buttons validation test suite`, () => {
+    const linesLegendCoordinates = lineChartData.lineChart.linesLegendCoordinates;
+    linesLegendCoordinates.forEach(({lineName, legendCoordinates}) => {
+        test(`Legend button: ${lineName} validation test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
+            const lineColor = [lineChartData.lineChart.linesData.find(l => l.lineName === lineName)?.color];
+            await pageManager.lineChartModule.lineLegendButtonFunctionality(legendCoordinates.x, legendCoordinates.y, lineColor);
+        });
+    });
+});
+
 test.describe(`Line chart data validation test suite`, () => {
-    const allPoints = lineChartData.lineChart.flatMap(line =>
+    const allPoints = lineChartData.lineChart.linesData.flatMap(line =>
         line.points.map(pt => ({
             value: pt.value,
             coordinates: pt,
@@ -35,3 +47,5 @@ test.describe(`Line chart data validation test suite`, () => {
         });
     });
 });
+
+

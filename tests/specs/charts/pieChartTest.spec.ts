@@ -19,7 +19,7 @@ test(`Pie chart colors validation test`, async ({}, testInfo) => {
         await pageManager.pieChartModule.validatePieChartColors(expectedColors);
 });
 
-test.describe(`Legend buttons validation test suite`, () => {
+test.describe(`Pie chart legend buttons validation test suite`, () => {
     const countriesLegendCoordinates = pieChartData.pieChart.countriesLegendCoordinates;
     countriesLegendCoordinates.forEach(({country, legendCoordinates}) => {
         test(`Legend button: ${country} validation test`, async ({}, testInfo) => {

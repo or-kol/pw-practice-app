@@ -22,7 +22,7 @@ export class PieChartModule extends BasePage{
         expect(result).toBeTruthy();
     };
     
-    async countryButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<void> {
+    async countryLegendButtonFunctionality(x: number, y: number, screenshotName: string, countryName: string): Promise<void> {
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR}`, x, y);
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR}`, screenshotName);
