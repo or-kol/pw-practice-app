@@ -17,7 +17,7 @@ export class BarChartModule extends BasePage{
 
     async validateBarChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.BAR_CHART_LOCATOR}`, 'bar-chart-colors');
-        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
         expect(result).toBeTruthy();
     };

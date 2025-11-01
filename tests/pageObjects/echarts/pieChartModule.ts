@@ -17,7 +17,7 @@ export class PieChartModule extends BasePage{
 
     async validatePieChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR}`, 'pie-chart-colors');
-        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
         expect(result).toBeTruthy();
     };
@@ -26,7 +26,7 @@ export class PieChartModule extends BasePage{
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.PIE_CHART_LOCATOR}`, x, y);
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR}`, screenshotName);
-        const extractedText = await this.visualTesting.extractTextFromImage(screenshotPath!);
+        const extractedText = await this.visualTesting.extractTextFromImage(screenshotPath);
         const countryDisappeared = extractedText.toLowerCase().includes(countryName.toLowerCase());
         expect(countryDisappeared).toBeFalsy();
     };

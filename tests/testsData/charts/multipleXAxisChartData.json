@@ -1,7 +1,7 @@
 {
     "lines": [
-        { "lineName": "2015 Precipitation", "color": { "r": 174, "g": 241, "b": 220 } },
-        { "lineName": "2016 Precipitation", "color": { "r": 13, "g": 154, "b": 255 } }
+        { "lineName": "2015 Precipitation", "color": { "r": 174, "g": 241, "b": 220 }, "legendCoordinates": {"x": -64, "y": -220} },
+        { "lineName": "2016 Precipitation", "color": { "r": 13, "g": 154, "b": 255 }, "legendCoordinates": {"x": 85, "y": -220} }
     ],
     "points": [
         { "month": "Jan", "x": -266.5, "y": 176, "value2015": "2.6", "value2016": "3.9" },

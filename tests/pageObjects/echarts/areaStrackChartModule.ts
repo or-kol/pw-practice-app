@@ -17,7 +17,7 @@ export class AreaStackChartModule extends BasePage{
     async validateAreaStackChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         await this.attributes.scrollIntoView(this.AREA_STACK_CHART_LOCATOR);
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_LOCATOR}`, 'area-stack-chart-colors');
-        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
         expect(result).toBeTruthy();
     };

@@ -17,9 +17,18 @@ export class MultipleXAxisChartModule extends BasePage{
 
     async validateMultipleXAxisChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
-        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath!);
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
         expect(result).toBeTruthy();
+    };
+
+    async yearLegendButtonFunctionality(x: number, y: number, missingLineColor: {r: number, g: number, b: number}[]): Promise<void> {
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, x, y);
+        await this.mouseAndKeyboardInteraction.mouseClick();
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
+        const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingLineColor);
+        expect(result).toBeFalsy();
     };
 
     async multipleXAxisChartContentValidation(x: number, y: number, value2015: string, value2016: string): Promise<void> {

@@ -19,7 +19,7 @@ test(`Line chart colors validation test`, async ({}, testInfo) => {
     await pageManager.lineChartModule.validateLineChartColors(expectedColors);
 });
 
-test.describe(`Pie chart legend buttons validation test suite`, () => {
+test.describe(`Line chart legend buttons validation test suite`, () => {
     const linesLegendCoordinates = lineChartData.lineChart.linesLegendCoordinates;
     linesLegendCoordinates.forEach(({lineName, legendCoordinates}) => {
         test(`Legend button: ${lineName} validation test`, async ({}, testInfo) => {
