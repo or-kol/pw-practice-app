@@ -18,6 +18,16 @@ test(`Area stack chart colors validation test`, async ({}, testInfo) => {
 });
 
 
+test.describe(`Multiple Area Stack chart legend buttons validation test suite`, () => {
+    const areaStackChartLegendCoordinates = areaStackChartData.chartColors;
+    areaStackChartLegendCoordinates.forEach(({stack, legendCoordinates, color}) => {
+        test(`Legend button: ${stack} validation test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
+            await pageManager.areaStackChartModule.AreaStackChartLegendButtonFunctionality(legendCoordinates.x, legendCoordinates.y, [color]);
+        });
+    });
+});
+
 test.describe(`Area stack chart data validation test suite`, () => {
     const days = areaStackChartData.chartDays;
     days.forEach(({ day, xAxis, yAxis, stacks }) => {
