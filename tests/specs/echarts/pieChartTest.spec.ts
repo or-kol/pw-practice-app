@@ -24,7 +24,7 @@ test.describe(`Pie chart legend buttons validation test suite`, () => {
     countriesLegendCoordinates.forEach(({country, legendCoordinates}) => {
         test(`Legend button: ${country} validation test`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.pieChartModule.countryButtonFunctionality(legendCoordinates.x, legendCoordinates.y, `${country}Removed`, country);
+            await pageManager.pieChartModule.countryLegendButtonFunctionality(legendCoordinates.x, legendCoordinates.y, `${country}Removed`, country);
         });
     });
 });

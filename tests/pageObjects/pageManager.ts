@@ -20,8 +20,9 @@ import { TooltipPage } from './modalAndOverlays/tooltipPage';
 import { PieChartModule } from './echarts/pieChartModule';
 import { BarChartModule } from './echarts/barChartModule';
 import { LineChartModule } from './echarts/lineChartModule';
-import { MultipleXAxisChartModule } from './echarts/MultipleXAxisChartModule';
-import { AreaStackChartModule } from './echarts/areaStrackChartModule';
+import { MultipleXAxisChartModule } from './echarts/multipleXAxisChartModule';
+import { AreaStackChartModule } from './echarts/areaStackChartModule';
+import { BarAnimationChartModule } from './echarts/barAnimationChartModule';
 
 /**
  * PageManager with lazy initialization
@@ -52,6 +53,7 @@ export class PageManager {
     private _lineChartModule?: LineChartModule;
     private _multipleXAxisChartModule?: MultipleXAxisChartModule;
     private _areaStackChartModule?: AreaStackChartModule;
+    private _barAnimationChartModule?: BarAnimationChartModule;
 
     constructor(page: Page) {
         this.page = page;
@@ -205,6 +207,13 @@ export class PageManager {
         return this._areaStackChartModule;
     };
 
+    get barAnimationChartModule(): BarAnimationChartModule {
+        if (!this._barAnimationChartModule) {
+            this._barAnimationChartModule = new BarAnimationChartModule(this.page);
+        };
+        return this._barAnimationChartModule;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -231,5 +240,6 @@ export class PageManager {
         this._lineChartModule = undefined;
         this._multipleXAxisChartModule = undefined;
         this._areaStackChartModule = undefined;
+        this._barAnimationChartModule = undefined;
     };
 };

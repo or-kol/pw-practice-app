@@ -12,15 +12,39 @@
         "dateReported": "2025-09-25"
     },
     "BUG_ID-0003": {
-        "feature": "MultipleXAxisChartTest",
+        "feature": "multipleXAxisChartTest",
         "testName": "Legend button: 2015 Precipitation validation test",
         "description": "X axis carries the same color of the graph - clicking the legend buttons should make the x axis disappear along with the graph line, but it remains visible.",
         "dateReported": "2025-11-01"
     },
     "BUG_ID-0004": {
-        "feature": "MultipleXAxisChartTest",
+        "feature": "multipleXAxisChartTest",
         "testName": "Legend button: 2016 Precipitation validation test",
         "description": "X axis carries the same color of the graph - clicking the legend buttons should make the x axis disappear along with the graph line, but it remains visible.",
+        "dateReported": "2025-11-01"
+    },
+    "BUG_ID-0005": {
+        "feature": "areaStackChartTest",
+        "testName": "Legend button: Search engine validation test",
+        "description": "From UI perspective 'Search engine' and 'Affiliate advertising' colors are too similar and visual comparison fails.",
+        "dateReported": "2025-11-01"
+    },
+    "BUG_ID-0006": {
+        "feature": "areaStackChartTest",
+        "testName": "Legend button: Affiliate advertising validation test",
+        "description": "From UI perspective 'Search engine' and 'Affiliate advertising' colors are too similar and visual comparison fails.",
+        "dateReported": "2025-11-01"
+    },
+    "BUG_ID-0007": {
+        "feature": "barAnimationChartTest",
+        "testName": "Legend button: bar validation test",
+        "description": "From UI perspective 'bar' and 'bar 2' colors are too similar and visual comparison fails.",
+        "dateReported": "2025-11-01"
+    },
+    "BUG_ID-0008": {
+        "feature": "barAnimationChartTest",
+        "testName": "Legend button: bar 2 validation test",
+        "description": "From UI perspective 'bar' and 'bar 2' colors are too similar and visual comparison fails.",
         "dateReported": "2025-11-01"
     }
 }

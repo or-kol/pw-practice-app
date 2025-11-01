@@ -22,13 +22,15 @@ export class AreaStackChartModule extends BasePage{
         expect(result).toBeTruthy();
     };
 
-    async AreaStackChartLegendButtonFunctionality(x: number, y: number, missingLineColor: {r: number, g: number, b: number}[]): Promise<void> {
+    async areaStackChartLegendButtonFunctionality(x: number, y: number, missingAreaColor: {r: number, g: number, b: number}[]): Promise<void> {
         await this.attributes.scrollIntoView(this.AREA_STACK_CHART_LOCATOR);
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.AREA_STACK_CHART_LOCATOR}`, x, y);
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_LOCATOR}`, 'area-stack-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingLineColor, 20);
+        console.log(missingAreaColor);
+        console.log(extractedColors);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingAreaColor, 35);
         expect(result).toBeFalsy();
     };
 

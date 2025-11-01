@@ -1,0 +1,6 @@
+{
+    "bars": [
+        { "barName": "bar", "color": { "r": 89, "g": 139, "b": 255 }, "legendCoordinates": {"x": -45, "y": -220} },
+        { "barName": "bar 2", "color": { "r": 66, "g": 170, "b": 255 }, "legendCoordinates": {"x": 16, "y": -220} }
+    ]
+}
