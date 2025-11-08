@@ -1,0 +1,32 @@
+{
+    "radarChart": {
+        "legend": [
+            { "name": "Allocated Budget", "color": { "r": 255, "g": 61, "b": 113 }, "legendCoordinates": { "x": -50, "y": -220 } },
+            { "name": "Actual Spending",   "color": { "r": 255, "g": 170, "b": 0   }, "legendCoordinates": { "x": 80,  "y": -220 } }
+        ],
+        "datasets": [
+            {
+                "name": "Allocated Budget",
+                "points": [
+                    { "category": "Administration", "value": "10000", "coordinates": { "x": -94,  "y": -56 } },
+                    { "category": "Sales", "value": "4300", "coordinates": { "x": 0,    "y": -115 } },
+                    { "category": "Marketing", "value": "19000", "coordinates": { "x": 114,  "y": -65 } },
+                    { "category": "Development", "value": "50000", "coordinates": { "x": 145,  "y": 83 } },
+                    { "category": "Customer Support", "value": "35000", "coordinates": { "x": 0,    "y": 159 } },
+                    { "category": "Information Technology",  "value": "28000", "coordinates": { "x": -141, "y": 80 } }
+                ]
+            },
+            {
+                "name": "Actual Spending",
+                "points": [
+                    { "category": "Administration", "value": "14000", "coordinates": { "x": -132, "y": -76 } },
+                    { "category": "Sales", "value": "5000", "coordinates": { "x": 0, "y": -133 } },
+                    { "category": "Marketing", "value": "21000", "coordinates": { "x": 126, "y": -73 } },
+                    { "category": "Development", "value": "42000", "coordinates": { "x": 121, "y": 70 } },
+                    { "category": "Customer Support", "value": "31000", "coordinates": { "x": 0, "y": 141 } },
+                    { "category": "Information Technology", "value": "28000", "coordinates": { "x": -141, "y": 80 } }
+                ]
+            }
+        ]
+    }
+}

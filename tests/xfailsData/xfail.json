@@ -46,5 +46,17 @@
         "testName": "Legend button: bar 2 validation test",
         "description": "From UI perspective 'bar' and 'bar 2' colors are too similar and visual comparison fails.",
         "dateReported": "2025-11-01"
+    },
+    "BUG_ID-0009": {
+        "feature": "radarChartTest",
+        "testName": "Allocated Budget: Information Technology validation test",
+        "description": "UI typo in the word 'Technology' causes text/label mismatch causing content validation to fail",
+        "dateReported": "2025-11-08"
+    },
+    "BUG_ID-0010": {
+        "feature": "radarChartTest",
+        "testName": "Actual Spending: Information Technology validation test",
+        "description": "UI typo in the word 'Technology' causes text/label mismatch causing content validation to fail",
+        "dateReported": "2025-11-08"
     }
 }
