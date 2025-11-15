@@ -58,5 +58,17 @@
         "testName": "Actual Spending: Information Technology validation test",
         "description": "UI typo in the word 'Technology' causes text/label mismatch causing content validation to fail",
         "dateReported": "2025-11-08"
+    },
+    "BUG_ID-0011": {
+        "feature": "smartTableTest",
+        "testName": "Filter table by ID: 1",
+        "description": "Smart table ID filter performs partial matching instead of exact matching. Filtering by ID '1' returns all IDs containing '1' (1, 12, 13, 14, etc.) instead of only exact match.",
+        "dateReported": "2025-11-15"
+    },
+    "BUG_ID-0012": {
+        "feature": "smartTableTest",
+        "testName": "Filter table by Age: 5",
+        "description": "Smart table Age filter performs partial matching instead of prefix matching. For ordinal values like age, filtering by '5' should return ages that begin with '5' (50, 51, 52, etc.) but currently returns all ages containing '5' (15, 25, 35, 45, 50, etc.).",
+        "dateReported": "2025-11-15"
     }
 }

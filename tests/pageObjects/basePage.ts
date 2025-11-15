@@ -151,4 +151,36 @@ export class BasePage {
             return true;
         });
     };
+
+    /**
+     * Generic table data reader that can work with any table structure
+     * @param rowSelector - CSS selector for table rows
+     * @param columnMapping - Object mapping field names to column indices
+     * @param skipColumns - Optional array of column indices to skip (e.g., actions column)
+     * @returns Array of objects with the mapped data
+     */
+    protected async readTableData<T>(
+        rowSelector: string, 
+        columnMapping: { [K in keyof T]: number },
+        skipColumns: number[] = [0] // Skip actions column by default
+    ): Promise<T[]> {
+        return await LocatorHelper.withLocator(this.page, rowSelector, async (rows) => {
+            const rowLocators = await rows.all();
+            
+            return await Promise.all(rowLocators.map(async (row) => {
+                const cells = row.locator('td');
+                const getText = async (idx: number) => (await cells.nth(idx).textContent())?.trim() ?? '';
+                
+                const result = {} as T;
+                for (const [field, index] of Object.entries(columnMapping)) {
+                    if (!skipColumns.includes(index as number)) {
+                        (result as any)[field] = await getText(index as number);
+                    };
+                };
+                
+                return result;
+            }));
+        }) || [];
+    };
+    
 };

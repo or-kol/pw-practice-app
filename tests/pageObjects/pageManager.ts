@@ -24,6 +24,7 @@ import { MultipleXAxisChartModule } from './echarts/multipleXAxisChartModule';
 import { AreaStackChartModule } from './echarts/areaStackChartModule';
 import { BarAnimationChartModule } from './echarts/barAnimationChartModule';
 import { RadarChartModule } from './echarts/radarChartModule';
+import { SmartTablePage } from './tablesAndData/smartTablePage';
 
 /**
  * PageManager with lazy initialization
@@ -56,6 +57,7 @@ export class PageManager {
     private _areaStackChartModule?: AreaStackChartModule;
     private _barAnimationChartModule?: BarAnimationChartModule;
     private _radarChartModule?: RadarChartModule;
+    private _smartTablePage?: SmartTablePage;
 
     constructor(page: Page) {
         this.page = page;
@@ -223,6 +225,13 @@ export class PageManager {
         return this._radarChartModule;
     };
 
+    get smartTablePage(): SmartTablePage {
+        if (!this._smartTablePage) {
+            this._smartTablePage = new SmartTablePage(this.page);
+        };
+        return this._smartTablePage;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -251,5 +260,6 @@ export class PageManager {
         this._areaStackChartModule = undefined;
         this._barAnimationChartModule = undefined;
         this._radarChartModule = undefined;
+        this._smartTablePage = undefined;
     };
 };

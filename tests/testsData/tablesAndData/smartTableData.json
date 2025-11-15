@@ -1,0 +1,74 @@
+{
+    "filterById": [
+        {
+            "id": "1",
+            "expectedData": { 
+                "firstName": "Mark", 
+                "lastName": "Otto", 
+                "username": "@mdo", 
+                "email": "mdo@gmail.com", 
+                "age": "28" 
+            }
+        },
+        {
+            "id": "12",
+            "expectedData": { 
+                "firstName": "Jacob", 
+                "lastName": "Thornton", 
+                "username": "@jacob", 
+                "email": "jacob@yandex.ru", 
+                "age": "48" 
+            }
+        },
+        {
+            "id": "23",
+            "expectedData": { 
+                "firstName": "Frieda", 
+                "lastName": "Tyson", 
+                "username": "@Craig", 
+                "email": "friedacraig@comtours.com", 
+                "age": "45" 
+            }
+        }
+    ],
+    "filterByFirstName": [
+        { "firstName": "j", "expectedRowCount": 8},
+        { "firstName": "ja", "expectedRowCount": 3},
+        { "firstName": "jac", "expectedRowCount": 3},
+        { "firstName": "jack", "expectedRowCount": 1},
+        { "firstName": "D", "expectedRowCount": 8},
+        { "firstName": "DA", "expectedRowCount": 4},
+        { "firstName": "DAV", "expectedRowCount": 1}
+    ],
+    "filterByLastName": [
+        { "lastName": "v", "expectedRowCount": 4},
+        { "lastName": "va", "expectedRowCount": 2},
+        { "lastName": "var", "expectedRowCount": 1},
+        { "lastName": "Y", "expectedRowCount": 8},
+        { "lastName": "YD", "expectedRowCount": 2},
+        { "lastName": "YDE", "expectedRowCount": 1}
+    ],
+    "filterByUsername": [
+        { "username": "@m", "expectedRowCount": 7},
+        { "username": "@mc", "expectedRowCount": 4},
+        { "username": "@mck", "expectedRowCount": 2},
+        { "username": "@mcke", "expectedRowCount": 1},
+        { "username": "@R", "expectedRowCount": 3},
+        { "username": "@RO", "expectedRowCount": 2},
+        { "username": "@ROM", "expectedRowCount": 1}
+    ],
+    "filterByEmail": [
+        { "email": "j", "expectedRowCount": 7},
+        { "email": "ja", "expectedRowCount": 2},
+        { "email": "jac", "expectedRowCount": 2},
+        { "email": "jack", "expectedRowCount": 1},
+        { "email": "F", "expectedRowCount": 7},
+        { "email": "FR", "expectedRowCount": 2},
+        { "email": "FRA", "expectedRowCount": 1}
+    ],
+    "filterByAge": [
+        { "age": "5", "expectedRowCount": 7},
+        { "age": "25", "expectedRowCount": 2},
+        { "age": "55", "expectedRowCount": 3}
+    ]
+}
