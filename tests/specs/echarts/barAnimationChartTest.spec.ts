@@ -2,7 +2,7 @@ import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
-const barAnimationChartData = require(`${TEST_PATHS.TEST_DATA}/charts/barAnimationChartData.json`);
+const barAnimationChartData = require(`${TEST_PATHS.TEST_DATA}/echarts/barAnimationChartData.json`);
 let pageManager: PageManager;
 const specFile = path.basename(__filename, ".spec.ts");
 

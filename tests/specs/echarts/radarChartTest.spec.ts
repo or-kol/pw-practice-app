@@ -2,7 +2,7 @@ import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
-const radarChartData = require(`${TEST_PATHS.TEST_DATA}/charts/radarChartData.json`);
+const radarChartData = require(`${TEST_PATHS.TEST_DATA}/echarts/radarChartData.json`);
 let pageManager: PageManager;
 const specFile = path.basename(__filename, ".spec.ts");
 

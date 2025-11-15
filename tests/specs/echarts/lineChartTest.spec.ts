@@ -3,7 +3,7 @@ import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
 
-const lineChartData = require(`${TEST_PATHS.TEST_DATA}/charts/lineChartData.json`);
+const lineChartData = require(`${TEST_PATHS.TEST_DATA}/echarts/lineChartData.json`);
 let pageManager: PageManager;
 const specFile = path.basename(__filename, ".spec.ts");
 

@@ -2,7 +2,7 @@ import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
-const multipleXAxisChartData = require(`${TEST_PATHS.TEST_DATA}/charts/multipleXAxisChartData.json`);
+const multipleXAxisChartData = require(`${TEST_PATHS.TEST_DATA}/echarts/multipleXAxisChartData.json`);
 let pageManager: PageManager;
 const specFile = path.basename(__filename, ".spec.ts");
 

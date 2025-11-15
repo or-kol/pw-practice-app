@@ -2,7 +2,7 @@ import { test, TEST_PATHS, handleXfail } from "../../utils";
 import { PageManager } from "../../pageObjects/pageManager";
 import path from "path";
 
-const pieChartData = require(`${TEST_PATHS.TEST_DATA}/charts/pieChartData.json`);
+const pieChartData = require(`${TEST_PATHS.TEST_DATA}/echarts/pieChartData.json`);
 let pageManager: PageManager;
 const specFile = path.basename(__filename, ".spec.ts");
 
