@@ -1,26 +1,32 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
+import { BarVerticalStackedComponent } from "@swimlane/ngx-charts";
 
 export type RowData = {
-    id: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    age: string;
+    "ID": string;
+    "First Name": string;
+    "Last Name": string;
+    "Username": string;
+    "E-mail": string;
+    "Age": string;
 };
 
 export class SmartTablePage extends BasePage {
 
+    private readonly FIRST_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="First"])';
+    private readonly PREV_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="Prev"])';
+    private readonly NEXT_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="Next"])';
+    private readonly LAST_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="Last"])';
+    
     private readonly SMART_TABLE_CONFIG = {
         rowSelector: 'ngx-smart-table table tbody tr.ng2-smart-row',
         columnMapping: {
-            id: 1,
-            firstName: 2,
-            lastName: 3,
-            username: 4,
-            email: 5,
-            age: 6
+            "ID": 1,
+            "First Name": 2,
+            "Last Name": 3,
+            "Username": 4,
+            "E-mail": 5,
+            "Age": 6
         } as { [K in keyof RowData]: number },
         skipColumns: [0] // Skip actions column
     };
@@ -34,21 +40,78 @@ export class SmartTablePage extends BasePage {
         await this.click(`a:has-text("Smart Table")`, 500);
     };
     
-    async filterTableData(placeholder: string, value: string, expectedData?: RowData, expectedRowCount?: number): Promise<void> {
+
+    async filterTableData(placeholder: string, value: string, behavior: string, expectEmpty: boolean): Promise<void> {
         const filterInputFieldSelector = `ngx-smart-table table thead input[placeholder="${placeholder}"]`;
-        await this.fillInput({ selector: filterInputFieldSelector, value });
+        await this.fillInput({ selector: filterInputFieldSelector, value});
         await this.page.waitForTimeout(500);
-        const data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping);
+        const data = await this.getAllDataFromTable();
         
-        if (expectedData) {
-            expect(data).toEqual([expectedData]);
+        if (expectEmpty) {
+            expect(data).toHaveLength(0);
+            return;
         };
-        
-        if (expectedRowCount !== undefined) {
-            expect(data).toHaveLength(expectedRowCount);
+
+        this.validateFilterBehavior(data, placeholder, value, behavior);
+    };
+
+    private async getAllDataFromTable(): Promise<RowData[]> {
+        let data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
+
+        while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && await this.hasNextPage() ) {
+            await this.goToNextPage();
+            const newData = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
+            data = data.concat(newData);
+        };
+
+        return data;
+    };
+
+    private validateFilterBehavior(data: RowData[], placeholder: string, value: string, behavior: string): void {
+        switch (behavior) {
+            case "startsWith":
+                data.forEach(row => {
+                    expect(row[placeholder].toLowerCase().startsWith(value.toLowerCase())).toBe(true);
+                });
+                break;
+            case "contains":
+                data.forEach(row => {
+                    expect(row[placeholder].toLowerCase()).toContain(value.toLowerCase());
+                });
+                break;
+            case "exact":
+                data.forEach(row => {
+                    expect(row[placeholder].toLowerCase()).toBe(value.toLowerCase());
+                });
+                break;
+            default:
+                throw new Error(`Unknown behavior: ${behavior}. Supported: startsWith, contains, exact`);
         };
     };
-    
 
-    
+    private async hasNextPage(): Promise<boolean> {
+        const classAttribute = await this.attributes.getAttribute(this.NEXT_PAGE_BUTTON_SELECTOR, 'class');
+        return !(classAttribute.includes('disabled'));
+    };
+
+    private async hasPrevPage(): Promise<boolean> {
+        const classAttribute = await this.attributes.getAttribute(this.PREV_PAGE_BUTTON_SELECTOR, 'class');
+        return !(classAttribute.includes('disabled'));
+    };
+
+    async goToPrevPage(): Promise<void> {
+        await this.click(this.PREV_PAGE_BUTTON_SELECTOR);
+    };
+
+    async goToNextPage(): Promise<void> {
+        await this.click(this.NEXT_PAGE_BUTTON_SELECTOR);
+    };
+
+    async goToFirstPage(): Promise<void> {
+        await this.click(this.FIRST_PAGE_BUTTON_SELECTOR);
+    };
+
+    async goToLastPage(): Promise<void> {
+        await this.click(this.LAST_PAGE_BUTTON_SELECTOR);
+    };
 };

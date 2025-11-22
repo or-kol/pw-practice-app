@@ -11,16 +11,16 @@ test.beforeEach(async ({ page }) => {
     await pageManager.smartTablePage.goToSmartTablePage();
 });
 
-test.describe(`Filter Smart Table By ID Tests`, () => {
-    const dataById = smartTableData.filterById;
-    dataById.forEach(({ id, expectedData }) => {
-        test(`Filter table by ID: ${id}`, async ({}, testInfo) => {
+test.describe(`Filter Smart Table Tests`, () => {
+    const filterTests = smartTableData.filterTests;
+    filterTests.forEach(({ field, value, behaviour, expectEmpty }) => {
+        test(`Filter ${field} by "${value}" (${behaviour})`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.smartTablePage.filterTableData("ID", id, { id, ...expectedData });
+            await pageManager.smartTablePage.filterTableData(field, value, behaviour, expectEmpty);
         });
     });
 });
-
+/*
 test.describe(`Filter Smart Table By First Name Tests`, () => {
     const dataByFirstName = smartTableData.filterByFirstName;
     dataByFirstName.forEach(({ firstName, expectedRowCount }) => {
@@ -70,3 +70,4 @@ test.describe(`Filter Smart Table By Age Tests`, () => {
         });
     });
 });
+*/

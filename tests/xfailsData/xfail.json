@@ -59,16 +59,28 @@
         "description": "UI typo in the word 'Technology' causes text/label mismatch causing content validation to fail",
         "dateReported": "2025-11-08"
     },
-    "BUG_ID-0011": {
+    "BUG_ID-0013": {
         "feature": "smartTableTest",
-        "testName": "Filter table by ID: 1",
-        "description": "Smart table ID filter performs partial matching instead of exact matching. Filtering by ID '1' returns all IDs containing '1' (1, 12, 13, 14, etc.) instead of only exact match.",
-        "dateReported": "2025-11-15"
+        "testName": "Filter ID by \"0\" (startsWith)",
+        "description": "Smart table ID filter with '0' input performs partial matching instead of startsWith behavior. Expected to find IDs starting with '0' but filter logic is inconsistent with startsWith requirement.",
+        "dateReported": "2025-11-22"
     },
-    "BUG_ID-0012": {
+    "BUG_ID-0014": {
         "feature": "smartTableTest",
-        "testName": "Filter table by Age: 5",
-        "description": "Smart table Age filter performs partial matching instead of prefix matching. For ordinal values like age, filtering by '5' should return ages that begin with '5' (50, 51, 52, etc.) but currently returns all ages containing '5' (15, 25, 35, 45, 50, etc.).",
-        "dateReported": "2025-11-15"
+        "testName": "Filter ID by \"1\" (startsWith)",
+        "description": "Smart table ID filter with '1' input performs partial matching instead of startsWith behavior. Expected to find IDs starting with '1' but returns all IDs containing '1' (1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19).",
+        "dateReported": "2025-11-22"
+    },
+    "BUG_ID-0015": {
+        "feature": "smartTableTest",
+        "testName": "Filter Age by \"0\" (startsWith)",
+        "description": "Smart table Age filter with '0' input does not behave as expected for startsWith validation. Age values should not start with '0' - should be empty.",
+        "dateReported": "2025-11-22"
+    },
+    "BUG_ID-0016": {
+        "feature": "smartTableTest",
+        "testName": "Filter Age by \"5\" (startsWith)",
+        "description": "Smart table Age filter with '5' input performs partial matching instead of startsWith behavior. Expected ages starting with '5' (50, 51, 52, etc.) but returns all ages containing '5' (15, 25, 35, 45, 50, etc.).",
+        "dateReported": "2025-11-22"
     }
 }
