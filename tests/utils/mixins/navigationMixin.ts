@@ -60,4 +60,23 @@ export class NavigationMixin {
             return '';
         };
     };
+
+    /**
+     * Refreshes the current page and waits for it to load completely.
+     * 
+     * @param waitForLoadState - The load state to wait for after refresh (default: 'load')
+     * @param timeout - Optional timeout in milliseconds for the refresh operation
+     * @returns A Promise that resolves when the page has been refreshed and loaded.
+     * @remarks
+     * This method performs a hard refresh of the page and ensures it's fully loaded before returning.
+     */
+    async refreshPage(waitForLoadState: 'load' | 'domcontentloaded' | 'networkidle' = 'load', timeout?: number): Promise<void> {
+        try {
+            await this.page.reload({ waitUntil: waitForLoadState, timeout });
+            Logger.logInfo('Page refreshed successfully');
+        } catch (error) {
+            Logger.logError('Refresh page', error);
+            throw error;
+        };
+    };
 };

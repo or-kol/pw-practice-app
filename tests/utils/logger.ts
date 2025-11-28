@@ -16,4 +16,20 @@ export class Logger {
     static logWarning(message: string): void {
         console.warn(message);
     };
+
+    /**
+     * Logs an informational message with timestamp and formatting
+     * @param message - The informational message to log
+     * @param data - Optional additional data to include in the log
+     */
+    static logInfo(message: string, data?: any): void {
+        const timestamp = new Date().toISOString();
+        const logMessage = `[INFO] ${timestamp} - ${message}`;
+        
+        if (data) {
+            console.log(logMessage, data);
+        } else {
+            console.log(logMessage);
+        };
+    };
 };

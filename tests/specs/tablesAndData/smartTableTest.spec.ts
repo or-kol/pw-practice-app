@@ -20,3 +20,21 @@ test.describe(`Filter Smart Table Tests`, () => {
         });
     });
 });
+
+test.describe(`Sort Smart Table Tests`, () => {
+    const sortTests = smartTableData.sortTests;
+    
+    sortTests.forEach(({ field }) => {
+        test(`Sort by ${field} Ascending Order Test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
+            await pageManager.smartTablePage.sortTableByColumn(field, 'ascending');
+        });
+    });
+
+    sortTests.forEach(({ field }) => {
+        test(`Sort by ${field} Descending Order Test`, async ({}, testInfo) => {
+            handleXfail(testInfo, specFile);
+            await pageManager.smartTablePage.sortTableByColumn(field, 'descending');
+        });
+    });
+});

@@ -41,5 +41,13 @@
         { "field": "Age", "value": "25", "behaviour": "startsWith", "expectEmpty": false },
         { "field": "Age", "value": "55", "behaviour": "startsWith", "expectEmpty": false },
         { "field": "Age", "value": "140", "behaviour": "startsWith", "expectEmpty": true }
+    ],
+    "sortTests": [
+        { "field": "ID" },
+        { "field": "First Name" },
+        { "field": "Last Name" },
+        { "field": "Username" },
+        { "field": "E-mail" },
+        { "field": "Age" }
     ]
 }

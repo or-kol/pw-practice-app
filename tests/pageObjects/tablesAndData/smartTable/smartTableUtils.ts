@@ -1,14 +1,7 @@
 import { Page, expect } from "@playwright/test";
-import { tablesAndDataUtils } from "../TablesAndDataUtils";
+import { RowData, tablesAndDataUtils } from "../TablesAndDataUtils";
 
-export type RowData = {
-    "ID": string;
-    "First Name": string;
-    "Last Name": string;
-    "Username": string;
-    "E-mail": string;
-    "Age": string;
-};
+export { RowData };
 
 export class SmartTableUtils extends tablesAndDataUtils {
 
@@ -35,13 +28,17 @@ export class SmartTableUtils extends tablesAndDataUtils {
     };
 
     
-    async getAllDataFromTable(): Promise<RowData[]> {
+    async getDataFromTable(maxPages?: number): Promise<RowData[]> {
+        let currentPage = 1;
         let data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
 
-        while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && await this.hasNextPage()) {
+        while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && 
+        await this.hasNextPage() &&
+        (!maxPages || currentPage < maxPages)) {
             await this.goToNextPage();
             const newData = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
             data = data.concat(newData);
+            currentPage++;
         };
 
         return data;
@@ -95,3 +92,5 @@ export class SmartTableUtils extends tablesAndDataUtils {
         await this.click(this.LAST_PAGE_BUTTON_SELECTOR);
     };
 }
+
+

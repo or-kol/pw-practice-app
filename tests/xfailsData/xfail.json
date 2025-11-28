@@ -82,5 +82,11 @@
         "testName": "Filter Age by \"5\" (startsWith)",
         "description": "Smart table Age filter with '5' input performs partial matching instead of startsWith behavior. Expected ages starting with '5' (50, 51, 52, etc.) but returns all ages containing '5' (15, 25, 35, 45, 50, etc.).",
         "dateReported": "2025-11-22"
+    },
+    "BUG_ID-0017": {
+        "feature": "smartTableTest",
+        "testName": "Sort by Username Descending Order Test",
+        "description": "Smart table Username column descending sort validation fails. Descending sort validation does not correctly identify the order of usernames",
+        "dateReported": "2025-11-28"
     }
 }
