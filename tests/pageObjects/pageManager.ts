@@ -24,7 +24,7 @@ import { MultipleXAxisChartModule } from './echarts/multipleXAxisChartModule';
 import { AreaStackChartModule } from './echarts/areaStackChartModule';
 import { BarAnimationChartModule } from './echarts/barAnimationChartModule';
 import { RadarChartModule } from './echarts/radarChartModule';
-import { SmartTablePage } from './tablesAndData/smartTablePage';
+import { SmartTablePage } from './tablesAndData/smartTable/smartTablePage';
 
 /**
  * PageManager with lazy initialization

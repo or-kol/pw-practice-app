@@ -1,6 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { BasePage } from "../basePage";
-import { BarVerticalStackedComponent } from "@swimlane/ngx-charts";
+import { tablesAndDataUtils } from "../TablesAndDataUtils";
 
 export type RowData = {
     "ID": string;
@@ -11,7 +10,7 @@ export type RowData = {
     "Age": string;
 };
 
-export class SmartTablePage extends BasePage {
+export class SmartTableUtils extends tablesAndDataUtils {
 
     private readonly FIRST_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="First"])';
     private readonly PREV_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="Prev"])';
@@ -28,37 +27,18 @@ export class SmartTablePage extends BasePage {
             "E-mail": 5,
             "Age": 6
         } as { [K in keyof RowData]: number },
-        skipColumns: [0] // Skip actions column
+        skipColumns: [0]
     };
 
-    constructor(page: Page){
+    constructor(page: Page) {
         super(page);
-    }
-
-    async goToSmartTablePage(): Promise<void> {
-        await this.click(`a[title="Tables & Data"]`);
-        await this.click(`a:has-text("Smart Table")`, 500);
     };
+
     
-
-    async filterTableData(placeholder: string, value: string, behavior: string, expectEmpty: boolean): Promise<void> {
-        const filterInputFieldSelector = `ngx-smart-table table thead input[placeholder="${placeholder}"]`;
-        await this.fillInput({ selector: filterInputFieldSelector, value});
-        await this.page.waitForTimeout(500);
-        const data = await this.getAllDataFromTable();
-        
-        if (expectEmpty) {
-            expect(data).toHaveLength(0);
-            return;
-        };
-
-        this.validateFilterBehavior(data, placeholder, value, behavior);
-    };
-
-    private async getAllDataFromTable(): Promise<RowData[]> {
+    async getAllDataFromTable(): Promise<RowData[]> {
         let data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
 
-        while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && await this.hasNextPage() ) {
+        while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && await this.hasNextPage()) {
             await this.goToNextPage();
             const newData = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
             data = data.concat(newData);
@@ -67,7 +47,7 @@ export class SmartTablePage extends BasePage {
         return data;
     };
 
-    private validateFilterBehavior(data: RowData[], placeholder: string, value: string, behavior: string): void {
+    validateFilterBehavior(data: RowData[], placeholder: string, value: string, behavior: string): void {
         switch (behavior) {
             case "startsWith":
                 data.forEach(row => {
@@ -91,12 +71,12 @@ export class SmartTablePage extends BasePage {
 
     private async hasNextPage(): Promise<boolean> {
         const classAttribute = await this.attributes.getAttribute(this.NEXT_PAGE_BUTTON_SELECTOR, 'class');
-        return !(classAttribute.includes('disabled'));
+        return !(classAttribute?.includes('disabled'));
     };
 
     private async hasPrevPage(): Promise<boolean> {
         const classAttribute = await this.attributes.getAttribute(this.PREV_PAGE_BUTTON_SELECTOR, 'class');
-        return !(classAttribute.includes('disabled'));
+        return !(classAttribute?.includes('disabled'));
     };
 
     async goToPrevPage(): Promise<void> {
@@ -114,4 +94,4 @@ export class SmartTablePage extends BasePage {
     async goToLastPage(): Promise<void> {
         await this.click(this.LAST_PAGE_BUTTON_SELECTOR);
     };
-};
+}
