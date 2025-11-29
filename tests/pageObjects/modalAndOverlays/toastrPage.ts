@@ -13,7 +13,7 @@ export class ToastrPage extends BasePage{
 
     async goToToastrPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
-        await this.click(`a:has-text("toastr")`, 500);
+        await this.click(`a:has-text("toastr")`, this.HALF_SEC);
     };
 
     async toastPositionValidation(position: string, verticalLocation: string, horizontalLocation: string): Promise<void> {

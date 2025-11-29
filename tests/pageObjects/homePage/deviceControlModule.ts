@@ -23,31 +23,32 @@ export class DeviceControlModule extends BasePage {
         expect(switchCurrentstatus).toBe(switchDesiredStatus);
     };
 
-    async tempAndHumiditySwitch(switchName: "Temperature" | "Humidity"): Promise<void> {
-        if (switchName == "Humidity"){
+    async tempAndHumiditySwitchDirectEdit(switchName: "Temperature" | "Humidity", pixelPosition: string, expectedValue: string): Promise<void> {
+        if (switchName === "Humidity"){
             await this.click(`li.tab >> text=${switchName}`);
         };
 
         const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger circle`;
         const valueLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
-
-        await this.attributes.setAttributeVal(switchLoctor, "cx", "232.63");
-        await this.attributes.setAttributeVal(switchLoctor, "cy", "232.63");
+        await this.attributes.setAttributeVal(switchLoctor, "cx", pixelPosition);
+        await this.attributes.setAttributeVal(switchLoctor, "cy", pixelPosition);
         await this.click(switchLoctor);
         const ActualVal = await this.getText(valueLoctor);
-        expect(ActualVal.includes("30") || ActualVal.includes("100")).toBeTruthy();
+        console.log(expectedValue);
+        console.log(ActualVal);
+        expect(ActualVal.includes(expectedValue)).toBeTruthy();
     };
 
-    async tempAndHumiditySwitch2(switchName: string, offsetX: number, offsetY: number, expectedTemp: string): Promise<void> {
-        if (switchName == "Humidity"){
+    async tempAndHumiditySwitchMouseMoveEdit(switchName: string, offsetX: number, offsetY: number, expectedTemp: string): Promise<void> {
+        if (switchName === "Humidity"){
             await this.click(`li.tab >> text=${switchName}`);
         };
 
-        const switchLoctor = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
+        const switchLocator = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
         
-        await this.attributes.scrollIntoView(switchLoctor);
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(switchLoctor, offsetX, offsetY, true);
-        const ActualVal = await this.getText(switchLoctor);
+        await this.attributes.scrollIntoView(switchLocator);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(switchLocator, offsetX, offsetY, true);
+        const ActualVal = await this.getText(switchLocator);
         expect(ActualVal.includes(expectedTemp)).toBeTruthy();
     };
 

@@ -4,6 +4,7 @@ import { BasePage } from "../basePage";
 export class PieChartModule extends BasePage{
 
     readonly PIE_CHART_LOCATOR = 'ngx-echarts-pie';
+    private readonly COLOR_TOLERANCE = 50;
 
     constructor(page: Page){
         super(page);
@@ -11,14 +12,14 @@ export class PieChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, 500);
+        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
     };
     
 
     async validatePieChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.PIE_CHART_LOCATOR}`, 'pie-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, this.COLOR_TOLERANCE);
         expect(result).toBeTruthy();
     };
     

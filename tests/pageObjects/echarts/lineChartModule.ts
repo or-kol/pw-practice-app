@@ -4,6 +4,7 @@ import { BasePage } from "../basePage";
 export class LineChartModule extends BasePage{
 
     readonly LINE_CHART_LOCATOR = 'ngx-echarts-line';
+    private readonly COLOR_TOLERANCE = 30;
 
     constructor(page: Page){
         super(page);
@@ -11,7 +12,7 @@ export class LineChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, 500);
+        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
     };
 
 
@@ -27,7 +28,7 @@ export class LineChartModule extends BasePage{
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.LINE_CHART_LOCATOR}`, 'line-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingLineColor, 30);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingLineColor, this.COLOR_TOLERANCE);
         expect(result).toBeFalsy();
     };
 

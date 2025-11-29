@@ -11,12 +11,12 @@ export class DatepickerPage extends BasePage{
 
     async goToDatePickerPage(): Promise<void> {
         await this.click(`a[title="Forms"]`);
-        await this.click(`a:has-text("Datepicker")`);
+        await this.click(`a:has-text("Datepicker")`, this.HALF_SEC);
     };
     
     async selectSingleDate(placeholder: string, offset: number, expectInvalid?: boolean): Promise<void> {
         const calendarLocator = `input[placeholder="${placeholder}"]`;
-        await this.click(calendarLocator, 500);
+        await this.click(calendarLocator, this.HALF_SEC);
         const expectedDate = await this.trySelectDate(offset);
         const actualValue = await this.getText(calendarLocator);
         this.assertSingleDate(actualValue, expectedDate, expectInvalid);
@@ -25,7 +25,7 @@ export class DatepickerPage extends BasePage{
     async selectDateRange(placeholder: string, startOffset: number, endOffset: number): Promise<void> {
         const calendarLocator = `input[placeholder="${placeholder}"]`;
 
-        await this.click(calendarLocator, 500);
+        await this.click(calendarLocator, this.HALF_SEC);
         const expectedStart = await this.selectDateInTheCalendar(startOffset);
         const expectedEnd = await this.selectDateInTheCalendar(endOffset);
         const expectedRange = `${expectedStart} - ${expectedEnd}`;

@@ -11,7 +11,7 @@ export type RowData = {
         "Age": string;
     };
 
-export class tablesAndDataUtils extends BasePage {
+export class TablesAndDataUtils extends BasePage {
 
     constructor(page: Page) {
         super(page);
@@ -19,6 +19,16 @@ export class tablesAndDataUtils extends BasePage {
 
 
     validateSort(data: RowData[], columnKey: keyof RowData, sortOrder: 'ascending' | 'descending'): boolean {
+        if (!data || data.length === 0) {
+            Logger.logWarning('Sort validation skipped: No data provided');
+            return true; // Empty arrays are considered sorted
+        };
+        
+        if (data.length === 1) {
+            Logger.logInfo('Sort validation passed: Single row is always sorted');
+            return true;
+        };
+        
         for (let i = 1; i < data.length; i++) {
             const currentValue = data[i][columnKey];
             const previousValue = data[i - 1][columnKey];
@@ -32,11 +42,10 @@ export class tablesAndDataUtils extends BasePage {
                         expected: sortOrder === 'ascending' ? 'previous ≤ current' : 'previous ≥ current',
                         actual: `"${previousValue}" vs "${currentValue}"`,
                     }
-            );
+                );
                 return false;
             };
         };
-        
         return true;
     };
 

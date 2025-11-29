@@ -4,6 +4,7 @@ import { BasePage } from "../basePage";
 export class RadarChartModule extends BasePage{
 
     readonly RADAR_CHART_LOCATOR = 'ngx-echarts-radar';
+    private readonly COLOR_TOLERANCE = 50;
 
     constructor(page: Page){
         super(page);
@@ -19,7 +20,7 @@ export class RadarChartModule extends BasePage{
         await this.attributes.scrollIntoView(this.RADAR_CHART_LOCATOR);
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.RADAR_CHART_LOCATOR}`, 'radar-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, 50);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors, this.COLOR_TOLERANCE);
         expect(result).toBeTruthy();
     };
     

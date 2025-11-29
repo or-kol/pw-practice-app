@@ -8,7 +8,7 @@ export class PopoverPage extends BasePage{
 
     async goToPopoverPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
-        await this.click(`a:has-text("Popover")`, 500);
+        await this.click(`a:has-text("Popover")`, this.HALF_SEC);
     };
 
     private async popoverContentValidation(headlinelocator: string, expectedHeadlinetext: string, bodylocator?: string, expectedBody?: string): Promise<void> {
@@ -43,7 +43,9 @@ export class PopoverPage extends BasePage{
         const popoverButtonLocator = `ngx-popovers nb-card:has-text("Simple Popovers") button:has-text("${popoverName}")`;
         const popoverLocator = `nb-popover nb-overlay-container`;
         if (isClickNeeded) {
-            await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator, 0, 0, true);
+            const pixelsToMoveX = 0;
+            const pixelsToMoveY = 0;
+            await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator, pixelsToMoveX, pixelsToMoveY, true);
         } 
         else {
             await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(popoverButtonLocator);
@@ -87,7 +89,7 @@ export class PopoverPage extends BasePage{
         const eventDebouncingButtonsLocator = `ngx-popovers nb-card:has-text("Event Debouncing") button`;
         const popoverLocator = `nb-popover nb-overlay-container`;
         await this.mouseAndKeyboardInteraction.fastSweepHover(eventDebouncingButtonsLocator);
-        await this.mouseAndKeyboardInteraction.hover(`${eventDebouncingButtonsLocator} >> nth=9`, 500);
+        await this.mouseAndKeyboardInteraction.hover(`${eventDebouncingButtonsLocator} >> nth=9`, this.HALF_SEC);
         const isPopoverVisible = await this.isVisible(popoverLocator);
         expect(isPopoverVisible).toBe(true);
     };

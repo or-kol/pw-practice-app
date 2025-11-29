@@ -1,9 +1,9 @@
 import { Page, expect } from "@playwright/test";
-import { RowData, tablesAndDataUtils } from "../TablesAndDataUtils";
+import { RowData, TablesAndDataUtils } from "../TablesAndDataUtils";
 
 export { RowData };
 
-export class SmartTableUtils extends tablesAndDataUtils {
+export class SmartTableUtils extends TablesAndDataUtils {
 
     private readonly FIRST_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="First"])';
     private readonly PREV_PAGE_BUTTON_SELECTOR = 'ng2-smart-table-pager .ng2-smart-pagination li:has([aria-label="Prev"])';

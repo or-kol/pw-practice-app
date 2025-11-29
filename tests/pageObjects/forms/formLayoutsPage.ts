@@ -9,8 +9,8 @@ export class FormLayoutsPage extends BasePage {
     };
 
     async goToFormLayoutsPage(): Promise<void> {
-        await this.page.click(`a[title="Forms"]`);
-        await this.page.click(`a:has-text("Form Layouts")`);
+        await this.click(`a[title="Forms"]`);
+        await this.click(`a:has-text("Form Layouts")`, this.HALF_SEC);
     };
 
     async submitForm(config): Promise<void> {

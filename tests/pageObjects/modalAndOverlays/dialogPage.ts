@@ -13,7 +13,7 @@ export class DialogPage extends BasePage{
 
     async goToDialogPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
-        await this.click(`a:has-text("Dialog")`, 500);
+        await this.click(`a:has-text("Dialog")`, this.HALF_SEC);
     };
 
     private async openDialogbox(dialogNum: number, dialogName: string): Promise<void> {
@@ -22,7 +22,9 @@ export class DialogPage extends BasePage{
     };
 
     private async handleBackdrop(dialogButtonLocator:string): Promise<void> {
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(dialogButtonLocator, -500, 0);
+        const pixelsToMoveX = -500;
+        const pixelsToMoveY = 0;
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(dialogButtonLocator, pixelsToMoveX, pixelsToMoveY);
         await this.mouseAndKeyboardInteraction.mouseClick();
     };
 

@@ -4,6 +4,7 @@ import { BasePage } from "../basePage";
 export class AreaStackChartModule extends BasePage{
 
     readonly AREA_STACK_CHART_LOCATOR = 'ngx-echarts-area-stack';
+    private readonly COLOR_TOLERANCE = 35;
 
     constructor(page: Page){
         super(page);
@@ -11,7 +12,7 @@ export class AreaStackChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, 500);
+        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
     };
 
     async validateAreaStackChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
@@ -30,7 +31,7 @@ export class AreaStackChartModule extends BasePage{
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         console.log(missingAreaColor);
         console.log(extractedColors);
-        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingAreaColor, 35);
+        const result = this.visualTesting.compareColorsToExpected(extractedColors, missingAreaColor, this.COLOR_TOLERANCE);
         expect(result).toBeFalsy();
     };
 

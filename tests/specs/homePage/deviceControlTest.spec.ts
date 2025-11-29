@@ -25,10 +25,10 @@ test.describe('Device controller tests', () => {
 
 test.describe("Temp & Humidity Switch - Direct Element Edit", () => {
     const tempAndHumiditySwitch = variants.directTempAndhumidSwitches;
-    tempAndHumiditySwitch.forEach((controllerName: string) => {
+    tempAndHumiditySwitch.forEach(({controllerName, possition, expectedVal}) => {
         test(`${controllerName} switch test - direct element edit`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.deviceControlModule.tempAndHumiditySwitch(controllerName as "Temperature" | "Humidity");
+            await pageManager.deviceControlModule.tempAndHumiditySwitchDirectEdit(controllerName as "Temperature" | "Humidity", possition, expectedVal);
         });
     });
 });
@@ -38,11 +38,10 @@ test.describe("Temp & Humidity Switch - Mouse Movement Switch Test - Temp & Humi
     tempAndHumiditySwitch.forEach(({ mode, x, y, expected }: { mode: string, x: number, y: number, expected: string }, index: number) => {
         test(`${mode} Case ${index + 1}: offset(${x}, ${y}) → expected ${expected}`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.deviceControlModule.tempAndHumiditySwitch2(mode, x, y, expected);
+            await pageManager.deviceControlModule.tempAndHumiditySwitchMouseMoveEdit(mode, x, y, expected);
         });
     });
 });
-
 
 test.describe("Temperature State Switching", () => {
     const temperatureStates = variants.temperatureStatesSwitchers;
@@ -53,7 +52,6 @@ test.describe("Temperature State Switching", () => {
         });
     });
 });
-
 
 test.describe("Temperature On/Off Button Behavior", () => {
     const temperatureOnOff = variants.temperatureOnOffSwitchers;

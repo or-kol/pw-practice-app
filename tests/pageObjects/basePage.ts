@@ -5,6 +5,8 @@ import { AttributesMixin, MouseAndKeyboardMixin, VisualTestingMixin, NavigationM
 export class BasePage {
     
     readonly page: Page;
+    // Add common constants
+    protected readonly HALF_SEC = 500;
     private readonly ACTION_TIMEOUT = TEST_TIMEOUTS.ACTION;
     
     // Public mixins - direct access for page objects
@@ -182,5 +184,5 @@ export class BasePage {
             }));
         }) || [];
     };
-    
+
 };

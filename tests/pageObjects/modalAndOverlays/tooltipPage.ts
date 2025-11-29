@@ -13,7 +13,7 @@ export class TooltipPage extends BasePage{
 
     async goToTooltipPage(): Promise<void> {
         await this.click(`a[title="Modal & Overlays"]`);
-        await this.click(`a:has-text("tooltip")`, 500);
+        await this.click(`a:has-text("tooltip")`, this.HALF_SEC);
     };
 
     async tooltipTabContentValidation(tooltipExpectedContent: string, buttonName: string): Promise<void> {

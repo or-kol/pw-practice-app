@@ -11,8 +11,8 @@
             { "controllerName": "Coffee Maker", "desiredStatus": "OFF" }
         ],
         "directTempAndhumidSwitches": [
-            "Temperature",
-            "Humidity"
+            {"controllerName": "Temperature", "possition": "232.63", "expectedVal": "30"},
+            {"controllerName": "Humidity", "possition": "232.63", "expectedVal": "100"}
         ],
         "mouseMovementTempAndhumidSwitches": [
             { "mode": "Temperature", "x": -100, "y": 100, "expected": "13" },

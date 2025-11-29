@@ -3,23 +3,26 @@ import { RowData, SmartTableUtils } from "./smartTableUtils";
 
 export class SmartTablePage extends SmartTableUtils {
 
+    private readonly TWO_PAGES = 2;
+    private readonly EMPTY_DATA = 0;
+    
     constructor(page: Page){
         super(page);
     }
 
     async goToSmartTablePage(): Promise<void> {
         await this.click(`a[title="Tables & Data"]`);
-        await this.click(`a:has-text("Smart Table")`, 500);
+        await this.click(`a:has-text("Smart Table")`, this.HALF_SEC);
     };
     
     async filterTableData(placeholder: string, value: string, behavior: string, expectEmpty: boolean): Promise<void> {
         const filterInputFieldSelector = `ngx-smart-table table thead input[placeholder="${placeholder}"]`;
         await this.fillInput({ selector: filterInputFieldSelector, value});
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(this.HALF_SEC);
         const data = await this.getDataFromTable();
         
         if (expectEmpty) {
-            expect(data).toHaveLength(0);
+            expect(data).toHaveLength(this.EMPTY_DATA);
             return;
         };
 
@@ -34,7 +37,7 @@ export class SmartTablePage extends SmartTableUtils {
             await this.click(columnHeaderSelector);
         };
 
-        const data = await this.getDataFromTable(2); // Limit to first 2 pages for performance
+        const data = await this.getDataFromTable(this.TWO_PAGES); // Limit to first 2 pages for performance
         const isSortedCorrectly = this.validateSort(data, columnKey, sortOrder);
         expect(isSortedCorrectly).toBeTruthy();
     };
