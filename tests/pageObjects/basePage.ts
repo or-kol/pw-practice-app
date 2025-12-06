@@ -55,7 +55,15 @@ export class BasePage {
      * @remarks
      * Uses ACTION_TIMEOUT for waiting and filling. Logs a warning and returns false if the element is not found or not fillable.
      */
-    async fillInput({ selector, value }: { selector: string; value: any; }): Promise<boolean> {
+    /*async fillInput({ selector, value }: { selector: string; value: any; }): Promise<boolean> {
+        return LocatorHelper.withLocator(this.page, selector, async (locator) => {
+            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.fill('', { timeout: this.ACTION_TIMEOUT });
+            await locator.fill(value, { timeout: this.ACTION_TIMEOUT });
+            return true;
+        });
+    };*/
+    async fillInput(selector: string, value: any): Promise<boolean> {
         return LocatorHelper.withLocator(this.page, selector, async (locator) => {
             await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             await locator.fill('', { timeout: this.ACTION_TIMEOUT });
@@ -186,6 +194,17 @@ export class BasePage {
         }) || [];
     };
 
+    /**
+     * Handles browser dialogs (alerts, confirms, prompts).
+     * @param options - Configuration for handling the dialog.
+     * @param options.action - 'accept' to accept the dialog, 'dismiss' to dismiss it.
+     * @param options.expectType - Optional expected dialog type ('alert', 'beforeunload', 'confirm', 'prompt').
+     * @param options.messageMatch - Optional RegExp to match the dialog message.
+     * @param options.promptText - Optional text to enter if the dialog is a prompt.
+     * @returns Promise that resolves when the dialog is handled.
+     * @remarks
+     * Sets up a one-time listener for the next dialog event and handles it according to the specified options.
+     */
     async handleDialog(options: {
         action: 'accept' | 'dismiss',
         expectType?: 'alert' | 'beforeunload' | 'confirm' | 'prompt',

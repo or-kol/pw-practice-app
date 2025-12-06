@@ -9,8 +9,6 @@ export class SmartTablePage extends SmartTableUtils {
     private readonly ADD_NEW_ROW_SELECTOR = `ng2-smart-table tr[ng2-st-thead-filters-row] th[ng2-st-add-button]`;
     private readonly ROW_SELECTOR = (rowIndex: number) => `ng2-smart-table tbody tr:nth-child(${rowIndex})`;
     private readonly EDIT_ROW_BUTTON_SELECTOR = (rowIndex: number) => `${this.ROW_SELECTOR(rowIndex)} .nb-edit`;
-    //private readonly APPROVE_INPUT_BUTTON_SELECTOR = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-checkmark`;
-    //private readonly DECLINE_INPUT_BUTTON_SELECTOR = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-close`;
 
     constructor(page: Page){
         super(page);
@@ -23,7 +21,7 @@ export class SmartTablePage extends SmartTableUtils {
     
     async filterTableData(placeholder: string, value: string, behavior: string, expectEmpty: boolean): Promise<void> {
         const filterInputFieldSelector = `ngx-smart-table table thead input[placeholder="${placeholder}"]`;
-        await this.fillInput({ selector: filterInputFieldSelector, value});
+        await this.fillInput(filterInputFieldSelector, value);
         await this.page.waitForTimeout(this.HALF_SEC);
         const data = await this.getDataFromTable();
         
@@ -36,11 +34,11 @@ export class SmartTablePage extends SmartTableUtils {
     };
 
     async sortTableByColumn(columnKey: keyof RowData, sortOrder: 'ascending' | 'descending'): Promise<void> {
-        const columnHeaderSelector = `ngx-smart-table table thead a:has-text("${columnKey}")`;
-        await this.click(columnHeaderSelector);
+        const columnHeaderSortSelector = `ngx-smart-table table thead a:has-text("${columnKey}")`;
+        await this.click(columnHeaderSortSelector);
         
         if (sortOrder === 'descending') {
-            await this.click(columnHeaderSelector);
+            await this.click(columnHeaderSortSelector);
         };
 
         const data = await this.getDataFromTable(this.TWO_PAGES); // Limit to first 2 pages for performance
@@ -134,7 +132,9 @@ export class SmartTablePage extends SmartTableUtils {
 
     deleteRowFromTable = async (rowIndex: number, confirm: boolean): Promise<void> => {
         const deleteRowButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-trash`;
-        
+        const columnHeaderSortSelector = `ngx-smart-table table thead a:has-text("ID")`;
+        await this.click(columnHeaderSortSelector); // Ensure consistent order before deletion
+
         await this.handleDialog({
             action: confirm ? 'accept' : 'dismiss', 
             expectType: 'confirm', 
@@ -143,7 +143,7 @@ export class SmartTablePage extends SmartTableUtils {
 
         await this.click(deleteRowButtonSelector);
         const data = await this.getDataFromTable(1);
-        
+
         if (confirm) {
             expect(data[this.NUMBER_OF_ROWS_IN_PAGE - 1].ID).not.toBe(String(this.NUMBER_OF_ROWS_IN_PAGE));
         } else {

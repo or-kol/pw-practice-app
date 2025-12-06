@@ -73,7 +73,7 @@ export class DialogPage extends BasePage{
         
         const actualHeader = await this.getText(this.DIALOG_HEADER_LOCATOR);
         const actualPlaceholder = await this.attributes.getAttribute(inputFieldLocator, "placeholder");
-        await this.fillInput({ selector: inputFieldLocator, value: input });
+        await this.fillInput(inputFieldLocator, input);
         await this.click(dialogButtonLocator);
         const returnedValue = await this.getText(returnedValueLocator) || "";
         expect(actualHeader).toBe(header);

@@ -91,20 +91,12 @@ export class SmartTableUtils extends TablesAndDataUtils {
     async goToLastPage(): Promise<void> {
         await this.click(this.LAST_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
     };
-    /*
-    async insertRowCellsData(content: RowData): Promise<void> {
-        for (const [field, value] of Object.entries(content) as [keyof RowData, string | number][]) {
-            const dataFieldSelector = `ng2-smart-table .ng-star-inserted input-editor input[placeholder="${field}"]`;
-            await this.fillInput({ selector: dataFieldSelector, value: String(value) });
-        };
-    };
-    */
 
     async insertRowCellsData(content: Partial<RowData>, rowLocator?: string): Promise<void> {
         for (const [field, value] of Object.entries(content) as [keyof RowData, string | number][]) {
             if (value === undefined || value === null) continue; // skip unspecified fields
             const dataFieldSelector = `ng2-smart-table .ng-star-inserted input-editor input[placeholder="${field}"]`;
-            await this.fillInput({ selector: dataFieldSelector, value: String(value) });
+            await this.fillInput(dataFieldSelector, String(value));
     };
 }
 };

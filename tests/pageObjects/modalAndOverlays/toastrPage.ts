@@ -31,9 +31,8 @@ export class ToastrPage extends BasePage{
     async toastrTabContentValidation(cardHedline: string, cardDescription: string): Promise<void> {
         const headerInputLocator = `ngx-toastr nb-card-body [name="title"]`;
         const bodyInputLocator = `ngx-toastr nb-card-body [name="content"]`;
-
-        await this.fillInput({ selector: headerInputLocator, value: cardHedline });
-        await this.fillInput({ selector: bodyInputLocator, value: cardDescription });
+        await this.fillInput(headerInputLocator, cardHedline);
+        await this.fillInput(bodyInputLocator, cardDescription);
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const toastHeaderText = await this.getText(`${this.TOASTR_LOCATOR} .content-container .title`);
         const toastBodyText = await this.getText(`${this.TOASTR_LOCATOR} .content-container .message`);
@@ -43,8 +42,7 @@ export class ToastrPage extends BasePage{
     
     async toastrDurationValidation(cardTimeout: number): Promise<void> {
         const timeoutInputLocator = `ngx-toastr nb-card-body [name="timeout"]`;
-        
-        await this.fillInput({ selector: timeoutInputLocator, value: String(cardTimeout) });
+        await this.fillInput(timeoutInputLocator, String(cardTimeout));
         await this.click(this.SHOW_TOAST_BUTTON_LOCATOR);
         const displayDuration = await this.visualTesting.measureElementVisibilityDuration(`${this.TOASTR_LOCATOR} .content-container`);
         expect(Math.abs(displayDuration) - cardTimeout).toBeLessThan(100);

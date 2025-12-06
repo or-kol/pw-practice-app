@@ -71,9 +71,9 @@ export class PopoverPage extends BasePage{
         const textBoxLocator = `nb-popover nb-overlay-container form`;
         const formButtonLocator = `nb-popover nb-overlay-container form button:has-text("${formButton}")`;
         await this.click(popoverButtonLocator);
-        await this.fillInput({ selector: `${textBoxLocator} input[placeholder="${textBox1placeholder}"]`, value: textBox1input });
-        await this.fillInput({ selector: `${textBoxLocator} input[placeholder="${textBox2placeholder}"]`, value: textBox2input });
-        await this.fillInput({ selector: `${textBoxLocator} textarea[placeholder="${textBox3placeholder}"]`, value: textBox3input });
+        await this.fillInput(`${textBoxLocator} input[placeholder="${textBox1placeholder}"]`, textBox1input);
+        await this.fillInput(`${textBoxLocator} input[placeholder="${textBox2placeholder}"]`, textBox2input);
+        await this.fillInput(`${textBoxLocator} textarea[placeholder="${textBox3placeholder}"]`, textBox3input);
         await this.click(formButtonLocator);
     };
 

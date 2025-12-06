@@ -16,10 +16,10 @@ export class FormLayoutsPage extends BasePage {
     async submitForm(config): Promise<void> {
         const formLocator = `nb-card:has-text("${config.title}")`;
         for (const [placeholder, value] of Object.entries(config.fields)) {
-            await this.fillInput({
-                selector: `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`,
+            await this.fillInput(
+                `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`,
                 value
-            });
+            );
         };
 
         if (config.checkbox) {

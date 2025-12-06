@@ -48,7 +48,7 @@ export class TopBarPage extends BasePage {
         const searchBarForm = "nb-search-field form";
 
         await this.click(searchButton);
-        await this.fillInput({ selector: searchBar, value: searchText });
+        await this.fillInput(searchBar, searchText);
         await this.mouseAndKeyboardInteraction.pressKeyboardKey("Enter");
 
         const formClass = await this.attributes.getAttribute(searchBarForm, "class");
