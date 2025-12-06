@@ -88,5 +88,101 @@
         "testName": "Sort by Username Descending Order Test",
         "description": "Smart table Username column descending sort validation fails. Descending sort validation does not correctly identify the order of usernames",
         "dateReported": "2025-11-28"
+    },
+    "BUG_ID-0018": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Duplicate E-mail",
+        "description": "Product does not prevent inserting duplicate E-mail in smart table add row.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0019": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Duplicate Username",
+        "description": "Product does not prevent inserting duplicate Username in smart table add row.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0020": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Duplicate ID",
+        "description": "Product does not prevent inserting duplicate ID in smart table add row.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0021": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Missing Username",
+        "description": "Product allows adding a row without Username.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0022": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Missing E-mail",
+        "description": "Product allows adding a row without E-mail.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0023": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Missing ID",
+        "description": "Product allows adding a row without ID.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0024": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - ID equals to 0",
+        "description": "Product allows adding a row with ID=0 (should be invalid).",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0025": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Invalid Age (too high)",
+        "description": "Product does not validate upper bound for Age when adding rows.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0026": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Invalid Age (too low)",
+        "description": "Product does not validate lower bound for Age when adding rows.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0027": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Wrong E-mail format",
+        "description": "Product does not validate E-mail format on add row.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0028": {
+        "feature": "smartTableTest",
+        "testName": "Add New Row - Username without @ symbol",
+        "description": "Product accepts Username without required '@' format.",
+        "dateReported": "2025-12-05"
+    },
+    "BUG_ID-0029": {
+        "feature": "smartTableTest",
+        "testName": "Edit Row - Edit row ID",
+        "description": "Product allows editing ID; should be read-only.",
+        "dateReported": "2025-12-06"
+    },
+    "BUG_ID-0030": {
+        "feature": "smartTableTest",
+        "testName": "Edit Row - Edit row Username",
+        "description": "Product allows editing Username; should be read-only.",
+        "dateReported": "2025-12-06"
+    },
+    "BUG_ID-0031": {
+        "feature": "smartTableTest",
+        "testName": "Edit Row - Edit row E-mail With Invalid Format",
+        "description": "Product does not validate E-mail format on inline edit.",
+        "dateReported": "2025-12-06"
+    },
+    "BUG_ID-0032": {
+        "feature": "smartTableTest",
+        "testName": "Edit Row - Edit row Age To Invalid High Value",
+        "description": "Product does not enforce upper bound for Age on inline edit.",
+        "dateReported": "2025-12-06"
+    },
+    "BUG_ID-0033": {
+        "feature": "smartTableTest",
+        "testName": "Edit Row - Edit row Age To Invalid Low Value",
+        "description": "Product does not enforce lower bound for Age on inline edit.",
+        "dateReported": "2025-12-06"
     }
 }

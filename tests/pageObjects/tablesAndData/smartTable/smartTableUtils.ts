@@ -66,31 +66,47 @@ export class SmartTableUtils extends TablesAndDataUtils {
         };
     };
 
-    private async hasNextPage(): Promise<boolean> {
+    protected async hasNextPage(): Promise<boolean> {
         const classAttribute = await this.attributes.getAttribute(this.NEXT_PAGE_BUTTON_SELECTOR, 'class');
         return !(classAttribute?.includes('disabled'));
     };
 
-    private async hasPrevPage(): Promise<boolean> {
+    protected async hasPrevPage(): Promise<boolean> {
         const classAttribute = await this.attributes.getAttribute(this.PREV_PAGE_BUTTON_SELECTOR, 'class');
         return !(classAttribute?.includes('disabled'));
     };
 
     async goToPrevPage(): Promise<void> {
-        await this.click(this.PREV_PAGE_BUTTON_SELECTOR);
+        await this.click(this.PREV_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
     };
 
     async goToNextPage(): Promise<void> {
-        await this.click(this.NEXT_PAGE_BUTTON_SELECTOR);
+        await this.click(this.NEXT_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
     };
 
     async goToFirstPage(): Promise<void> {
-        await this.click(this.FIRST_PAGE_BUTTON_SELECTOR);
+        await this.click(this.FIRST_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
     };
 
     async goToLastPage(): Promise<void> {
-        await this.click(this.LAST_PAGE_BUTTON_SELECTOR);
+        await this.click(this.LAST_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
+    };
+    /*
+    async insertRowCellsData(content: RowData): Promise<void> {
+        for (const [field, value] of Object.entries(content) as [keyof RowData, string | number][]) {
+            const dataFieldSelector = `ng2-smart-table .ng-star-inserted input-editor input[placeholder="${field}"]`;
+            await this.fillInput({ selector: dataFieldSelector, value: String(value) });
+        };
+    };
+    */
+
+    async insertRowCellsData(content: Partial<RowData>, rowLocator?: string): Promise<void> {
+        for (const [field, value] of Object.entries(content) as [keyof RowData, string | number][]) {
+            if (value === undefined || value === null) continue; // skip unspecified fields
+            const dataFieldSelector = `ng2-smart-table .ng-star-inserted input-editor input[placeholder="${field}"]`;
+            await this.fillInput({ selector: dataFieldSelector, value: String(value) });
     };
 }
+};
 
 

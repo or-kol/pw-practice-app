@@ -49,5 +49,195 @@
         { "field": "Username" },
         { "field": "E-mail" },
         { "field": "Age" }
+    ],
+    "paginationTests": [
+        { "pageNumber": 4 },
+        { "pageNumber": 3 }
+    ],
+    "inputNewRowsTests": [
+        {
+            "case": "Valid input 1", 
+            "data": {"ID": "61", "First Name": "First Name", "Last Name": "Smith", "Username": "@jsmith", "E-mail": "jsmith@email.com", "Age": "55"},
+            "expectedToFail": false
+        },
+        {
+            "case": "Valid input 2",
+            "data": { "ID": "74", "First Name": "Paula", "Last Name": "Rossi", "Username": "prossi", "E-mail": "paula.rossi@example.com", "Age": "32" },
+            "expectedToFail": false
+        },
+        {
+            "case": "Valid input 3",
+            "data": { "ID": "75", "First Name": "Quinn", "Last Name": "Baker", "Username": "qbaker", "E-mail": "quinn.baker@example.com", "Age": "27" },
+            "expectedToFail": false
+        },
+        { 
+            "case": "Duplicate E-mail", 
+            "data": {"ID": "62", "First Name": "Alice", "Last Name": "Johnson", "Username": "@alicej", "E-mail": "mdo@gmail.com", "Age": "29" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "Duplicate Username", 
+            "data": {"ID": "63", "First Name": "Brian", "Last Name": "Miller", "Username": "@mdo", "E-mail": "brian.miller@example.com", "Age": "35" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "Duplicate ID", 
+            "data": {"ID": "1", "First Name": "Clara", "Last Name": "Nguyen", "Username": "clarang", "E-mail": "clara.nguyen@example.com", "Age": "42" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "Missing First, Last Name and Age", 
+            "data": {"ID": "65", "First Name": "", "Last Name": "", "Username": "@dramirez", "E-mail": "diego.ramirez@example.com", "Age": "" },
+            "expectedToFail": false
+        },
+        { 
+            "case": "Missing Age", 
+            "data": {"ID": "66", "First Name": "Eva", "Last Name": "Kozlova", "Username": "@ekozlova", "E-mail": "eva.kozlova@example.com", "Age": "" },
+            "expectedToFail": false
+        },
+        { 
+            "case": "Missing First Name", 
+            "data": {"ID": "67", "First Name": "", "Last Name": "Hassan", "Username": "@fhassan", "E-mail": "farid.hassan@example.com", "Age": "38" },
+            "expectedToFail": false
+        },
+        { 
+            "case": "Missing Last Name", 
+            "data": {"ID": "68", "First Name": "Grace", "Last Name": "", "Username": "@glee", "E-mail": "grace.lee@example.com", "Age": "24" },
+            "expectedToFail": false
+        },
+        { 
+            "case": "Missing Username", 
+            "data": {"ID": "69", "First Name": "Hector", "Last Name": "Silva", "Username": "", "E-mail": "hector.silva@example.com", "Age": "46" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "Missing E-mail", 
+            "data": {"ID": "70", "First Name": "Irene", "Last Name": "Khan", "Username": "@ikhan", "E-mail": "", "Age": "33" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "Missing ID", 
+            "data": {"ID": "", "First Name": "Jonas", "Last Name": "Peterson", "Username": "@jpeterson","E-mail": "jonas.peterson@example.com", "Age": "28" },
+            "expectedToFail": true
+        },
+        { 
+            "case": "ID equals to 0",
+            "data": {"ID": "0", "First Name": "Jonas", "Last Name": "Peterson", "Username": "@jpeterson","E-mail": "jonas.peterson@example.com", "Age": "28" },
+            "expectedToFail": true
+        },
+        {
+            "case": "Invalid Age (too high)",
+            "data": { "ID": "71", "First Name": "Kevin", "Last Name": "Stone", "Username": "@kstone", "E-mail": "kevin.stone@example.com", "Age": "150" },
+            "expectedToFail": true
+        },
+        {
+            "case": "Invalid Age (too low)",
+            "data": { "ID": "71", "First Name": "Kevin", "Last Name": "Stone", "Username": "@kstone", "E-mail": "kevin.stone@example.com", "Age": "0" },
+            "expectedToFail": true
+        },
+        {
+            "case": "Wrong E-mail format",
+            "data": { "ID": "72", "First Name": "Lena", "Last Name": "Morris", "Username": "@lmorris", "E-mail": "lena.morris", "Age": "25" },
+            "expectedToFail": true
+        },
+        {
+            "case": "Username without @ symbol",
+            "data": { "ID": "73", "First Name": "Omar", "Last Name": "Singh", "Username": "osingh", "E-mail": "omar.singh@example.com", "Age": "41" },
+            "expectedToFail": true
+        }
+    ],
+    "editTableDataTests": [
+        {
+            "case": "Edit row ID",
+            "rowIndex": 1,
+            "column": "ID",
+            "newValue": "100",
+            "expectedToFail": true
+        },
+        {
+            "case": "Edit row Username",
+            "rowIndex": 2,
+            "column": "Username",
+            "newValue": "@editedusername",
+            "expectedToFail": true
+        },
+        {
+            "case": "Edit row E-mail With Invalid Format",
+            "rowIndex": 10,
+            "column": "E-mail",
+            "newValue": "@editedemail",
+            "expectedToFail": true
+        },
+        {
+            "case": "Edit row E-mail With Valid Format",
+            "rowIndex": 8,
+            "column": "E-mail",
+            "newValue": "abc@editedemail.com",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row Age To Invalid High Value",
+            "rowIndex": 7,
+            "column": "Age",
+            "newValue": "150",
+            "expectedToFail": true
+        },
+        {
+            "case": "Edit row Age To Invalid Low Value",
+            "rowIndex": 9,
+            "column": "Age",
+            "newValue": "0",
+            "expectedToFail": true
+        },
+        {
+            "case": "Edit row Age To Valid Value",
+            "rowIndex": 6,
+            "column": "Age",
+            "newValue": "45",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row Age To Empty",
+            "rowIndex": 5,
+            "column": "Age",
+            "newValue": "",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row First Name",
+            "rowIndex": 4,
+            "column": "First Name",
+            "newValue": "EditedFirstName",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row First Name To Empty",
+            "rowIndex": 1,
+            "column": "First Name",
+            "newValue": "",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row Last Name",
+            "rowIndex": 3,
+            "column": "Last Name",
+            "newValue": "EditedLastName",
+            "expectedToFail": false
+        },
+        {
+            "case": "Edit row Last Name To Empty",
+            "rowIndex": 3,
+            "column": "Last Name",
+            "newValue": "",
+            "expectedToFail": false
+        }
+    ],
+    "rowIndexesToDeclineEdit": [2, 4, 6],
+    "rowIndexesToDeleteRow": [
+        {"rowIndex": 2, "confirm": true}, 
+        {"rowIndex": 4, "confirm": true}, 
+        {"rowIndex": 6, "confirm": true},
+        {"rowIndex": 3, "confirm": false}, 
+        {"rowIndex": 8, "confirm": false}
     ]
 }

@@ -5,7 +5,13 @@ export class SmartTablePage extends SmartTableUtils {
 
     private readonly TWO_PAGES = 2;
     private readonly EMPTY_DATA = 0;
-    
+    private readonly NUMBER_OF_ROWS_IN_PAGE = 10;
+    private readonly ADD_NEW_ROW_SELECTOR = `ng2-smart-table tr[ng2-st-thead-filters-row] th[ng2-st-add-button]`;
+    private readonly ROW_SELECTOR = (rowIndex: number) => `ng2-smart-table tbody tr:nth-child(${rowIndex})`;
+    private readonly EDIT_ROW_BUTTON_SELECTOR = (rowIndex: number) => `${this.ROW_SELECTOR(rowIndex)} .nb-edit`;
+    //private readonly APPROVE_INPUT_BUTTON_SELECTOR = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-checkmark`;
+    //private readonly DECLINE_INPUT_BUTTON_SELECTOR = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-close`;
+
     constructor(page: Page){
         super(page);
     }
@@ -40,5 +46,108 @@ export class SmartTablePage extends SmartTableUtils {
         const data = await this.getDataFromTable(this.TWO_PAGES); // Limit to first 2 pages for performance
         const isSortedCorrectly = this.validateSort(data, columnKey, sortOrder);
         expect(isSortedCorrectly).toBeTruthy();
+    };
+
+    async goToLastPageButton(): Promise<void> {
+        await this.goToLastPage();
+        expect(await this.hasPrevPage()).toBeTruthy();
+        expect(await this.hasNextPage()).toBeFalsy();
+    };
+
+    async goToFirstPageButton(): Promise<void> {
+        await this.goToNextPage();
+        expect(await this.hasPrevPage()).toBeTruthy();
+        await this.goToFirstPage();
+        expect(await this.hasPrevPage()).toBeFalsy(); 
+    };
+
+    async goToSpecificPage(pageNumber: number): Promise<void> {
+        const pageNumberButtonSelector = `ng2-smart-table-pager .ng2-smart-pagination a:has-text("${pageNumber}")`;
+        const pageValidationClassSelector = `ng2-smart-table-pager .ng2-smart-pagination .active span span`;
+        await this.click(pageNumberButtonSelector, this.HALF_SEC);
+        const currentPageValidation = await this.getText(pageValidationClassSelector);
+        expect(currentPageValidation).toBe("(current)");
+    };
+
+    async addRowToTable(content: RowData, expectedToFail: boolean): Promise<void> {
+        const approveInputButtonSelector = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-checkmark`;
+
+        await this.click(this.ADD_NEW_ROW_SELECTOR);
+        await this.insertRowCellsData(content);
+
+        await this.click(approveInputButtonSelector);
+        const data = (await this.getDataFromTable(1))[0];
+        
+        if (expectedToFail) {
+            throw new Error('Essential fields are missing in the added row data.'); // Product does not cover this case
+        } else {
+            expect(data).toEqual(content);
+        };
+    };
+
+    async declineRowAddition(): Promise<void> {
+        const declineInputButtonSelector = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-close`;
+        await this.click(this.ADD_NEW_ROW_SELECTOR);
+
+        if (await this.isVisible(declineInputButtonSelector)) {
+            await this.click(declineInputButtonSelector);
+        }
+        else {
+            throw new Error('Decline input button not found; cannot decline row addition.');
+        };
+
+        const isNewRowAdditionVisible = await this.isVisible(declineInputButtonSelector);
+        expect(isNewRowAdditionVisible).toBeFalsy();
+    };
+
+    async editRowInTable(rowIndex: number, updatedContent: Partial<RowData>, expectedToFail: boolean): Promise<void> {
+        const approveButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-checkmark`;
+        await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
+        await this.insertRowCellsData(updatedContent, this.ROW_SELECTOR(rowIndex));
+        await this.click(approveButtonSelector);
+        const data = (await this.getDataFromTable(1))[rowIndex - 1];
+
+        if (expectedToFail) {
+            throw new Error('Essential fields are missing in the edited row data.'); // Product does not cover this case
+        }
+        else {
+            for (const [field, value] of Object.entries(updatedContent) as [keyof RowData, string | number][]) {
+                expect(data[field]).toBe(value);
+            };
+        };
+    };
+
+    async declineRowEdit(rowIndex: number): Promise<void> {
+        const declineEditButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-close`;
+        await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
+
+        if (await this.isVisible(declineEditButtonSelector)) {
+            await this.click(declineEditButtonSelector);
+        }
+        else {
+            throw new Error('Decline edit button not found; cannot decline row edit.');
+        };
+
+        const isNewRowAdditionVisible = await this.isVisible(declineEditButtonSelector);
+        expect(isNewRowAdditionVisible).toBeFalsy();
+    };
+
+    deleteRowFromTable = async (rowIndex: number, confirm: boolean): Promise<void> => {
+        const deleteRowButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-trash`;
+        
+        await this.handleDialog({
+            action: confirm ? 'accept' : 'dismiss', 
+            expectType: 'confirm', 
+            messageMatch: /Are you sure you want to delete?/
+        });
+
+        await this.click(deleteRowButtonSelector);
+        const data = await this.getDataFromTable(1);
+        
+        if (confirm) {
+            expect(data[this.NUMBER_OF_ROWS_IN_PAGE - 1].ID).not.toBe(String(this.NUMBER_OF_ROWS_IN_PAGE));
+        } else {
+            expect(data).toHaveLength(this.NUMBER_OF_ROWS_IN_PAGE);
+        };
     };
 };

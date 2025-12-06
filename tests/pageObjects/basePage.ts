@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { TEST_TIMEOUTS, LocatorHelper } from "../utils";
 import { AttributesMixin, MouseAndKeyboardMixin, VisualTestingMixin, NavigationMixin } from "../utils/mixins";
 
@@ -58,6 +58,7 @@ export class BasePage {
     async fillInput({ selector, value }: { selector: string; value: any; }): Promise<boolean> {
         return LocatorHelper.withLocator(this.page, selector, async (locator) => {
             await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.fill('', { timeout: this.ACTION_TIMEOUT });
             await locator.fill(value, { timeout: this.ACTION_TIMEOUT });
             return true;
         });
@@ -165,7 +166,7 @@ export class BasePage {
         rowSelector: string, 
         columnMapping: { [K in keyof T]: number },
         skipColumns: number[] = [0] // Skip actions column by default
-    ): Promise<T[]> {
+        ): Promise<T[]> {
         return await LocatorHelper.withLocator(this.page, rowSelector, async (rows) => {
             const rowLocators = await rows.all();
             
@@ -183,6 +184,27 @@ export class BasePage {
                 return result;
             }));
         }) || [];
+    };
+
+    async handleDialog(options: {
+        action: 'accept' | 'dismiss',
+        expectType?: 'alert' | 'beforeunload' | 'confirm' | 'prompt',
+        messageMatch?: RegExp,
+        promptText?: string
+    }): Promise<void> {
+        this.page.once('dialog', async (dialog) => {
+            if (options.expectType) {
+                expect(dialog.type()).toBe(options.expectType);
+            }
+            if (options.messageMatch) {
+                expect(dialog.message()).toMatch(options.messageMatch);
+            }
+            if (options.action === 'accept') {
+                await dialog.accept(options.promptText);
+            } else {
+                await dialog.dismiss();
+            }
+        });
     };
 
 };
