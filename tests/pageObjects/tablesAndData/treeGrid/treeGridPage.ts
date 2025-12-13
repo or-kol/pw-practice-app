@@ -29,12 +29,7 @@ export class TreeGridPage extends TreeGridUtils {
         };
 
         const data = await this.getAllTreeGridRows();
-        console.log(data);
         const isSorted = this.validateSort(data, columnKey, order);
         expect(isSorted).toBe(true);
     };
-
-    
-    
-    
 };

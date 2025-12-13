@@ -31,35 +31,6 @@ export class TreeGridUtils extends TablesAndDataUtils {
         ) as TreeGridRowData[];
         return data;
     };
-
-    
-
-    /**
-     * Expands only the next level currently available (one "wave").
-     * It clicks only collapsed toggles (aria-label="expand") that are visible right now,
-     * then stops (it will NOT keep expanding newly revealed deeper levels).
-     * @returns number of expand clicks performed
-     */
-    async expandNextTreeGridLevel(maxClicks: number = 1000): Promise<number> {
-        const expandBtn = 'ngx-tree-grid button[aria-label="expand"]';
-        const clicked = await this.clickAll(expandBtn, maxClicks);
-        if (clicked > 0) {
-            await this.waitForTimeout(this.HALF_SEC);
-        }
-        return clicked;
-    };
-
-    private async expandAllTreeGridFolders(): Promise<void> {
-        const expandBtn = 'ngx-tree-grid button[aria-label="expand"]';
-
-        for (let pass = 0; pass < 10; pass++) {
-            const clicked = await this.clickAll(expandBtn, 1000);
-            if (clicked === 0) break;
-            await this.waitForTimeout(this.HALF_SEC);
-        };
-    };
-
-   
 };
 
 
