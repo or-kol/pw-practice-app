@@ -135,13 +135,14 @@ export class SmartTablePage extends SmartTableUtils {
         const columnHeaderSortSelector = `ngx-smart-table table thead a:has-text("ID")`;
         await this.click(columnHeaderSortSelector); // Ensure consistent order before deletion
 
-        await this.handleDialog({
-            action: confirm ? 'accept' : 'dismiss', 
-            expectType: 'confirm', 
-            messageMatch: /Are you sure you want to delete?/
-        });
-
-        await this.click(deleteRowButtonSelector);
+        await Promise.all([
+            this.handleDialog({
+                action: confirm ? 'accept' : 'dismiss',
+                expectType: 'confirm',
+                messageMatch: /Are you sure you want to delete?/
+            }),
+            this.click(deleteRowButtonSelector)
+        ]);
         const data = await this.getDataFromTable(1);
 
         if (confirm) {
