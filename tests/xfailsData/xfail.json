@@ -184,5 +184,41 @@
         "testName": "Edit Row - Edit row Age To Invalid Low Value",
         "description": "Product does not enforce lower bound for Age on inline edit.",
         "dateReported": "2025-12-06"
+    },
+    "BUG_ID-0034": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Name\" in desc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing descending sort validation to fail.",
+        "dateReported": "2025-12-13"
+    },
+    "BUG_ID-0035": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Size\" in desc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing descending sort validation to fail.",
+        "dateReported": "2025-12-13"
+    },
+    "BUG_ID-0036": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Type\" in desc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing descending sort validation to fail.",
+        "dateReported": "2025-12-13"
+    },
+    "BUG_ID-0037": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Name\" in asc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing ascending sort validation to fail.",
+        "dateReported": "2025-12-13"
+    },
+    "BUG_ID-0038": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Size\" in asc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing ascending sort validation to fail.",
+        "dateReported": "2025-12-13"
+    },
+    "BUG_ID-0039": {
+        "feature": "treeGreedTest",
+        "testName": "Sort Tree Grid by column \"Type\" in asc order",
+        "description": "UI bug: sort direction indicators are inverted (descending icon is ▲ and ascending icon is ▼), causing ascending sort validation to fail.",
+        "dateReported": "2025-12-13"
     }
 }

@@ -16,16 +16,18 @@ export class LocatorHelper {
      */
     static async withLocator<T>(page: Page, selector: string, action: (locator: Locator) => Promise<T>): Promise<T | false> {
         let locator: Locator;
+
         try {
             locator = page.locator(selector);
-        } catch (err) {
-            Logger.logWarning(`Selector not found: ${selector}`);
+        } catch (err: any) {
+            Logger.logWarning(`Invalid selector: ${selector}. ${err?.message ?? err}`);
             return false;
         };
+
         try {
             return await action(locator);
-        } catch (err) {
-            Logger.logWarning(`Selector not found: ${selector}`);
+        } catch (err: any) {
+            Logger.logWarning(`Locator action failed for: ${selector}. ${err?.message ?? err}`);
             return false;
         };
     };

@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
-import { RowData, TablesAndDataUtils } from "../TablesAndDataUtils";
+import { SmartTableRowData, TablesAndDataUtils } from "../TablesAndDataUtils";
 
-export { RowData };
+export  { SmartTableRowData };
 
 export class SmartTableUtils extends TablesAndDataUtils {
 
@@ -19,7 +19,7 @@ export class SmartTableUtils extends TablesAndDataUtils {
             "Username": 4,
             "E-mail": 5,
             "Age": 6
-        } as { [K in keyof RowData]: number },
+        } as { [K in keyof SmartTableRowData]: number },
         skipColumns: [0]
     };
 
@@ -28,15 +28,15 @@ export class SmartTableUtils extends TablesAndDataUtils {
     };
 
     
-    async getDataFromTable(maxPages?: number): Promise<RowData[]> {
+    async getDataFromTable(maxPages?: number): Promise<SmartTableRowData[]> {
         let currentPage = 1;
-        let data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
+        let data = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as SmartTableRowData[];
 
         while (await this.isVisible(this.NEXT_PAGE_BUTTON_SELECTOR) && 
         await this.hasNextPage() &&
         (!maxPages || currentPage < maxPages)) {
             await this.goToNextPage();
-            const newData = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as RowData[];
+            const newData = await this.readTableData(this.SMART_TABLE_CONFIG.rowSelector, this.SMART_TABLE_CONFIG.columnMapping) as SmartTableRowData[];
             data = data.concat(newData);
             currentPage++;
         };
@@ -44,7 +44,7 @@ export class SmartTableUtils extends TablesAndDataUtils {
         return data;
     };
 
-    validateFilterBehavior(data: RowData[], placeholder: string, value: string, behavior: string): void {
+    validateFilterBehavior(data: SmartTableRowData[], placeholder: string, value: string, behavior: string): void {
         switch (behavior) {
             case "startsWith":
                 data.forEach(row => {
@@ -92,13 +92,13 @@ export class SmartTableUtils extends TablesAndDataUtils {
         await this.click(this.LAST_PAGE_BUTTON_SELECTOR, this.HALF_SEC);
     };
 
-    async insertRowCellsData(content: Partial<RowData>, rowLocator?: string): Promise<void> {
-        for (const [field, value] of Object.entries(content) as [keyof RowData, string | number][]) {
+    async insertRowCellsData(content: Partial<SmartTableRowData>, rowLocator?: string): Promise<void> {
+        for (const [field, value] of Object.entries(content) as [keyof SmartTableRowData, string | number][]) {
             if (value === undefined || value === null) continue; // skip unspecified fields
             const dataFieldSelector = `ng2-smart-table .ng-star-inserted input-editor input[placeholder="${field}"]`;
             await this.fillInput(dataFieldSelector, String(value));
-    };
-}
+        };
+    }
 };
 
 

@@ -1,0 +1,18 @@
+{
+    "searchBarTests": [
+        {"Value": "1.8", "ExpectedRowCount": 1},
+        {"Value": "project", "ExpectedRowCount": 5},
+        {"Value": "5", "ExpectedRowCount": 1},
+        {"Value": "DIR", "ExpectedRowCount": 3},
+        {"Value": "projectS", "ExpectedRowCount": 1},
+        {"Value": "nonExistingValue", "ExpectedRowCount": 0}
+    ],
+    "sortingTests": [
+        {"Column": "Name", "Direction": "asc"},
+        {"Column": "Name", "Direction": "desc"},
+        {"Column": "Size", "Direction": "asc"},
+        {"Column": "Size", "Direction": "desc"},
+        {"Column": "Kind", "Direction": "asc"},
+        {"Column": "Kind", "Direction": "desc"}
+    ]
+}

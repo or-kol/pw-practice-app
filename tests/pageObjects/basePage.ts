@@ -23,6 +23,16 @@ export class BasePage {
         this.navigation = new NavigationMixin(page);
     }
 
+    /**
+     * Generic locator wrapper to avoid direct this.page usage in page objects.
+     * Prefer using this over this.page.locator(...).
+     */
+    protected async withLocator<T>(
+        selector: string,
+        action: (locator: import('@playwright/test').Locator) => Promise<T>
+    ): Promise<T | false> {
+        return LocatorHelper.withLocator(this.page, selector, action);
+    };
 
     /**
      * Clicks on the element specified by the selector.
@@ -118,7 +128,7 @@ export class BasePage {
      */
     async isVisible(selector: string): Promise<boolean> {
         return LocatorHelper.withLocator(this.page, selector, async (locator) => {
-            await locator.waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
+            await locator.first().waitFor({ state: "visible", timeout: this.ACTION_TIMEOUT });
             return locator.isVisible();
         });
     };
@@ -158,7 +168,7 @@ export class BasePage {
      */
     async waitForVisible(selector: string): Promise<boolean> {
         return LocatorHelper.withLocator(this.page, selector, async (locator) => {
-            await locator.waitFor({ state: 'visible', timeout: this.ACTION_TIMEOUT });
+            await locator.first().waitFor({ state: 'visible', timeout: this.ACTION_TIMEOUT });
             return true;
         });
     };
@@ -209,20 +219,87 @@ export class BasePage {
         action: 'accept' | 'dismiss',
         expectType?: 'alert' | 'beforeunload' | 'confirm' | 'prompt',
         messageMatch?: RegExp,
-        promptText?: string
+        promptText?: string,
+        timeoutMs?: number
     }): Promise<void> {
-        this.page.once('dialog', async (dialog) => {
-            if (options.expectType) {
-                expect(dialog.type()).toBe(options.expectType);
-            }
-            if (options.messageMatch) {
-                expect(dialog.message()).toMatch(options.messageMatch);
-            }
-            if (options.action === 'accept') {
-                await dialog.accept(options.promptText);
-            } else {
-                await dialog.dismiss();
-            }
+        const timeout = options.timeoutMs ?? this.ACTION_TIMEOUT;
+
+        return new Promise<void>((resolve, reject) => {
+            const timer = setTimeout(() => reject(new Error('Dialog was not shown within timeout')), timeout);
+
+            this.page.once('dialog', async (dialog) => {
+                clearTimeout(timer);
+                try {
+                    if (options.expectType) {
+                        expect(dialog.type()).toBe(options.expectType)
+                    };
+                    if (options.messageMatch) {
+                        expect(dialog.message()).toMatch(options.messageMatch)
+                    };
+                    if (options.action === 'accept') {
+                        await dialog.accept(options.promptText);
+                    } else {
+                        await dialog.dismiss();
+                    };
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        });
+    };
+
+    /**
+     * Clicks all currently visible elements matching the selector.
+     * @param selector - The CSS selector of the elements to click.
+     * @param limit - Optional maximum number of elements to click (default: 1000).
+     * @returns The number of elements clicked.
+     * @remarks
+     * Clicks elements one by one until no more visible elements are found or the limit is reached.
+     */
+    async clickAll(selector: string, limit: number = 500): Promise<number> {
+        return (await LocatorHelper.withLocator(this.page, selector, async (locator) => {
+            const total = await locator.count();
+            const count = Math.min(total, limit);
+            let clicked = 0;
+
+            for (let i = 0; i < count; i++) {
+                const el = locator.nth(i);
+                try {
+                    //await el.waitFor({ state: 'visible', timeout: this.ACTION_TIMEOUT });
+                    await el.click({ timeout: this.ACTION_TIMEOUT });
+                    clicked++;
+                } catch {
+                    continue;
+                };
+            };
+            return clicked;
+        })) as number || 0;
+    };
+
+    /**
+     * Counts elements matching the selector.
+     * @param selector - The CSS selector of the elements to count.
+     * @returns The number of matching elements.
+     * @remarks
+     * More descriptive than "count" to avoid ambiguity.
+     */
+    async countElements(selector: string): Promise<number> {
+        return (await LocatorHelper.withLocator(this.page, selector, async (locator) => {
+            return await locator.count();
+        })) as number || 0;
+    };
+
+    /**
+     * Waits for a specified timeout duration.
+     * @param timeoutMs - The timeout duration in milliseconds.
+     * @returns Promise that resolves after the timeout.
+     * @remarks
+     * Useful for adding deliberate delays in test execution.
+     */
+    async waitForTimeout(timeoutMs: number): Promise<void> {
+        await LocatorHelper.withLocator(this.page, "body", async () => {
+            await this.page.waitForTimeout(timeoutMs);
         });
     };
 

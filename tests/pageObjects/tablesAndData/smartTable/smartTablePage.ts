@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { RowData, SmartTableUtils } from "./smartTableUtils";
+import { SmartTableRowData, SmartTableUtils } from "./smartTableUtils";
 
 export class SmartTablePage extends SmartTableUtils {
 
@@ -33,7 +33,7 @@ export class SmartTablePage extends SmartTableUtils {
         this.validateFilterBehavior(data, placeholder, value, behavior);
     };
 
-    async sortTableByColumn(columnKey: keyof RowData, sortOrder: 'ascending' | 'descending'): Promise<void> {
+    async sortTableByColumn(columnKey: keyof SmartTableRowData, sortOrder: 'ascending' | 'descending'): Promise<void> {
         const columnHeaderSortSelector = `ngx-smart-table table thead a:has-text("${columnKey}")`;
         await this.click(columnHeaderSortSelector);
         
@@ -67,7 +67,7 @@ export class SmartTablePage extends SmartTableUtils {
         expect(currentPageValidation).toBe("(current)");
     };
 
-    async addRowToTable(content: RowData, expectedToFail: boolean): Promise<void> {
+    async addRowToTable(content: SmartTableRowData, expectedToFail: boolean): Promise<void> {
         const approveInputButtonSelector = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-checkmark`;
 
         await this.click(this.ADD_NEW_ROW_SELECTOR);
@@ -98,7 +98,7 @@ export class SmartTablePage extends SmartTableUtils {
         expect(isNewRowAdditionVisible).toBeFalsy();
     };
 
-    async editRowInTable(rowIndex: number, updatedContent: Partial<RowData>, expectedToFail: boolean): Promise<void> {
+    async editRowInTable(rowIndex: number, updatedContent: Partial<SmartTableRowData>, expectedToFail: boolean): Promise<void> {
         const approveButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-checkmark`;
         await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
         await this.insertRowCellsData(updatedContent, this.ROW_SELECTOR(rowIndex));
@@ -109,7 +109,7 @@ export class SmartTablePage extends SmartTableUtils {
             throw new Error('Essential fields are missing in the edited row data.'); // Product does not cover this case
         }
         else {
-            for (const [field, value] of Object.entries(updatedContent) as [keyof RowData, string | number][]) {
+            for (const [field, value] of Object.entries(updatedContent) as [keyof SmartTableRowData, string | number][]) {
                 expect(data[field]).toBe(value);
             };
         };

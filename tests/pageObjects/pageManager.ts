@@ -25,6 +25,7 @@ import { AreaStackChartModule } from './echarts/areaStackChartModule';
 import { BarAnimationChartModule } from './echarts/barAnimationChartModule';
 import { RadarChartModule } from './echarts/radarChartModule';
 import { SmartTablePage } from './tablesAndData/smartTable/smartTablePage';
+import { TreeGridPage } from './tablesAndData/treeGrid/treeGridPage';
 
 /**
  * PageManager with lazy initialization
@@ -58,6 +59,7 @@ export class PageManager {
     private _barAnimationChartModule?: BarAnimationChartModule;
     private _radarChartModule?: RadarChartModule;
     private _smartTablePage?: SmartTablePage;
+    private _treeGridPage?: TreeGridPage;
 
     constructor(page: Page) {
         this.page = page;
@@ -232,6 +234,13 @@ export class PageManager {
         return this._smartTablePage;
     };
 
+    get treeGridPage(): TreeGridPage {
+        if (!this._treeGridPage) {
+            this._treeGridPage = new TreeGridPage(this.page);
+        };
+        return this._treeGridPage;
+    };
+
     /**
      * Optional: Reset method to clear all instances
      * Useful for memory cleanup between tests if needed
@@ -261,5 +270,6 @@ export class PageManager {
         this._barAnimationChartModule = undefined;
         this._radarChartModule = undefined;
         this._smartTablePage = undefined;
+        this._treeGridPage = undefined;
     };
 };
