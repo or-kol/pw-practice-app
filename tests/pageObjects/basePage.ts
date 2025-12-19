@@ -291,16 +291,15 @@ export class BasePage {
     };
 
     /**
-     * Waits for a specified timeout duration.
+     * Hard wait (sleep) for a specified duration.
+     * Prefer waiting for UI conditions when possible.
      * @param timeoutMs - The timeout duration in milliseconds.
      * @returns Promise that resolves after the timeout.
      * @remarks
      * Useful for adding deliberate delays in test execution.
      */
     async waitForTimeout(timeoutMs: number): Promise<void> {
-        await LocatorHelper.withLocator(this.page, "body", async () => {
-            await this.page.waitForTimeout(timeoutMs);
-        });
+        await this.page.waitForTimeout(timeoutMs);
     };
 
 };

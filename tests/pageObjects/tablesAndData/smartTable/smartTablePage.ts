@@ -101,7 +101,7 @@ export class SmartTablePage extends SmartTableUtils {
     async editRowInTable(rowIndex: number, updatedContent: Partial<SmartTableRowData>, expectedToFail: boolean): Promise<void> {
         const approveButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-checkmark`;
         await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
-        await this.insertRowCellsData(updatedContent, this.ROW_SELECTOR(rowIndex));
+        await this.insertRowCellsData(updatedContent);
         await this.click(approveButtonSelector);
         const data = (await this.getDataFromTable(1))[rowIndex - 1];
 

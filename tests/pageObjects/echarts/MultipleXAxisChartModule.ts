@@ -3,7 +3,7 @@ import { BasePage } from "../basePage";
 
 export class MultipleXAxisChartModule extends BasePage{
 
-    readonly MULTIPLE_XAXIS_CHART_LOCATOR = 'ngx-echarts-multiple-xaxis';
+    readonly MULTIPLE_XAXIS_CHART_SELECTOR = 'ngx-echarts-multiple-xaxis';
 
     constructor(page: Page){
         super(page);
@@ -16,16 +16,16 @@ export class MultipleXAxisChartModule extends BasePage{
 
 
     async validateMultipleXAxisChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_SELECTOR}`, 'multiple-X-axis-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
         expect(result).toBeTruthy();
     };
 
     async yearLegendButtonFunctionality(x: number, y: number, missingLineColor: {r: number, g: number, b: number}[]): Promise<void> {
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, x, y);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.MULTIPLE_XAXIS_CHART_SELECTOR}`, x, y);
         await this.mouseAndKeyboardInteraction.mouseClick();
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_SELECTOR}`, 'multiple-X-axis-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         console.log(missingLineColor)
         console.log('Extracted Colors after legend button click:', extractedColors);
@@ -34,9 +34,9 @@ export class MultipleXAxisChartModule extends BasePage{
     };
 
     async multipleXAxisChartContentValidation(x: number, y: number, value2015: string, value2016: string): Promise<void> {
-        await this.attributes.scrollIntoView(this.MULTIPLE_XAXIS_CHART_LOCATOR);
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.MULTIPLE_XAXIS_CHART_LOCATOR, x, y);
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_LOCATOR}`, 'multiple-X-axis-chart-colors');
+        await this.attributes.scrollIntoView(this.MULTIPLE_XAXIS_CHART_SELECTOR);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.MULTIPLE_XAXIS_CHART_SELECTOR, x, y);
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_SELECTOR}`, 'multiple-X-axis-chart-colors');
         const lineContent = await this.visualTesting.extractTextFromImage(screenshotPath);
 
         // OCR sometimes misses the decimal point (e.g. "1.2" read as "12"), so we also accept the value multiplied by 10 as a match.

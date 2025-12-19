@@ -15,21 +15,21 @@ export class DatepickerPage extends BasePage{
     };
     
     async selectSingleDate(placeholder: string, offset: number, expectInvalid?: boolean): Promise<void> {
-        const calendarLocator = `input[placeholder="${placeholder}"]`;
-        await this.click(calendarLocator, this.HALF_SEC);
+        const calendarSelector = `input[placeholder="${placeholder}"]`;
+        await this.click(calendarSelector, this.HALF_SEC);
         const expectedDate = await this.trySelectDate(offset);
-        const actualValue = await this.getText(calendarLocator);
+        const actualValue = await this.getText(calendarSelector);
         this.assertSingleDate(actualValue, expectedDate, expectInvalid);
     };
 
     async selectDateRange(placeholder: string, startOffset: number, endOffset: number): Promise<void> {
-        const calendarLocator = `input[placeholder="${placeholder}"]`;
+        const calendarSelector = `input[placeholder="${placeholder}"]`;
 
-        await this.click(calendarLocator, this.HALF_SEC);
+        await this.click(calendarSelector, this.HALF_SEC);
         const expectedStart = await this.selectDateInTheCalendar(startOffset);
         const expectedEnd = await this.selectDateInTheCalendar(endOffset);
         const expectedRange = `${expectedStart} - ${expectedEnd}`;
-        const actualValue = await this.getText(calendarLocator);
+        const actualValue = await this.getText(calendarSelector);
         expect(actualValue).toBe(expectedRange);
     };
 

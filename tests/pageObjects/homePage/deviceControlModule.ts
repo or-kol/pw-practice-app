@@ -10,16 +10,16 @@ export class DeviceControlModule extends BasePage {
 
 
     async buttonControllerSwitch(controllerName: string, switchDesiredStatus: "ON" | "OFF"): Promise<void> {
-        const switchLocator = `ngx-status-card[ng-reflect-title='${controllerName}']`;
-        const switchStatusLocator = `${switchLocator} div.status.paragraph-2`;
+        const switchSelector = `ngx-status-card[ng-reflect-title='${controllerName}']`;
+        const switchStatusSelector = `${switchSelector} div.status.paragraph-2`;
 
-        const switchInitialStatus = await this.getText(switchStatusLocator);
+        const switchInitialStatus = await this.getText(switchStatusSelector);
 
         if (switchInitialStatus != switchDesiredStatus) {
-            await this.click(switchLocator);
+            await this.click(switchSelector);
         };
 
-        const switchCurrentstatus = await this.getText(switchStatusLocator);
+        const switchCurrentstatus = await this.getText(switchStatusSelector);
         expect(switchCurrentstatus).toBe(switchDesiredStatus);
     };
 
@@ -44,11 +44,11 @@ export class DeviceControlModule extends BasePage {
             await this.click(`li.tab >> text=${switchName}`);
         };
 
-        const switchLocator = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
+        const switchSelector = `[tabtitle='${switchName}'] ngx-temperature-dragger`;
         
-        await this.attributes.scrollIntoView(switchLocator);
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(switchLocator, offsetX, offsetY, true);
-        const ActualVal = await this.getText(switchLocator);
+        await this.attributes.scrollIntoView(switchSelector);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(switchSelector, offsetX, offsetY, true);
+        const ActualVal = await this.getText(switchSelector);
         expect(ActualVal.includes(expectedTemp)).toBeTruthy();
     };
 

@@ -9,28 +9,28 @@ export class SecurityCameras extends BasePage{
 
 
     async layoutViewButton(desiredButtonStatus: string): Promise<void>{
-        const LayoutButtonLocator = `ngx-security-cameras .${desiredButtonStatus}-view-button`
+        const LayoutButtonSelector = `ngx-security-cameras .${desiredButtonStatus}-view-button`
         
-        await this.click(LayoutButtonLocator);
-        const buttonStatus = await this.attributes.getAttribute(LayoutButtonLocator, `ng-reflect-appearance`);
+        await this.click(LayoutButtonSelector);
+        const buttonStatus = await this.attributes.getAttribute(LayoutButtonSelector, `ng-reflect-appearance`);
         expect(buttonStatus).toBe(`filled`);
     };
 
     async chooseCameraFromGrid(cameraName: string): Promise<void> {
-        const gridViewLocator = `ngx-security-cameras .grid-view-button`;
-        const cameraLocator = `ngx-security-cameras .grid-container .grid-view .camera:has-text("${cameraName}")`;
+        const gridViewSelector = `ngx-security-cameras .grid-view-button`;
+        const cameraSelector = `ngx-security-cameras .grid-container .grid-view .camera:has-text("${cameraName}")`;
         const cameraSelectionValidation = `ngx-security-cameras .grid-container .single-view .camera:has-text("${cameraName}")`;
 
-        await this.click(gridViewLocator);
-        await this.click(cameraLocator);
+        await this.click(gridViewSelector);
+        await this.click(cameraSelector);
         const cameraSelected = await this.getText(cameraSelectionValidation);
         expect(cameraSelected).toBe(cameraName);
     };
 
     async controlPanelButonVisibility(buttonName: string): Promise<void> {
-        const buttonLocator = `ngx-security-cameras nb-card-footer nb-action:has-text("${buttonName}")`;
+        const buttonSelector = `ngx-security-cameras nb-card-footer nb-action:has-text("${buttonName}")`;
 
-        const buttonVisibility = await this.isVisible(buttonLocator);
+        const buttonVisibility = await this.isVisible(buttonSelector);
         expect(buttonVisibility).toBe(true);
     };
 };

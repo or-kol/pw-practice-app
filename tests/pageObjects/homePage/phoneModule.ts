@@ -9,13 +9,13 @@ export class PhoneModule extends BasePage{
 
 
     async phoneListsValidation(tabName: string, contactsList: string[]): Promise<void> {
-        const tabButtonLocator = `ngx-contacts span:has-text("${tabName}")`;
-        const tabListItemLocator = `ngx-contacts [tabtitle="${tabName}"] nb-list`;
+        const tabButtonSelector = `ngx-contacts span:has-text("${tabName}")`;
+        const tabListItemSelector = `ngx-contacts [tabtitle="${tabName}"] nb-list`;
 
-        await this.click(tabButtonLocator);
+        await this.click(tabButtonSelector);
 
         for (let i = 0; i < contactsList.length; i++) {
-            const contactItem = await this.getText(`${tabListItemLocator} nb-list-item:nth-of-type(${i + 1})`);
+            const contactItem = await this.getText(`${tabListItemSelector} nb-list-item:nth-of-type(${i + 1})`);
             expect(contactItem).toContain(contactsList[i]);
         };
     };

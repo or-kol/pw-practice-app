@@ -9,12 +9,12 @@ export class TrafficConsumption extends BasePage{
 
 
     async trafficConsumptionTimeSpan(expectedTimeSpan: string): Promise<void> {
-        const consumptionPeriodDropdown = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;
-        const periodSelection = `nb-option-list nb-option:has-text("${expectedTimeSpan}")`;
+        const consumptionPeriodDropdownSelector = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;
+        const periodSelectionSelector = `nb-option-list nb-option:has-text("${expectedTimeSpan}")`;
 
-        await this.click(consumptionPeriodDropdown);
-        await this.click(periodSelection);
-        const selectedPeriod = await this.getText(consumptionPeriodDropdown);
+        await this.click(consumptionPeriodDropdownSelector);
+        await this.click(periodSelectionSelector);
+        const selectedPeriod = await this.getText(consumptionPeriodDropdownSelector);
         expect(selectedPeriod).toContain(expectedTimeSpan);
     };
 };

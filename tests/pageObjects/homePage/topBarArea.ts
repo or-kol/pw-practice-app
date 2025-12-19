@@ -9,7 +9,7 @@ export class TopBarPage extends BasePage {
 
 
     async SidebarMenuToggle(expectedStatus: string): Promise<void> {
-        const sideBarToggle = "a.sidebar-toggle";
+        const sideBarToggleSelector = "a.sidebar-toggle";
         const sidebarSelector = "nb-sidebar";
         const maxTries = 5;
         let attempt = 0;
@@ -23,7 +23,7 @@ export class TopBarPage extends BasePage {
                 break;
             };
 
-            await this.click(sideBarToggle);
+            await this.click(sideBarToggleSelector);
             attempt++;
         };
 
@@ -31,57 +31,57 @@ export class TopBarPage extends BasePage {
     };
 
     async changeWebsiteThemeColor (color: string, expectedColor?: string): Promise<void> {
-        const themeDropdown = "ngx-header nb-select";
-        const colorSelection = `nb-option-list nb-option:has-text("${color}")`;
-        const headerLayout = "nb-layout-header";
-        await this.click(themeDropdown);
-        await this.click(colorSelection);
-        const actualColor = await this.attributes.getElementCssProperty(headerLayout, "background-color");
+        const themeDropdownSelector = "ngx-header nb-select";
+        const colorSelectionSelector = `nb-option-list nb-option:has-text("${color}")`;
+        const headerLayoutSelector = "nb-layout-header";
+        await this.click(themeDropdownSelector);
+        await this.click(colorSelectionSelector);
+        const actualColor = await this.attributes.getElementCssProperty(headerLayoutSelector, "background-color");
         if (expectedColor) {
             expect(actualColor).toEqual(expectedColor);
         };
     };
 
     async searchbarFunctionality(searchText: string): Promise<void> {
-        const searchButton = "nb-search button";
-        const searchBar = "input.search-input";
-        const searchBarForm = "nb-search-field form";
+        const searchButtonSelector = "nb-search button";
+        const searchBarSelector = "input.search-input";
+        const searchBarFormSelector = "nb-search-field form";
 
-        await this.click(searchButton);
-        await this.fillInput(searchBar, searchText);
+        await this.click(searchButtonSelector);
+        await this.fillInput(searchBarSelector, searchText);
         await this.mouseAndKeyboardInteraction.pressKeyboardKey("Enter");
 
-        const formClass = await this.attributes.getAttribute(searchBarForm, "class");
+        const formClass = await this.attributes.getAttribute(searchBarFormSelector, "class");
         expect(formClass).toContain("submitted");
     };
     
     async mailboxIcon(): Promise<void> {
-        const mailboxIcon = "nb-action[icon='email-outline']";
-        const visible = await this.isVisible(mailboxIcon);
+        const mailboxIconSelector = "nb-action[icon='email-outline']";
+        const visible = await this.isVisible(mailboxIconSelector);
         expect(visible).toBe(true);
     };
 
     async notificationsIcon(): Promise<void> {
-        const notificationsIcon = "nb-action[icon='bell-outline']";
-        const visible = await this.isVisible(notificationsIcon);
+        const notificationsIconSelector = "nb-action[icon='bell-outline']";
+        const visible = await this.isVisible(notificationsIconSelector);
         expect(visible).toBe(true);
     };
 
     async userProfile(): Promise<void> {
-        const userProfileButton = "nb-layout-header nb-user.context-menu-host";
-        const userProfile = "nb-menu:has-text('Profile')";
+        const userProfileButtonSelector = "nb-layout-header nb-user.context-menu-host";
+        const userProfileSelector = "nb-menu:has-text('Profile')";
 
-        await this.click(userProfileButton);
-        const visible = await this.isVisible(userProfile);
+        await this.click(userProfileButtonSelector);
+        const visible = await this.isVisible(userProfileSelector);
         expect(visible).toBe(true);
     };
 
     async userLogOut(): Promise<void> {
-        const userProfileButton = "nb-layout-header nb-user.context-menu-host";
-        const userProfile = "nb-menu:has-text('Log out')";
+        const userProfileButtonSelector = "nb-layout-header nb-user.context-menu-host";
+        const userProfileSelector = "nb-menu:has-text('Log out')";
 
-        await this.click(userProfileButton);
-        const visible = await this.isVisible(userProfile);
+        await this.click(userProfileButtonSelector);
+        const visible = await this.isVisible(userProfileSelector);
         expect(visible).toBe(true);
     };
 };

@@ -14,23 +14,23 @@ export class FormLayoutsPage extends BasePage {
     };
 
     async submitForm(config): Promise<void> {
-        const formLocator = `nb-card:has-text("${config.title}")`;
+        const formSelector = `nb-card:has-text("${config.title}")`;
         for (const [placeholder, value] of Object.entries(config.fields)) {
             await this.fillInput(
-                `${formLocator} input[placeholder="${placeholder}"], ${formLocator} textarea[placeholder="${placeholder}"]`,
+                `${formSelector} input[placeholder="${placeholder}"], ${formSelector} textarea[placeholder="${placeholder}"]`,
                 value
             );
         };
 
         if (config.checkbox) {
-            await this.check(`${formLocator} nb-checkbox :text-is("${config.checkbox}")`);
+            await this.check(`${formSelector} nb-checkbox :text-is("${config.checkbox}")`);
         };
         if (config.radio) {
-            await this.click(`${formLocator} nb-radio :text-is("${config.radio}")`);
+            await this.click(`${formSelector} nb-radio :text-is("${config.radio}")`);
         };
 
-        await this.click(`${formLocator} button:has-text("${config.button}")`);
-        const classAttr = await this.attributes.getAttribute(`${formLocator} form`, "class");
+        await this.click(`${formSelector} button:has-text("${config.button}")`);
+        const classAttr = await this.attributes.getAttribute(`${formSelector} form`, "class");
         expect(classAttr).toContain("ng-submitted");
     };
 };

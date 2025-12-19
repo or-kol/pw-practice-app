@@ -3,12 +3,10 @@ import { BasePage } from "../basePage";
 
 export class WindowPage extends BasePage{
 
-    private WINDOW_BODY_LOCATOR: string;
+    private WINDOW_BODY_SELECTOR = `nb-window nb-card-body`;
 
     constructor(page: Page){
         super(page);
-        this.WINDOW_BODY_LOCATOR = `nb-window nb-card-body`;
-
     };
 
 
@@ -18,26 +16,26 @@ export class WindowPage extends BasePage{
     };
 
     private async openWindow(windowName: string): Promise<void> {
-        const windowLocator = `nb-card button:has-text("${windowName}")`;
-        await this.click(windowLocator);
+        const windowSelector = `nb-card button:has-text("${windowName}")`;
+        await this.click(windowSelector);
     };
 
     async verifyWindowPageHeaders(windowHeader: string): Promise<void> {
-        const windowHeaderLocator = `nb-card nb-card-header:has-text("${windowHeader}")`;
+        const windowHeaderSelector = `nb-card nb-card-header:has-text("${windowHeader}")`;
 
-        const isVisible = await this.isVisible(windowHeaderLocator);
+        const isVisible = await this.isVisible(windowHeaderSelector);
         expect(isVisible).toBeTruthy();
     };
 
     async verifyWindowContent(windowName: string, header: string, body?: string): Promise<void> {
-        const windowHeaderLocator = `nb-window nb-card-header`;
+        const windowHeaderSelector = `nb-window nb-card-header`;
 
         this.openWindow(windowName);
-        const headerText = await this.getText(windowHeaderLocator);
+        const headerText = await this.getText(windowHeaderSelector);
         expect(headerText).toBe(header);
 
         if (body) {
-            const bodyText = await this.getText(this.WINDOW_BODY_LOCATOR);
+            const bodyText = await this.getText(this.WINDOW_BODY_SELECTOR);
             expect(bodyText).toBe(body);
         };
     };
@@ -45,9 +43,9 @@ export class WindowPage extends BasePage{
     async closeWindowWithEsc(windowName: string, closeWithEsc: boolean): Promise<void> {
         this.openWindow(windowName);
 
-        await this.waitForVisible(this.WINDOW_BODY_LOCATOR);
+        await this.waitForVisible(this.WINDOW_BODY_SELECTOR);
         await this.mouseAndKeyboardInteraction.pressKeyboardKey("Escape");
-        const isWindowBodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
+        const isWindowBodyVissible = await this.isVisible(this.WINDOW_BODY_SELECTOR);
         console.log(isWindowBodyVissible, closeWithEsc);
 
             if (closeWithEsc) {
@@ -60,9 +58,9 @@ export class WindowPage extends BasePage{
     async closeWindowWithBackdrop(windowName: string, closeWithEsc: boolean): Promise<void> {
         this.openWindow(windowName);
 
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.WINDOW_BODY_LOCATOR, -500, 0);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.WINDOW_BODY_SELECTOR, -500, 0);
         await this.mouseAndKeyboardInteraction.mouseClick();
-        const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
+        const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_SELECTOR);
 
         if (closeWithEsc) {
             expect(isWindowBoodyVissible).toBeFalsy();
@@ -74,11 +72,11 @@ export class WindowPage extends BasePage{
     async minimizeWindowButtonFunctionality(windowName: string): Promise<void> {
         this.openWindow(windowName);
 
-        const minimizeButtonLocator = `nb-window button nb-icon[icon="minus-outline"]`;
+        const minimizeButtonSelector = `nb-window button nb-icon[icon="minus-outline"]`;
 
-        await this.click(minimizeButtonLocator);
+        await this.click(minimizeButtonSelector);
         const isWindowBoodyVissibleAfterMinimizing = (await this.attributes.getAttribute(`nb-window`, "class")).includes("minimized");
-        await this.click(minimizeButtonLocator);
+        await this.click(minimizeButtonSelector);
         const isWindowBoodyVissibleAfterMaximizing = (await this.attributes.getAttribute(`nb-window`, "class")).includes("full-screen");
         expect(isWindowBoodyVissibleAfterMinimizing).toBeTruthy();
         expect(isWindowBoodyVissibleAfterMaximizing).toBeTruthy();
@@ -87,33 +85,33 @@ export class WindowPage extends BasePage{
     async colapseWindowButtonFunctionality(windowName: string, collapseStatus: string, expandStatus: string): Promise<void> {
         this.openWindow(windowName);
 
-        const collapseButtonLocator = `nb-window button nb-icon[icon="collapse-outline"]`;
-        const expendButtonLocator = `nb-window button nb-icon[icon="expand-outline"]`;
-        const windowsStatusLocator = `nb-window button:nth-child(2) nb-icon`;
+        const collapseButtonSelector = `nb-window button nb-icon[icon="collapse-outline"]`;
+        const expendButtonSelector = `nb-window button nb-icon[icon="expand-outline"]`;
+        const windowsStatusSelector = `nb-window button:nth-child(2) nb-icon`;
         
-        await this.click(collapseButtonLocator);
-        const WindowsStatusAfterClickingCollapse = await this.attributes.getAttribute(windowsStatusLocator, "icon");
-        await this.click(expendButtonLocator);
-        const WindowsStatusAfterClickingExpand = await this.attributes.getAttribute(windowsStatusLocator, "icon");
+        await this.click(collapseButtonSelector);
+        const WindowsStatusAfterClickingCollapse = await this.attributes.getAttribute(windowsStatusSelector, "icon");
+        await this.click(expendButtonSelector);
+        const WindowsStatusAfterClickingExpand = await this.attributes.getAttribute(windowsStatusSelector, "icon");
         expect(WindowsStatusAfterClickingCollapse).toBe(collapseStatus);
         expect(WindowsStatusAfterClickingExpand).toBe(expandStatus);
     };
 
     async closeWindowWithCloseButton(windowName: string): Promise<void> {
-        const closeButtonLocator = `nb-window button nb-icon[icon="close-outline"]`;
+        const closeButtonSelector = `nb-window button nb-icon[icon="close-outline"]`;
         
         this.openWindow(windowName);
-        await this.click(closeButtonLocator);
-        const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_LOCATOR);
+        await this.click(closeButtonSelector);
+        const isWindowBoodyVissible = await this.isVisible(this.WINDOW_BODY_SELECTOR);
         expect(isWindowBoodyVissible).toBeFalsy();
     };
 
     async isOpenWindowformTextBoxesActive(windowName: string, textboxName: string, activeStatus: string): Promise<void> {
-        const TextboxLocator = `nb-window #${textboxName}`;
+        const TextboxSelector = `nb-window #${textboxName}`;
 
         this.openWindow(windowName);
-        await this.click(TextboxLocator);
-        const textboxStatus = await this.attributes.getAttribute(TextboxLocator, "class");
+        await this.click(TextboxSelector);
+        const textboxStatus = await this.attributes.getAttribute(TextboxSelector, "class");
         expect(textboxStatus.includes(activeStatus)).toBeTruthy();
     };
 };

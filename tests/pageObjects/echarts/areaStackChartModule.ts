@@ -3,7 +3,7 @@ import { BasePage } from "../basePage";
 
 export class AreaStackChartModule extends BasePage{
 
-    readonly AREA_STACK_CHART_LOCATOR = 'ngx-echarts-area-stack';
+    readonly AREA_STACK_CHART_SELECTOR = 'ngx-echarts-area-stack';
     private readonly COLOR_TOLERANCE = 35;
 
     constructor(page: Page){
@@ -16,18 +16,18 @@ export class AreaStackChartModule extends BasePage{
     };
 
     async validateAreaStackChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
-        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_LOCATOR);
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_LOCATOR}`, 'area-stack-chart-colors');
+        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_SELECTOR);
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_SELECTOR}`, 'area-stack-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, expectedColors);
         expect(result).toBeTruthy();
     };
 
     async areaStackChartLegendButtonFunctionality(x: number, y: number, missingAreaColor: {r: number, g: number, b: number}[]): Promise<void> {
-        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_LOCATOR);
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.AREA_STACK_CHART_LOCATOR}`, x, y);
+        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_SELECTOR);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(`${this.AREA_STACK_CHART_SELECTOR}`, x, y);
         await this.mouseAndKeyboardInteraction.mouseClick();
-        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_LOCATOR}`, 'area-stack-chart-colors');
+        const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_SELECTOR}`, 'area-stack-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
         console.log(missingAreaColor);
         console.log(extractedColors);
@@ -36,9 +36,9 @@ export class AreaStackChartModule extends BasePage{
     };
 
     async areaStackChartContentValidation(day: string, xAxis: number, yAxis: number, areaStack: string, value: string): Promise<void> {
-        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_LOCATOR);
-        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.AREA_STACK_CHART_LOCATOR, xAxis, yAxis);
-        const stackContent = await this.getText(this.AREA_STACK_CHART_LOCATOR);
+        await this.attributes.scrollIntoView(this.AREA_STACK_CHART_SELECTOR);
+        await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.AREA_STACK_CHART_SELECTOR, xAxis, yAxis);
+        const stackContent = await this.getText(this.AREA_STACK_CHART_SELECTOR);
         expect(stackContent).toContain(day);
         expect(stackContent).toContain(`${areaStack}: ${value}`);
     };
