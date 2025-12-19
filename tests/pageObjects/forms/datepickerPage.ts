@@ -4,6 +4,8 @@ import { Logger } from "../../utils";
 
 export class DatepickerPage extends BasePage{
 
+    private readonly CALENDAR_SELECTOR = (placeholder: string) => `input[placeholder="${placeholder}"]`;
+
     constructor(page: Page){
         super(page);
     };
@@ -15,7 +17,7 @@ export class DatepickerPage extends BasePage{
     };
     
     async selectSingleDate(placeholder: string, offset: number, expectInvalid?: boolean): Promise<void> {
-        const calendarSelector = `input[placeholder="${placeholder}"]`;
+        const calendarSelector = this.CALENDAR_SELECTOR(placeholder);
         await this.click(calendarSelector, this.HALF_SEC);
         const expectedDate = await this.trySelectDate(offset);
         const actualValue = await this.getText(calendarSelector);
@@ -23,7 +25,7 @@ export class DatepickerPage extends BasePage{
     };
 
     async selectDateRange(placeholder: string, startOffset: number, endOffset: number): Promise<void> {
-        const calendarSelector = `input[placeholder="${placeholder}"]`;
+        const calendarSelector = this.CALENDAR_SELECTOR(placeholder);
 
         await this.click(calendarSelector, this.HALF_SEC);
         const expectedStart = await this.selectDateInTheCalendar(startOffset);
@@ -46,10 +48,15 @@ export class DatepickerPage extends BasePage{
         const expectedMonth = date.toLocaleString("En-US", {month: "short"});
         const expectedYear = date.getFullYear().toString();
         const expectedDate = `${expectedMonth} ${expectedDay}, ${expectedYear}`;
-        await this.click("nb-calendar-view-mode button");
-        await this.click(`.year-cell:has-text("${expectedYear}")`);
-        await this.click(`.month-cell:has-text("${expectedMonth.toUpperCase()}")`);
-        await this.click(`.day-cell:not(.bounding-month) >> text="${expectedDay}"`);
+        const viewModeButtonSelector = "nb-calendar-view-mode button";
+        const yearSelector = `.year-cell:has-text("${expectedYear}")`;
+        const monthSelector = `.month-cell:has-text("${expectedMonth.toUpperCase()}")`;
+        const daySelector = `.day-cell:not(.bounding-month) >> text="${expectedDay}"`;
+        
+        await this.click(viewModeButtonSelector);
+        await this.click(yearSelector);
+        await this.click(monthSelector);
+        await this.click(daySelector);
         return expectedDate;
     };
 

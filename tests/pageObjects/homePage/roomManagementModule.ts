@@ -3,6 +3,8 @@ import { BasePage } from "../basePage";
 
 export class RoomManagementModule extends BasePage{
 
+    private readonly PLAYLIST_CONTROL_BUTTONS_SELECTOR = (buttonPlace: number) => `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
+
     constructor(page: Page){
         super(page);
     };
@@ -26,36 +28,29 @@ export class RoomManagementModule extends BasePage{
     };
 
     async playlistshufleOrRepeat(buttonPlace: number): Promise<void>{
-        const playlistControlButtonsSelector = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
-        
-        await this.click(playlistControlButtonsSelector);
-        const buttonClass = await this.attributes.getAttribute(playlistControlButtonsSelector, "class");
+        await this.click(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace));
+        const buttonClass = await this.attributes.getAttribute(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace), "class");
         expect(/\bon\b/.test(buttonClass)).toBe(true);
     };
 
     async playlistPrevOrNext(buttonPlace: number): Promise<void>{
-        const playlistControlButtonsSelector = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
         const songDataSelector = `ngx-player .details`;
-
         const initialSongData = await this.getText(songDataSelector);
-        await this.click(playlistControlButtonsSelector);
+        await this.click(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace));
         const postClickSongData = await this.getText(songDataSelector);
         expect(initialSongData).not.toBe(postClickSongData);
     };
 
     async playlistPlayOrPause(buttonPlace: number, expectedState: string): Promise<void>{
-        const playlistControlButtonsSelector = `ngx-player nb-card-body .controls button:nth-of-type(${buttonPlace})`;
-        
-        await this.click(playlistControlButtonsSelector);
+        await this.click(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace));
 
         if (expectedState === `pause`) {
-            await this.click(playlistControlButtonsSelector);
+            await this.click(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace));
         };
 
-        const buttonIcon = await this.attributes.getAttribute(playlistControlButtonsSelector, `ng-reflect-icon`);
+        const buttonIcon = await this.attributes.getAttribute(this.PLAYLIST_CONTROL_BUTTONS_SELECTOR(buttonPlace), `ng-reflect-icon`);
         expect(buttonIcon).not.toContain(expectedState);
     };
-
 
     async muteVolume(): Promise<void> {
         const muteButtonSelector = `ngx-player nb-card-footer [icon="volume-down-outline"]`;

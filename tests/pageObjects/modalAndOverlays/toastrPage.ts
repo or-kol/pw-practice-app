@@ -21,7 +21,6 @@ export class ToastrPage extends BasePage{
         const scrollListButtonSelector = `${this.TOAST_CARD_SELECTOR} .position-select`;
         const scrollListItemsSelector = `nb-option-list nb-option:has-text("${position}")`;
         const styleExpectedValue = `justify-content: flex-${horizontalLocation}; align-items: flex-${verticalLocation};`
-
         await this.click(scrollListButtonSelector);
         await this.click(scrollListItemsSelector);
         await this.click(this.SHOW_TOAST_BUTTON_SELECTOR);
@@ -30,13 +29,13 @@ export class ToastrPage extends BasePage{
     };
     
     async toastrTabContentValidation(cardHedline: string, cardDescription: string): Promise<void> {
-        const headerInputSelector = `${this.TOAST_CARD_SELECTOR} [name="title"]`;
-        const bodyInputSelector = `${this.TOAST_CARD_SELECTOR} [name="content"]`;
-        await this.fillInput(headerInputSelector, cardHedline);
-        await this.fillInput(bodyInputSelector, cardDescription);
+        const inputSelector = (tag: string) => `${this.TOAST_CARD_SELECTOR} [name="${tag}"]`;
+        const textExtractionSelector = (tag: string) => `${this.TOASTR_SELECTOR} .content-container .${tag}`;
+        await this.fillInput(inputSelector("title"), cardHedline);
+        await this.fillInput(inputSelector("content"), cardDescription);
         await this.click(this.SHOW_TOAST_BUTTON_SELECTOR);
-        const toastHeaderText = await this.getText(`${this.TOASTR_SELECTOR} .content-container .title`);
-        const toastBodyText = await this.getText(`${this.TOASTR_SELECTOR} .content-container .message`);
+        const toastHeaderText = await this.getText(textExtractionSelector("title"));
+        const toastBodyText = await this.getText(textExtractionSelector("message"));
         expect(toastHeaderText).toBe(`Toast 2. ${cardHedline}`);
         expect(toastBodyText).toBe(cardDescription);
     };

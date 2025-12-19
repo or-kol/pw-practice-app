@@ -22,6 +22,7 @@
         }
     ],
     "popoverPosition": {
+        "cardName": "Popover Position",
         "positions": [
             {"position": "Left"},
             {"position": "Top"},
@@ -31,6 +32,7 @@
         "popoverContent": "Hello, how are you today?"
     },
     "simplePopover": {
+        "cardName": "Simple Popovers",
         "popovers": [
             {"buttonName": "on click", "isClickNeeded": true},
             {"buttonName": "on hover", "isClickNeeded": false},

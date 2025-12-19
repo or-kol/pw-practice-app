@@ -7,8 +7,8 @@ export class SmartTablePage extends SmartTableUtils {
     private readonly EMPTY_DATA = 0;
     private readonly NUMBER_OF_ROWS_IN_PAGE = 10;
     private readonly ADD_NEW_ROW_SELECTOR = `ng2-smart-table tr[ng2-st-thead-filters-row] th[ng2-st-add-button]`;
-    private readonly ROW_SELECTOR = (rowIndex: number) => `ng2-smart-table tbody tr:nth-child(${rowIndex})`;
-    private readonly EDIT_ROW_BUTTON_SELECTOR = (rowIndex: number) => `${this.ROW_SELECTOR(rowIndex)} .nb-edit`;
+    private readonly TABLE_ROW_SELECTOR = (rowIndex: number) => `ng2-smart-table tbody tr:nth-child(${rowIndex})`;
+    private readonly EDIT_ROW_BUTTON_SELECTOR = (rowIndex: number) => `${this.TABLE_ROW_SELECTOR(rowIndex)} .nb-edit`;
 
     constructor(page: Page){
         super(page);
@@ -62,17 +62,23 @@ export class SmartTablePage extends SmartTableUtils {
     async goToSpecificPage(pageNumber: number): Promise<void> {
         const pageNumberButtonSelector = `ng2-smart-table-pager .ng2-smart-pagination a:has-text("${pageNumber}")`;
         const pageValidationClassSelector = `ng2-smart-table-pager .ng2-smart-pagination .active span span`;
-        await this.click(pageNumberButtonSelector, this.HALF_SEC);
+        
+        if (await this.isVisible(pageNumberButtonSelector)) {
+            await this.click(pageNumberButtonSelector);
+        } else {
+            throw new Error(
+                `Page ${pageNumber} pagination link not visible. Selector: ${pageNumberButtonSelector}`
+            );
+        };
+
         const currentPageValidation = await this.getText(pageValidationClassSelector);
         expect(currentPageValidation).toBe("(current)");
     };
 
     async addRowToTable(content: SmartTableRowData, expectedToFail: boolean): Promise<void> {
         const approveInputButtonSelector = `ng2-smart-table .ng2-smart-actions ng2-st-actions .nb-checkmark`;
-
         await this.click(this.ADD_NEW_ROW_SELECTOR);
         await this.insertRowCellsData(content);
-
         await this.click(approveInputButtonSelector);
         const data = (await this.getDataFromTable(1))[0];
         
@@ -99,7 +105,7 @@ export class SmartTablePage extends SmartTableUtils {
     };
 
     async editRowInTable(rowIndex: number, updatedContent: Partial<SmartTableRowData>, expectedToFail: boolean): Promise<void> {
-        const approveButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-checkmark`;
+        const approveButtonSelector = `${this.TABLE_ROW_SELECTOR(rowIndex)} .nb-checkmark`;
         await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
         await this.insertRowCellsData(updatedContent);
         await this.click(approveButtonSelector);
@@ -116,7 +122,7 @@ export class SmartTablePage extends SmartTableUtils {
     };
 
     async declineRowEdit(rowIndex: number): Promise<void> {
-        const declineEditButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-close`;
+        const declineEditButtonSelector = `${this.TABLE_ROW_SELECTOR(rowIndex)} .nb-close`;
         await this.click(this.EDIT_ROW_BUTTON_SELECTOR(rowIndex));
 
         if (await this.isVisible(declineEditButtonSelector)) {
@@ -131,7 +137,7 @@ export class SmartTablePage extends SmartTableUtils {
     };
 
     deleteRowFromTable = async (rowIndex: number, confirm: boolean): Promise<void> => {
-        const deleteRowButtonSelector = `${this.ROW_SELECTOR(rowIndex)} .nb-trash`;
+        const deleteRowButtonSelector = `${this.TABLE_ROW_SELECTOR(rowIndex)} .nb-trash`;
         const columnHeaderSortSelector = `ngx-smart-table table thead a:has-text("ID")`;
         await this.click(columnHeaderSortSelector); // Ensure consistent order before deletion
 

@@ -29,7 +29,7 @@ test.describe(`Dialog with component vs template`, () => {
     dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText }) => {
         test(`test ${dialogName}`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.dialogPage.dialogComponentOrTemplate(dialogNum, dialogName, header, body, buttonText);
+            await pageManager.dialogPage.dialogComponentOrTemplate(dialogNum, dialogName, buttonText);
         });
     });
 });
@@ -39,7 +39,7 @@ test.describe(`Dialog with backdrop vs without backdrop`, () => {
     dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText, backdrop }) => {
         test(`test ${dialogName}`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.dialogPage.dialogBackdrop(dialogNum, dialogName, header, body, buttonText, backdrop);
+            await pageManager.dialogPage.dialogBackdrop(dialogNum, dialogName, buttonText, backdrop);
         });
     });
 });
@@ -50,9 +50,7 @@ test.describe(`Dialog with ESC close vs ESC close`, () => {
     dialogsData.forEach(({ dialogNum, dialogName, header, body, buttonText, esc }) => {
         test(`test ${dialogName}`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.dialogPage.dialogEscClose(
-                dialogNum, dialogName, header, body, buttonText, esc
-            );
+            await pageManager.dialogPage.dialogEscClose(dialogNum, dialogName, buttonText, esc);
         });
     });
 });

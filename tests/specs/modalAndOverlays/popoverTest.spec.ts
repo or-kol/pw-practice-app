@@ -24,25 +24,27 @@ test.describe(`Popover tab content validation test suite`, () => {
 });
 
 test.describe(`Popover position and content validation test suite`, () => {
+    const cardName = popoverPageData.popoverPosition.cardName;
     const positions = popoverPageData.popoverPosition.positions;
     const popoverContent = popoverPageData.popoverPosition.popoverContent;
 
     positions.forEach(({ position }) => {
         test(`Popover position: ${position}`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.popoverPage.popoverPositionValidation(position, popoverContent);
+            await pageManager.popoverPage.popoverPositionValidation(cardName, position, popoverContent);
         });
     });
 });
 
 test.describe(`Simple Popover and content validation test suite`, () => {
+    const cardName = popoverPageData.simplePopover.cardName;
     const positions = popoverPageData.simplePopover.popovers;
     const popoverContent = popoverPageData.simplePopover.popoverContent;
 
     positions.forEach(({ buttonName, isClickNeeded }) => {
         test(`Popover: ${buttonName} test`, async ({}, testInfo) => {
             handleXfail(testInfo, specFile);
-            await pageManager.popoverPage.simplePopoverValidation(buttonName, popoverContent, isClickNeeded);
+            await pageManager.popoverPage.simplePopoverValidation(cardName, buttonName, popoverContent, isClickNeeded);
         });
     });
 });

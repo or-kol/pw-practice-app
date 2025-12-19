@@ -2,18 +2,21 @@ import { Page, expect } from "@playwright/test";
 import { BasePage } from "../basePage";
 
 export class HomePageFooter extends BasePage{
+    
+    private readonly CREATED_BY_SELECTOR = `ngx-footer .created-by`;
+
     constructor(page: Page){
         super(page)
     };
 
     async rightsReservedText(): Promise<void> {
-        const rightsTextSelector = `ngx-footer .created-by`;
-        const rightsText = await this.getText(rightsTextSelector);
+        
+        const rightsText = await this.getText(this.CREATED_BY_SELECTOR);
         expect(rightsText).toBe(`Created with ♥ by Akveo 2019`);
     };
 
     async urlAvecoFunctionality(): Promise<void> {
-        const urlSelector = `ngx-footer .created-by b a`;
+        const urlSelector = `${this.CREATED_BY_SELECTOR} b a`;
         const pageTitle = await this.navigation.getPageTitle(true, urlSelector);
         expect(pageTitle).toBe(`Software Development, Design & Consulting | Akveo`);
     };

@@ -3,7 +3,8 @@ import { BasePage } from "../basePage";
 
 
 export class FormLayoutsPage extends BasePage {
-    
+    private readonly FORM_SELECTOR = (label: string) => `nb-card:has-text("${label}")`;
+
     constructor(page: Page) {
         super(page);
     };
@@ -14,23 +15,28 @@ export class FormLayoutsPage extends BasePage {
     };
 
     async submitForm(config): Promise<void> {
-        const formSelector = `nb-card:has-text("${config.title}")`;
+
+        const formCardSelector = this.FORM_SELECTOR(config.title);
+        const formElementSelector = `${formCardSelector} form`;
+        const fieldSelector = (placeholder: string) =>
+            `${formCardSelector} input[placeholder="${placeholder}"], ${formCardSelector} textarea[placeholder="${placeholder}"]`;
+        const checkboxSelector = config.checkbox ? `${formCardSelector} nb-checkbox :text-is("${config.checkbox}")` : undefined;
+        const radioSelector = config.radio ? `${formCardSelector} nb-radio :text-is("${config.radio}")` : undefined;
+        const submitButtonSelector = `${formCardSelector} button:has-text("${config.button}")`;
+        
         for (const [placeholder, value] of Object.entries(config.fields)) {
-            await this.fillInput(
-                `${formSelector} input[placeholder="${placeholder}"], ${formSelector} textarea[placeholder="${placeholder}"]`,
-                value
-            );
+            await this.fillInput(fieldSelector(placeholder), value);
         };
 
-        if (config.checkbox) {
-            await this.check(`${formSelector} nb-checkbox :text-is("${config.checkbox}")`);
+        if (checkboxSelector) {
+            await this.check(checkboxSelector);
         };
-        if (config.radio) {
-            await this.click(`${formSelector} nb-radio :text-is("${config.radio}")`);
+        if (radioSelector) {
+            await this.click(radioSelector);
         };
 
-        await this.click(`${formSelector} button:has-text("${config.button}")`);
-        const classAttr = await this.attributes.getAttribute(`${formSelector} form`, "class");
+        await this.click(submitButtonSelector);
+        const classAttr = await this.attributes.getAttribute(formElementSelector, "class");
         expect(classAttr).toContain("ng-submitted");
     };
 };

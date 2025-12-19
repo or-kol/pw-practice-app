@@ -11,7 +11,6 @@ export class TrafficConsumption extends BasePage{
     async trafficConsumptionTimeSpan(expectedTimeSpan: string): Promise<void> {
         const consumptionPeriodDropdownSelector = `ngx-traffic nb-card-header:has-text("Traffic Consumption") nb-select`;
         const periodSelectionSelector = `nb-option-list nb-option:has-text("${expectedTimeSpan}")`;
-
         await this.click(consumptionPeriodDropdownSelector);
         await this.click(periodSelectionSelector);
         const selectedPeriod = await this.getText(consumptionPeriodDropdownSelector);

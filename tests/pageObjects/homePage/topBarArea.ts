@@ -3,6 +3,8 @@ import { BasePage } from "../basePage";
 
 export class TopBarPage extends BasePage {
     
+    private readonly USER_PROFILE_BUTTON_SELECTOR = "nb-layout-header nb-user.context-menu-host";
+
     constructor(page: Page){
         super(page);
     };
@@ -68,20 +70,16 @@ export class TopBarPage extends BasePage {
     };
 
     async userProfile(): Promise<void> {
-        const userProfileButtonSelector = "nb-layout-header nb-user.context-menu-host";
         const userProfileSelector = "nb-menu:has-text('Profile')";
-
-        await this.click(userProfileButtonSelector);
+        await this.click(this.USER_PROFILE_BUTTON_SELECTOR);
         const visible = await this.isVisible(userProfileSelector);
         expect(visible).toBe(true);
     };
 
     async userLogOut(): Promise<void> {
-        const userProfileButtonSelector = "nb-layout-header nb-user.context-menu-host";
-        const userProfileSelector = "nb-menu:has-text('Log out')";
-
-        await this.click(userProfileButtonSelector);
-        const visible = await this.isVisible(userProfileSelector);
+        const userLogOutSelector = "nb-menu:has-text('Log out')";
+        await this.click(this.USER_PROFILE_BUTTON_SELECTOR);
+        const visible = await this.isVisible(userLogOutSelector);
         expect(visible).toBe(true);
     };
 };

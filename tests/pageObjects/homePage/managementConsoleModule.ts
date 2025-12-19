@@ -27,13 +27,11 @@ export class ManagementConsoleModule extends BasePage{
     };
 
     async changeGraphTimePeriod(expectedPeriod: string, initialPeriod = "week"): Promise<void>{
-        const initialTimePeriodButtonSelector = `ngx-electricity nb-select >> text="${initialPeriod}"`;
+        const timePeriodButtonSelector = (timePeriod: string) => `ngx-electricity nb-select >> text="${timePeriod}"`;
         const timePeriodOptionsSelector = `nb-option >> text=${expectedPeriod}`;
-
-        await this.click(initialTimePeriodButtonSelector);
+        await this.click(timePeriodButtonSelector(initialPeriod));
         await this.click(timePeriodOptionsSelector);
-        const finalTimePeriodButtonSelector = `ngx-electricity nb-select >> text="${expectedPeriod}"`;
-        await this.click(finalTimePeriodButtonSelector);
+        await this.click(timePeriodButtonSelector(expectedPeriod));
         const selectedPeriodClass = await this.attributes.getAttribute(timePeriodOptionsSelector, "class");
         expect(selectedPeriodClass).toContain("selected");
     };

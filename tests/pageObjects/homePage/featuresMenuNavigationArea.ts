@@ -8,8 +8,10 @@ export class FeaturesMenuPage extends BasePage {
     };
 
     async goToMenuPage(category: string, subCategory: string, expectedRes?: string): Promise<void> {
-        await this.click(`a[title="${category}"]`);
-        await this.click(`a:has-text("${subCategory}")`);
+        const categorySelector = `a[title="${category}"]`;
+        const subCategorySelector = `a:has-text("${subCategory}")`;
+        await this.click(categorySelector);
+        await this.click(subCategorySelector);
         const url = await this.navigation.getPageUrl();
         expect(url).toContain(expectedRes);
     };
