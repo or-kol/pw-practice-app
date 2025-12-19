@@ -27,8 +27,6 @@ export class MultipleXAxisChartModule extends BasePage{
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.MULTIPLE_XAXIS_CHART_SELECTOR}`, 'multiple-X-axis-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        console.log(missingLineColor)
-        console.log('Extracted Colors after legend button click:', extractedColors);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, missingLineColor);
         expect(result).toBeFalsy();
     };

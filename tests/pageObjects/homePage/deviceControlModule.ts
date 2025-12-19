@@ -34,8 +34,6 @@ export class DeviceControlModule extends BasePage {
         await this.attributes.setAttributeVal(switchLoctor, "cy", pixelPosition);
         await this.click(switchLoctor);
         const ActualVal = await this.getText(valueLoctor);
-        console.log(expectedValue);
-        console.log(ActualVal);
         expect(ActualVal.includes(expectedValue)).toBeTruthy();
     };
 

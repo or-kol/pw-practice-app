@@ -16,7 +16,6 @@ export class TreeGridPage extends TreeGridUtils {
         const filterInputFieldSelector = `ngx-tree-grid nb-card-body #search`;
         await this.fillInput(filterInputFieldSelector, value);
         const data = await this.getAllTreeGridRows();
-        console.log(`Rows found after search: ${data.length}`);
         expect(data.length).toBe(expectedRowCount);
     };
 

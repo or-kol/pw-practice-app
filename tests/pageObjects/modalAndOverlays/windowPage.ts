@@ -40,7 +40,6 @@ export class WindowPage extends BasePage{
         await this.waitForVisible(this.WINDOW_BODY_SELECTOR);
         await this.mouseAndKeyboardInteraction.pressKeyboardKey("Escape");
         const isWindowBodyVissible = await this.isVisible(this.WINDOW_BODY_SELECTOR);
-        console.log(isWindowBodyVissible, closeWithEsc);
 
         if (closeWithEsc) {
             expect(isWindowBodyVissible).toBeFalsy();

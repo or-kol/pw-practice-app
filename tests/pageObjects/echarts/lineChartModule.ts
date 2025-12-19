@@ -36,7 +36,6 @@ export class LineChartModule extends BasePage{
         await this.attributes.scrollIntoView(this.LINE_CHART_SELECTOR);
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.LINE_CHART_SELECTOR, x, y);
         const lineContent = await this.getText(this.LINE_CHART_SELECTOR);
-        console.log(lineContent);
         expect(lineContent).toContain(value);
     };
 

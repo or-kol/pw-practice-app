@@ -29,8 +29,6 @@ export class AreaStackChartModule extends BasePage{
         await this.mouseAndKeyboardInteraction.mouseClick();
         const screenshotPath = await this.visualTesting.takeElementScreenshot(`${this.AREA_STACK_CHART_SELECTOR}`, 'area-stack-chart-colors');
         const extractedColors = await this.visualTesting.extractColorsFromImage(screenshotPath);
-        console.log(missingAreaColor);
-        console.log(extractedColors);
         const result = this.visualTesting.compareColorsToExpected(extractedColors, missingAreaColor, this.COLOR_TOLERANCE);
         expect(result).toBeFalsy();
     };
