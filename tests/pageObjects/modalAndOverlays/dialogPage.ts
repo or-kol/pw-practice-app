@@ -5,7 +5,7 @@ export class DialogPage extends BasePage{
 
     private readonly DIALOG_HEADER_SELECTOR = `nb-dialog-container nb-card-header`;
     private readonly DIALOG_BODY_SELECTOR = `nb-dialog-container nb-card-body`;
-    private readonly DIALOG_BUTTON_SELECTOR = (buttonText: string) => `nb-dialog-container nb-card-footer button:has-text("${buttonText}"`;
+    private readonly DIALOG_BUTTON_SELECTOR = (buttonText: string) => `nb-dialog-container nb-card-footer button:has-text("${buttonText}")`;
     
     constructor(page: Page){
         super(page);
@@ -35,7 +35,6 @@ export class DialogPage extends BasePage{
     async dialogBackdrop(
         dialogNum: number, dialogName: string, buttonText: string, backdrop: boolean): Promise<void> {
             await this.openDialogbox(dialogNum, dialogName);
-            
             await this.handleBackdrop(this.DIALOG_BUTTON_SELECTOR(buttonText));
             const isdialogVisible = await this.isVisible(this.DIALOG_BUTTON_SELECTOR(buttonText));
             expect((!isdialogVisible)).toBe(backdrop);
