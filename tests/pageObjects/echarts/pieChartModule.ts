@@ -12,7 +12,8 @@ export class PieChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
+        await this.click(`a:has-text("Echarts")`);
+        await this.waitForVisible(this.PIE_CHART_SELECTOR);
     };
     
 

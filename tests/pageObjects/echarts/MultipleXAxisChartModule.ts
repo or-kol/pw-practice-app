@@ -11,7 +11,8 @@ export class MultipleXAxisChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
+        await this.click(`a:has-text("Echarts")`);
+        await this.waitForVisible(this.MULTIPLE_XAXIS_CHART_SELECTOR);
     };
 
 

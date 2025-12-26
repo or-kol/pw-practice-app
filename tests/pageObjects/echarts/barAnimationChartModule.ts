@@ -11,7 +11,8 @@ export class BarAnimationChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
+        await this.click(`a:has-text("Echarts")`);
+        await this.waitForVisible(this.BAR_ANIMATION_CHART_SELECTOR);
     };
 
     async validateBarAnimationChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {

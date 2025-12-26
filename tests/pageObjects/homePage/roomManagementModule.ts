@@ -9,7 +9,10 @@ export class RoomManagementModule extends BasePage{
         super(page);
     };
 
-
+    async loadHomePage(): Promise<void> {
+        await this.waitForLoadState('load')
+    };
+    
     async selectRoomManagement(roomId: string): Promise<void> {
         const roomSelector = `g[id="${roomId}"]`;
         

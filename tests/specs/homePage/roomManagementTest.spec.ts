@@ -8,6 +8,7 @@ const specFile = path.basename(__filename, ".spec.ts");
 
 test.beforeEach(async ({ page }) => {
     pageManager = new PageManager(page);
+    await pageManager.roomManagementModule.loadHomePage();
 });
 
 

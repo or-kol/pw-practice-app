@@ -12,7 +12,8 @@ export class AreaStackChartModule extends BasePage{
 
     async goToEchartsPage(): Promise<void> {
         await this.click(`a[title="Charts"]`);
-        await this.click(`a:has-text("Echarts")`, this.HALF_SEC);
+        await this.click(`a:has-text("Echarts")`);
+        await this.waitForVisible(this.AREA_STACK_CHART_SELECTOR);
     };
 
     async validateAreaStackChartColors(expectedColors: {r: number, g: number, b: number}[]): Promise<void> {
@@ -37,6 +38,7 @@ export class AreaStackChartModule extends BasePage{
         await this.attributes.scrollIntoView(this.AREA_STACK_CHART_SELECTOR);
         await this.mouseAndKeyboardInteraction.moveMouseInBoxedElement(this.AREA_STACK_CHART_SELECTOR, xAxis, yAxis);
         const stackContent = await this.getText(this.AREA_STACK_CHART_SELECTOR);
+        console.log("print:" + stackContent);
         expect(stackContent).toContain(day);
         expect(stackContent).toContain(`${areaStack}: ${value}`);
     };

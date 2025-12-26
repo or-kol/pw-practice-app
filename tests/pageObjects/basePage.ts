@@ -291,6 +291,16 @@ export class BasePage {
     };
 
     /**
+     * Waits for the page to reach a specific load state.
+     * @param state - The desired load state.
+     * @remarks
+     * Uses ACTION_TIMEOUT.
+     */
+    async waitForLoadState(state: 'load' | 'domcontentloaded' | 'networkidle'): Promise<void> {
+        await this.page.waitForLoadState(state, { timeout: this.ACTION_TIMEOUT });
+    };
+
+    /**
      * Hard wait (sleep) for a specified duration.
      * Prefer waiting for UI conditions when possible.
      * @param timeoutMs - The timeout duration in milliseconds.
